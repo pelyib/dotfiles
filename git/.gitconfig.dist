@@ -1,0 +1,10 @@
+[core]
+	excludesfile = /abosulute/path/of/.gitignore_global
+	autocrlf = input
+	longpaths = true
+	eol = lf
+[user]
+	name = Botond Pelyi
+	email = replace.me@todo.com
+[pull]
+	rebase = false

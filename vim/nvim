@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+SOURCE="$(cd "$(dirname "${1:-${PWD}}")" && pwd)/$(basename "$1")"
+DIR="$(dirname "${SOURCE}")"
+
+## Folder must be exists
+[[ ! -d ${DIR} ]] && echo "${DIR} is not exists" && exit
+
+docker run --rm --interactive --tty \
+  --volume ${SOURCE}:/data \
+  nvim:latest ash -c "nvim /data"

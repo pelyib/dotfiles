@@ -20,11 +20,11 @@ Following steps will describe how to install everything
 From more info: `:help provider-python`
 
 - install pip 
--- ptyhon3: `python3 -m ensurepip --default-pip`
--- python2: `python -m ensurepip --default-pip --user`
+  - ptyhon3: `python3 -m ensurepip --default-pip`
+  - python2: `python -m ensurepip --default-pip --user`
 - install plugin
--- python3: `python3 -m pip install --user --upgrade pynvim`
--- python2: `python2 -m pip install --user --upgrade pynvim`
+  - python3: `python3 -m pip install --user --upgrade pynvim`
+  - python2: `python2 -m pip install --user --upgrade pynvim`
 
 ## Configuration
 
@@ -34,3 +34,21 @@ From more info: `:help provider-python`
 
 - start NeoVim: `$ nvim`
 - ESC then type: `:PlugInstall`
+
+## Testing
+
+Use the Makefile to build and run it in Docker container:
+
+```bash
+❯ make
+Usage:
+  make [target] [arg="val"...]
+
+Targets:
+  build    Build the docker image
+  run      Spin up the built image
+```
+
+## Usage
+
+Just simple run `nvim` in your prefered terminal app or use the [nvim](nvim) script

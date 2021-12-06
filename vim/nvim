@@ -1,11 +1,24 @@
 #!/usr/bin/env bash
 
+DOCKER_IMAGE="nvim:latest"
+
+if [ -z "$(docker images -q ${DOCKER_IMAGE})" ]; then
+  echo "Image (${DOCKER_IMAGE}) is not exists, build it"
+  exit
+fi
+
+TARGET="/data"
+
 SOURCE="$(cd "$(dirname "${1:-${PWD}}")" && pwd)/$(basename "$1")"
 DIR="$(dirname "${SOURCE}")"
 
 ## Folder must be exists
 [[ ! -d ${DIR} ]] && echo "${DIR} is not exists" && exit
 
+USER_ID=$(id -u)
+GROUP_ID=$(id -g)
+
 docker run --rm --interactive --tty \
-  --volume ${SOURCE}:/data \
-  nvim:latest ash -c "nvim /data"
+  --user ${USER_ID}:${GROUP_ID} \
+  --volume ${SOURCE}:${TARGET} \
+ ${DOCKER_IMAGE} ash -c "nvim -u /nvim/init.vim ${TARGET}"

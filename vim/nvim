@@ -19,6 +19,7 @@ USER_ID=$(id -u)
 GROUP_ID=$(id -g)
 
 docker run --rm --interactive --tty \
+  --env HOME=/tmp \
   --user ${USER_ID}:${GROUP_ID} \
   --volume ${SOURCE}:${TARGET} \
  ${DOCKER_IMAGE} ash -c "nvim -u /nvim/init.vim ${TARGET}"

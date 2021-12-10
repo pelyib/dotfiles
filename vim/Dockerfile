@@ -8,7 +8,7 @@ RUN sh -c 'curl -fLo /nvim/autoload/plug.vim --create-dirs https://raw.githubuse
 
 RUN npm install -g neovim && \
   python3 -m ensurepip --default-pip && \
-  python3 -m pip install --user --upgrade pynvim
+  python3 -m pip install --upgrade pynvim
 
 COPY ./dotfiles/.vimrc /nvim/.vimrc
 COPY ./dotfiles/.nvim.config /nvim/init.vim

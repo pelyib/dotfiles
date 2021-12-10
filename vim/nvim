@@ -18,7 +18,7 @@ DIR="$(dirname "${SOURCE}")"
 USER_ID=$(id -u)
 GROUP_ID=$(id -g)
 
-docker run --rm --interactive --tty \
+docker run --interactive --tty \
   --env HOME=/tmp \
   --user ${USER_ID}:${GROUP_ID} \
   --volume ${SOURCE}:${TARGET} \

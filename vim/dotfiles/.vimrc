@@ -11,3 +11,6 @@ set list
 set colorcolumn=121
 
 syntax on
+
+autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
+autocmd FileType html       setlocal shiftwidth=2 tabstop=2

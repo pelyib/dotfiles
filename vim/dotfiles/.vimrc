@@ -9,6 +9,7 @@ set expandtab
 set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
 set list
 set colorcolumn=121
+set spell
 
 syntax on
 

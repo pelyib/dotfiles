@@ -20,7 +20,7 @@ Following steps will describe how to install everything
 From more info: `:help provider-python`
 
 - install pip 
-  - ptyhon3: `python3 -m ensurepip --default-pip`
+  - python3: `python3 -m ensurepip --default-pip`
   - python2: `python -m ensurepip --default-pip --user`
 - install plugin
   - python3: `python3 -m pip install --user --upgrade pynvim`
@@ -51,4 +51,4 @@ Targets:
 
 ## Usage
 
-Just simple run `nvim` in your prefered terminal app or use the [nvim](nvim) script
+Just simple run `nvim` in your preferred terminal app or use the [nvim](nvim) script

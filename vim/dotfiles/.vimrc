@@ -10,6 +10,8 @@ set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
 set list
 set colorcolumn=121
 set spell
+let g:html_indent_script1="zero"
+let g:html_indent_style1="zero"
 
 syntax on
 

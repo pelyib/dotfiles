@@ -1,5 +1,6 @@
 # files
 .zshenv
 .gitconfig
+.local.nvim
 
 # folders

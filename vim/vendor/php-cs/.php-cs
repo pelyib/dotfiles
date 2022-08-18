@@ -1,0 +1,41 @@
+<?php
+
+use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
+
+$finder = Finder::create()
+    ->exclude('docker')
+    ->exclude('vendor')
+    ->in(__DIR__);
+
+$config = new Config();
+return $config->setRules(
+    [
+        '@PSR12' => true,
+        '@PHP74Migration' => true,
+        'strict_param' => true,
+        'array_syntax' => ['syntax' => 'short'],
+        'ordered_imports' => [
+            'sort_algorithm' => 'alpha',
+        ],
+        'fully_qualified_strict_types' => true,
+        'concat_space' => ['spacing' => 'one'],
+        'no_empty_statement' => true,
+        'no_unused_imports' => true,
+        'trim_array_spaces' => true,
+        'array_indentation' => true,
+        'whitespace_after_comma_in_array' => true,
+        'binary_operator_spaces' => [
+            'operators' => [
+                '=' => 'align_single_space_minimal',
+                '=>' => 'align_single_space_minimal',
+            ],
+        ],
+        'cast_spaces' => ['space' => 'none',],
+        'single_space_after_construct' => true,
+        'function_typehint_space' => true,
+    ]
+)
+    ->setIndent('    ')
+    ->setFinder($finder);
+

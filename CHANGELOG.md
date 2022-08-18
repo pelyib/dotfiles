@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [NeoVim] - [PHP Coding Standards Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) with a
   [configuration](/vim/vendor/php-cs/.php-cs)
 - [NeoVim] - Optional [local config](/vim/dotfiles/.local.nvim.dist)
+- [NeoVim] - [Phpactor configuration](/vim/vendor/phpactor/)
+- [NeoVim] - a function to refresh after VCS change
 
 ### Removed
 - [NeoVim] - Remove Vitor's config

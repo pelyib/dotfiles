@@ -35,6 +35,7 @@ return $config->setRules(
         'single_space_after_construct' => true,
         'function_typehint_space' => true,
         'declare_strict_types' => true,
+        'method_chaining_indentation' => true,
     ]
 )
     ->setIndent('    ')

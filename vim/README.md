@@ -28,8 +28,8 @@ From more info: `:help provider-python`
 
 ## Configuration
 
-- link / copy [config file](/vim/dotfiles/.nvim.config) to `~/.config/nvim/init.vim`
-- create a local env config based on the [.local.nvim.dist](/vim/dotfiles/.local.nvim.dist), link copy to `~/.config/nvim/.local.vim`
+- link / copy [config file](/vim/dotfiles/.nvim.vim) to `~/.config/nvim/init.vim`
+- create a local env config based on the [.local.vim.dist](/vim/dotfiles/.local.vim.dist), link copy to `~/.config/nvim/local.vim`
 - link / copy [Phpactor files](/vim/vendor/phpactor/) to `~/.config/phpactor/`
 
 ## Install plugins

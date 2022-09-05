@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.8] - 2022.09.02
+### Added
+- [MIGRATION.md](MIGRATION.md) file for fast migration between versions
+
+### CHANGED
+- Rename "appication.md" files to README.md
+- Reformat and add short description about the apps in the root [README.md](README.md)
+
+### Fixed
+- [NeoVim] - dotfiles extension, all them is .vim
+
 ## [0.0.7] - 2022.08.18
 ### Added
 - [NeoVim] - [PHP Coding Standards Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) with a [configuration](/vim/vendor/php-cs/.php-cs)
@@ -14,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 - [NeoVim] - Remove Vitor's config
 
-## [0.0.6] - 2022.08.03:w
+## [0.0.6] - 2022.08.03
 
 ### Added
 - [phpactor](https://github.com/phpactor/phpactor)

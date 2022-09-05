@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### CHANGED
 - Rename "appication.md" files to README.md
 - Reformat and add short description about the apps in the root [README.md](README.md)
+- [GIT] - [prepare-commit-msg](git/hooks/prepare-commit-msg) is executable now
 
 ### Fixed
 - [NeoVim] - dotfiles extension, all them is .vim

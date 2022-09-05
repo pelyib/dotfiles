@@ -53,7 +53,6 @@ let g:coc_global_extensions = [
       \'coc-json',
       \'coc-phpls',
       \'coc-go',
-"      \'coc-sh',
       \'coc-markdownlint',
       \'coc-pyright',
       \'coc-tsserver',

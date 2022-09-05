@@ -8,8 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - [GIT] - [pre-commit-jira](git/hooks/pre-commit-jira) script to prevent the usage of a closed / cancelled ticket number in the commit message
 
-### Changed
-- [Neovim] - disable coc-sh because it causes issues
+### Removed
+- [Neovim] - coc-sh because it causes issues
 
 ## [0.0.8] - 2022.09.02
 ### Added

@@ -1,1 +1,2 @@
 export ZSH=/path/of/the/zsh/config
+export JIRA_DOMAIN=https://your.jira.server.tld

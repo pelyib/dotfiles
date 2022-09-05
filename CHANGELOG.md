@@ -4,11 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.9] - 2022.09.05
+### Added
+- [GIT] - [pre-commit-jira](git/hooks/pre-commit-jira) script to prevent the usage of a closed / cancelled ticket number in the commit message
+
+### Changed
+- [Neovim] - disable coc-sh because it causes issues
+
 ## [0.0.8] - 2022.09.02
 ### Added
 - [MIGRATION.md](MIGRATION.md) file for fast migration between versions
 
-### CHANGED
+### Changed
 - Rename "appication.md" files to README.md
 - Reformat and add short description about the apps in the root [README.md](README.md)
 - [GIT] - [prepare-commit-msg](git/hooks/prepare-commit-msg) is executable now

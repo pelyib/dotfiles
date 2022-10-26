@@ -1,2 +1,3 @@
 export ZSH=/path/of/the/zsh/config
 export JIRA_DOMAIN=https://your.jira.server.tld
+export JIRA_AUTH_BASIC=base64_encoded(your.jira.name:yourJiraPassword)

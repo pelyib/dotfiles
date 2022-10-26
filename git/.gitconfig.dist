@@ -4,7 +4,7 @@
 	longpaths = true
 	eol = lf
 [user]
-	name = Botond Pelyi
+	name = John Doe
 	email = replace.me@todo.com
 [pull]
 	rebase = false

@@ -6,7 +6,6 @@ set runtimepath+=/nvim
 
 " Required plugins
 call plug#begin('~/.vim/plugged')
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'tpope/vim-fugitive'
@@ -25,11 +24,10 @@ call plug#begin('~/.vim/plugged')
     Plug 'elzr/vim-json'
     Plug 'airblade/vim-rooter'
     Plug 'aklt/plantuml-syntax'
-    Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-    Plug 'tjdevries/coc-zsh'
     Plug 'vim-vdebug/vdebug'
     Plug 'phpactor/phpactor', {'for': 'php', 'tag': '*', 'do': 'composer install --no-dev -o'}
     Plug 'stephpy/vim-php-cs-fixer'
+    Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 call plug#end()
 
 " Autostart NerdTree
@@ -48,45 +46,12 @@ let g:airline_theme='gruvbox'
 let g:gruvbox_contrast_dark='soft'
 colorscheme gruvbox
 
-" Set COC extensions
-let g:coc_global_extensions = [
-      \'coc-json',
-      \'coc-phpls',
-      \'coc-go',
-      \'coc-markdownlint',
-      \'coc-pyright',
-      \'coc-tsserver',
-      \'coc-html',
-      \]
-
-" GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
-
 " fzf.vim find files
 nnoremap <silent> <C-f> :Files<CR>
 " fzf.vim find in files
 nnoremap <silent> <Leader>f :Rg<CR>
 " fzf is on the bottom of the window
 let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.2, 'yoffset': 1, 'border': 'none' } }
-
-" vim-go settings
-let g:go_highlight_functions = 1
-let g:go_highlight_function_parameters = 1
-let g:go_highlight_function_calls = 1
-let g:go_highlight_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_build_constraints = 1
-let g:go_highlight_format_strings = 1
-let g:go_highlight_variable_declarations = 1
-let g:go_highlight_variable_assignments = 1
-let g:go_highlight_extra_types = 1
-let g:go_highlight_operators = 1
 
 " SirVer/ultisnips
 let g:UltiSnipsExpandTrigger="<tab>"
@@ -129,6 +94,8 @@ function! PelyibPhpCreateNew(variant)
   call CodingStandardsFixer()
   silent! write
 endfunction
+
+lua require('config')
 
 " Load local config file
 if filereadable(expand('~/.config/nvim/local.vim'))

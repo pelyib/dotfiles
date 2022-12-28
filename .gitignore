@@ -2,9 +2,14 @@
 .zshenv
 .gitconfig
 .local.nvim
+.NERDTreeBookmarks
+.bash_history
+.php-cs-fixer.cache
 
 # folders
 vim/dotfiles/.cache
+vim/dotfiles/.npm
+
 vim/dotfiles/.config/*
 
 !vim/dotfiles/.config/nvim/

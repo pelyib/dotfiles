@@ -22,4 +22,4 @@ docker run --interactive --tty \
   --user ${USER_ID}:${GROUP_ID} \
   --volume ${PWD}/dotfiles/:/home/${USER}/ \
   --volume ${SOURCE}:${TARGET} \
- ${DOCKER_IMAGE} nvim ${TARGET}
+ ${DOCKER_IMAGE}

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_type=1);
+declare(strict_types=1);
 
 class Foo
 {
@@ -8,3 +8,6 @@ class Foo
     {
     }
 }
+
+$a = new Foo();
+$a->bar();

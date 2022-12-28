@@ -46,6 +46,8 @@ RUN cp -R /nvim/nvim-linux64/* /usr/
 # Create working folder
 RUN mkdir /data
 
+COPY ./vendor /vendor
+
 WORKDIR /home/${USER}
 
 # Fix the permissions

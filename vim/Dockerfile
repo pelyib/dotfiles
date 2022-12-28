@@ -11,13 +11,17 @@ ARG UID=1000
 ARG GID=1000
 RUN adduser --uid ${UID} --gid ${GID} ${USER}
 
+ENV TZ=Europe/Berlin
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 RUN apt update
 
 # Install dependencies for plugins and NeoVIM
 RUN apt install -y \
-  gcc vim curl git g++ \
+  gcc vim curl git g++ zip unzip \
   python3 python3-pip musl-dev python3-dev \
-  nodejs npm
+  nodejs npm \
+  php8.1-cli
 
 # Install language helpers
 RUN npm install -g neovim tree-sitter-cli && \
@@ -31,6 +35,9 @@ RUN echo "PATH=\"$PATH:/usr/local/go/bin:/go/bin\"" >> /etc/environment && \
   echo "PATH=\"$PATH:/usr/local/go/bin:/go/bin\"" >> /etc/bash.bashrc
 ENV GOPATH=/go
 ENV PATH=$PATH:/usr/local/go/bin:/go/bin
+
+# Copy Composer, PHP package manager
+COPY --from=composer:2.5.1 /usr/bin/composer /usr/bin/composer
 
 # Install NeoVIM
 ADD ./nvim-linux64.v0.8.1.tar.gz /nvim/

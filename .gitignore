@@ -9,9 +9,10 @@
 # folders
 vim/dotfiles/.cache
 vim/dotfiles/.npm
+vim/dotfiles/.local
+vim/dotfiles/.vim
 
 vim/dotfiles/.config/*
-
 !vim/dotfiles/.config/nvim/
 vim/dotfiles/.config/nvim/*
 !vim/dotfiles/.config/nvim/init.vim
@@ -19,16 +20,3 @@ vim/dotfiles/.config/nvim/*
 !vim/dotfiles/.config/nvim/lua/
 vim/dotfiles/.config/nvim/lua/*
 !vim/dotfiles/.config/nvim/lua/pelyib/
-
-vim/dotfiles/.local/*
-!vim/dotfiles/.local/share/
-vim/dotfiles/.local/share/*
-!vim/dotfiles/.local/share/nvim/
-vim/dotfiles/.local/share/nvim/*
-!vim/dotfiles/.local/share/nvim/site/
-vim/dotfiles/.local/share/nvim/site/*
-!vim/dotfiles/.local/share/nvim/site/autoload/
-vim/dotfiles/.local/share/nvim/site/autoload/*
-!vim/dotfiles/.local/share/nvim/site/autoload/plug.vim
-
-vim/dotfiles/.vim

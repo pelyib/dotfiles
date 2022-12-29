@@ -3,32 +3,6 @@ source ~/.vimrc
 
 set runtimepath+=/nvim
 
-" Required plugins
-call plug#begin('~/.vim/plugged')
-    Plug 'vim-airline/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
-    Plug 'tpope/vim-fugitive'
-    Plug 'scrooloose/nerdcommenter'
-    Plug 'scrooloose/nerdtree'
-    Plug 'tpope/vim-surround'
-    Plug 'morhetz/gruvbox'
-    Plug 'jiangmiao/auto-pairs'
-    Plug 'Xuyuanp/nerdtree-git-plugin'
-    Plug 'ryanoasis/vim-devicons'
-    Plug 'airblade/vim-gitgutter'
-    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-    Plug 'junegunn/fzf.vim'
-    Plug 'SirVer/ultisnips'
-    Plug 'honza/vim-snippets'
-    Plug 'elzr/vim-json'
-    Plug 'airblade/vim-rooter'
-    Plug 'aklt/plantuml-syntax'
-    Plug 'vim-vdebug/vdebug'
-    Plug 'phpactor/phpactor', {'for': 'php', 'tag': '*', 'do': 'composer install --no-dev -o'}
-    Plug 'stephpy/vim-php-cs-fixer'
-    Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-call plug#end()
-
 " Autostart NerdTree
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
 autocmd VimEnter * if !argc() | NERDTree | endif
@@ -50,7 +24,7 @@ nnoremap <silent> <C-f> :Files<CR>
 " fzf.vim find in files
 nnoremap <silent> <Leader>f :Rg<CR>
 " fzf is on the bottom of the window
-let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.2, 'yoffset': 1, 'border': 'none' } }
+"let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.2, 'yoffset': 1, 'border': 'none' } }
 
 " SirVer/ultisnips
 let g:UltiSnipsExpandTrigger="<tab>"

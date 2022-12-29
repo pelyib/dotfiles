@@ -24,7 +24,7 @@ RUN apt install -y \
   php8.1-cli
 
 # Install language helpers
-RUN npm install -g neovim tree-sitter-cli && \
+RUN npm install -g neovim tree-sitter-cli vscode-langservers-extracted intelephense && \
   python3 -m pip install --upgrade pynvim
 
 # Copy binaries and add them to the PATH
@@ -41,7 +41,7 @@ COPY --from=composer:2.5.1 /usr/bin/composer /usr/bin/composer
 
 # Install NeoVIM
 ADD ./nvim-linux64.v0.8.1.tar.gz /nvim/
-RUN cp -R /nvim/nvim-linux64/* /usr/
+RUN cp -R /nvim/nvim-linux64/* /usr
 
 # Create working folder
 RUN mkdir /data

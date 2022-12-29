@@ -11,3 +11,8 @@ class Foo
 
 $a = new Foo();
 $a->bar();
+
+$b = new Datetime();
+echo $b->format(DateTimeInterface::RFC3339);
+
+$a->bar();

@@ -44,6 +44,7 @@ require('packer').startup(function(use)
   use 'scrooloose/nerdcommenter'
   use 'jiangmiao/auto-pairs'
   use 'Xuyuanp/nerdtree-git-plugin'
+  use 'tiagofumo/vim-nerdtree-syntax-highlight'
   use 'ryanoasis/vim-devicons'
   use 'airblade/vim-gitgutter'
   use 'junegunn/fzf'
@@ -56,6 +57,16 @@ require('packer').startup(function(use)
   use 'vim-vdebug/vdebug'
   use 'phpactor/phpactor'
   use 'stephpy/vim-php-cs-fixer'
+
+  use({
+    "glepnir/lspsaga.nvim",
+    branch = "main",
+    config = function()
+        local saga = require("lspsaga")
+
+        saga.init_lsp_saga({})
+    end,
+  })
 
   if install_plugins then
     require('packer').sync()

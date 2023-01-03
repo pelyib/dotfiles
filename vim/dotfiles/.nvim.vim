@@ -130,6 +130,8 @@ function! PelyibPhpCreateNew(variant)
   silent! write
 endfunction
 
+nmap <leader>pi :call phpactor#ImportMissingClasses()<cr>
+
 " Load local config file
 if filereadable(expand('~/.config/nvim/local.vim'))
   source ~/.config/nvim/local.vim

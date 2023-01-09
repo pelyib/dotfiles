@@ -42,6 +42,7 @@ let g:NERDTreeWinSize = 45
 let g:NERDTreeShowHidden=1
 
 map <Leader>nf :NERDTreeFind<CR>
+map <Leader>nt :NERDTreeToggle<CR>
 
 " Use gruvbox colorscheme
 let g:airline_theme='gruvbox'

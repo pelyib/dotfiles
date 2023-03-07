@@ -1,21 +1,58 @@
-FROM alpine:3.13.6
+FROM golang:1.19.4-alpine AS gosrc
 
-RUN apk add \
-  gcc neovim vim curl git g++ \
-  python3 py3-pip musl-dev python3-dev \
+# Install any GO apps here
+RUN go install golang.org/x/tools/gopls@latest
+
+FROM ubuntu:22.10
+
+# Placeholders, they should be set in the Makefile
+ARG USER=docker
+ARG UID=1000
+ARG GID=1000
+RUN adduser --uid ${UID} --gid ${GID} ${USER}
+
+ENV TZ=Europe/Berlin
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+RUN apt update
+
+# Install dependencies for plugins and NeoVIM
+RUN apt install -y \
+  gcc vim curl git g++ zip unzip \
+  python3 python3-pip musl-dev python3-dev \
   nodejs npm \
-  go
-RUN sh -c 'curl -fLo /nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  php8.1-cli
 
-RUN npm install -g neovim && \
-  python3 -m ensurepip --default-pip && \
+# Install language helpers
+RUN npm install -g neovim tree-sitter-cli vscode-langservers-extracted intelephense && \
   python3 -m pip install --upgrade pynvim
 
-COPY ./dotfiles/.vimrc /nvim/.vimrc
-COPY ./dotfiles/.nvim.config /nvim/init.vim
+# Copy binaries and add them to the PATH
+COPY --from=gosrc /usr/local/go /usr/local/go
+COPY --from=gosrc /go /go
+RUN echo "PATH=\"$PATH:/usr/local/go/bin:/go/bin\"" >> /etc/environment && \
+  echo "PATH=\"$PATH:/usr/local/go/bin:/go/bin\"" >> /etc/profile && \
+  echo "PATH=\"$PATH:/usr/local/go/bin:/go/bin\"" >> /etc/bash.bashrc
+ENV GOPATH=/go
+ENV PATH=$PATH:/usr/local/go/bin:/go/bin
 
-RUN nvim -u /nvim/init.vim +PlugInstall! +qa
+# Copy Composer, PHP package manager
+COPY --from=composer:2.5.1 /usr/bin/composer /usr/bin/composer
 
-RUN chmod 777 -R /nvim
+# Install NeoVIM
+ADD ./nvim-linux64.v0.8.1.tar.gz /nvim/
+RUN cp -R /nvim/nvim-linux64/* /usr
 
-CMD ["nvim"]
+# Create working folder
+RUN mkdir /data
+
+COPY ./vendor /vendor
+
+WORKDIR /home/${USER}
+
+# Fix the permissions
+RUN chown -R ${USER} /home/${USER}/
+RUN usermod -aG sudo ${USER}
+USER ${UID}:${GID}
+
+CMD ["nvim", "/data"]

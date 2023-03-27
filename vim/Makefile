@@ -18,3 +18,6 @@ build: ## Build the docker image
 
 run: ## Spin up the built image
 	docker run -it -v ${PWD}/dotfiles/:/home/${USER}/ nvim:latest
+
+clean: ## Remove all untraced files
+	git clean -dfx

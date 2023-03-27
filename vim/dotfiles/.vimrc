@@ -13,7 +13,7 @@ set spell
 let g:html_indent_script1="zero"
 let g:html_indent_style1="zero"
 
-syntax off
+syntax on
 
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
 autocmd FileType html       setlocal shiftwidth=2 tabstop=2

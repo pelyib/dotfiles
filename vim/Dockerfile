@@ -9,7 +9,7 @@ FROM ubuntu:22.10
 ARG USER=docker
 ARG UID=1000
 ARG GID=1000
-RUN adduser --uid ${UID} --gid ${GID} ${USER}
+RUN getent group ${GID} || addgroup --gid=${GID} nvim && adduser --uid ${UID} --gid ${GID} ${USER}
 
 ENV TZ=Europe/Berlin
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -51,8 +51,9 @@ COPY ./vendor /vendor
 WORKDIR /home/${USER}
 
 # Fix the permissions
-RUN chown -R ${USER} /home/${USER}/
-RUN usermod -aG sudo ${USER}
+#RUN chown -R ${USER} /home/${USER}/
+#RUN usermod -aG sudo ${USER}
 USER ${UID}:${GID}
+
 
 CMD ["nvim", "/data"]

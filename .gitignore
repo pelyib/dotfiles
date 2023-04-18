@@ -8,16 +8,3 @@
 vim/dotfiles/config/lua/local/init.lua
 
 # folders
-vim/dotfiles/.cache
-vim/dotfiles/.npm
-vim/dotfiles/.local
-vim/dotfiles/.vim
-
-vim/dotfiles/.config/*
-!vim/dotfiles/.config/nvim/
-vim/dotfiles/.config/nvim/*
-!vim/dotfiles/.config/nvim/init.vim
-!vim/dotfiles/.config/nvim/local.vim.dist
-!vim/dotfiles/.config/nvim/lua/
-vim/dotfiles/.config/nvim/lua/*
-!vim/dotfiles/.config/nvim/lua/pelyib/

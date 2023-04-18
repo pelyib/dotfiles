@@ -5,6 +5,7 @@
 .NERDTreeBookmarks
 .bash_history
 .php-cs-fixer.cache
+vim/dotfiles/config/lua/local/init.lua
 
 # folders
 vim/dotfiles/.cache

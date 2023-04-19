@@ -181,6 +181,15 @@ local plugins = {
       vim.keymap.set('n', '<leader>pn', '<cmd>lua PhpactorCreateNewObj()<cr>')
       vim.keymap.set('n', '<leader>pi', '<cmd>lua PhpactorImplementContract()<cr>')
     end
+  },
+  {
+    'stephpy/vim-php-cs-fixer',
+    config = function ()
+      function PhpCsFixerFixAll()
+        vim.api.nvim_call_function('PhpCsFixerFixFile', {})
+      end
+      vim.keymap.set('n', 'csf', '<cmd>lua PhpCsFixerFixAll()<cr>')
+    end
   }
 }
 require("lazy").setup(plugins, {})

@@ -1,4 +1,5 @@
 vim.opt.number=true
+vim.opt.relativenumber=true
 vim.opt.wrap=true
 vim.opt.textwidth=120
 vim.opt.tabstop=2
@@ -14,6 +15,7 @@ vim.opt.listchars={
   precedes='<'
 }
 vim.opt.spell=true
+vim.opt.shada=NONE
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -189,6 +191,7 @@ local plugins = {
         vim.api.nvim_call_function('PhpCsFixerFixFile', {})
       end
       vim.keymap.set('n', 'csf', '<cmd>lua PhpCsFixerFixAll()<cr>')
+      vim.g.php_cs_fixer_allow_risky = 'yes'
     end
   }
 }

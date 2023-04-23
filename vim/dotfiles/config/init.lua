@@ -34,10 +34,18 @@ local plugins = {
   -- themes
   "folke/tokyonight.nvim",
   {
+    "sainnhe/everforest",
+    config = function()
+      vim.g.everforest_transparent_background = 2
+      vim.cmd([[colorscheme everforest]])
+    end
+  },
+  {
     "morhetz/gruvbox",
     config = function()
       vim.opt.termguicolors = true
-      vim.cmd([[colorscheme gruvbox]])
+      vim.g.gruvbox_transparent_bg = true
+      --vim.cmd([[colorscheme gruvbox]])
     end
   },
   'nvim-tree/nvim-web-devicons',

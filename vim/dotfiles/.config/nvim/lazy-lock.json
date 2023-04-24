@@ -7,7 +7,7 @@
   "codeium.vim": { "branch": "main", "commit": "57c1682f7baa78230fb072144e4361a3ce414af2" },
   "everforest": { "branch": "master", "commit": "ca834435f6bc68263fc4dc135c2e79e45552559b" },
   "gruvbox": { "branch": "master", "commit": "bf2885a95efdad7bd5e4794dd0213917770d79b7" },
-  "lazy.nvim": { "branch": "main", "commit": "57cce98dfdb2f2dd05a0567d89811e6d0505e13b" },
+  "lazy.nvim": { "branch": "main", "commit": "a55ab6062520a9ea13e90e90bf3e3ef3843c5b0f" },
   "lsp-zero.nvim": { "branch": "v2.x", "commit": "ea4c9511c94df9596c450036502b7ff43d40f816" },
   "mason-lspconfig.nvim": { "branch": "main", "commit": "b64fdede85fd5e0b720ce722919e0a9b95ed6547" },
   "mason.nvim": { "branch": "main", "commit": "86979dabf91bae92bddc3850eff06f5e7488b029" },

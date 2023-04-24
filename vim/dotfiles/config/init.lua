@@ -31,13 +31,13 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
-  -- themes
-  "folke/tokyonight.nvim",
+  {
+    "folke/tokyonight.nvim",
+  },
   {
     "sainnhe/everforest",
     config = function()
       vim.g.everforest_transparent_background = 2
-      vim.cmd([[colorscheme everforest]])
     end
   },
   {
@@ -45,7 +45,6 @@ local plugins = {
     config = function()
       vim.opt.termguicolors = true
       vim.g.gruvbox_transparent_bg = true
-      --vim.cmd([[colorscheme gruvbox]])
     end
   },
   'nvim-tree/nvim-web-devicons',
@@ -201,9 +200,13 @@ local plugins = {
       vim.keymap.set('n', 'csf', '<cmd>lua PhpCsFixerFixAll()<cr>')
       vim.g.php_cs_fixer_allow_risky = 'yes'
     end
+  },
+  {
+    "jiangmiao/auto-pairs"
   }
 }
 require("lazy").setup(plugins, {})
+vim.cmd([[colorscheme everforest]])
 
 local lsp = require('lsp-zero').preset({})
 
@@ -224,6 +227,6 @@ function show_greatings()
   require("alpha").start(false, require("alpha").default_config)
 end
 vim.keymap.set('n', '<c-h>', '<cmd>lua show_greatings()<cr>')
-show_greatings()
+--show_greatings()
 
 require("local")

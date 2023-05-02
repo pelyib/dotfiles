@@ -44,7 +44,6 @@ local plugins = {
     "morhetz/gruvbox",
     config = function()
       vim.opt.termguicolors = true
-      vim.g.gruvbox_transparent_bg = true
     end
   },
   'nvim-tree/nvim-web-devicons',
@@ -131,7 +130,8 @@ local plugins = {
     }
   },
   {
-    'nvim-telescope/telescope.nvim', tag = '0.1.1',
+    'nvim-telescope/telescope.nvim',
+    tag = '0.1.1',
     dependencies = { 'nvim-lua/plenary.nvim' }
   },
   {
@@ -221,8 +221,9 @@ lsp.setup()
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
---vim.keymap.set('n', 'gr', builtin.lsp_references, {})
 vim.keymap.set('n', 'gic', builtin.lsp_incoming_calls, {})
+vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, {})
+
 function show_greatings()
   require("alpha").start(false, require("alpha").default_config)
 end
@@ -230,3 +231,4 @@ vim.keymap.set('n', '<c-h>', '<cmd>lua show_greatings()<cr>')
 --show_greatings()
 
 require("local")
+require("ui.help")

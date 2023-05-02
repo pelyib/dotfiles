@@ -2,9 +2,9 @@ vim.opt.number=true
 vim.opt.relativenumber=true
 vim.opt.wrap=true
 vim.opt.textwidth=120
-vim.opt.tabstop=2
-vim.opt.shiftwidth=2
-vim.opt.softtabstop=2
+vim.opt.tabstop=4
+vim.opt.shiftwidth=4
+vim.opt.softtabstop=4
 vim.opt.expandtab=true
 vim.opt.list=true
 vim.opt.listchars={
@@ -160,7 +160,8 @@ local plugins = {
     end
   },
   {
-    'Exafunction/codeium.vim'
+    'Exafunction/codeium.vim',
+    enable = false
   },
   {
     -- TODO: add build script to run composer install in the installed plugin directory [botond.pelyi]
@@ -214,6 +215,9 @@ lsp.on_attach(function(client, bufnr)
   lsp.default_keymaps({buffer = bufnr})
 
   vim.keymap.set('n', 'gr', '<cmd>Telescope lsp_references<cr>', {buffer = true})
+  vim.keymap.set('n', 'gd', '<cmd>Telescope lsp_definitions<cr>', {buffer = true})
+  -- Don't know why but lsp-zero does not register this
+  vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>')
 end)
 
 lsp.setup()
@@ -221,6 +225,10 @@ lsp.setup()
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>gh', builtin.git_commits, {})
+vim.keymap.set('n', '<leader>gfh', builtin.git_bcommits, {})
+
 vim.keymap.set('n', 'gic', builtin.lsp_incoming_calls, {})
 vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, {})
 

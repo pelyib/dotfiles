@@ -44,7 +44,6 @@ local plugins = {
     "morhetz/gruvbox",
     config = function()
       vim.opt.termguicolors = true
-      vim.g.gruvbox_transparent_bg = true
     end
   },
   'nvim-tree/nvim-web-devicons',
@@ -131,7 +130,8 @@ local plugins = {
     }
   },
   {
-    'nvim-telescope/telescope.nvim', tag = '0.1.1',
+    'nvim-telescope/telescope.nvim',
+    tag = '0.1.1',
     dependencies = { 'nvim-lua/plenary.nvim' }
   },
   {
@@ -229,8 +229,9 @@ vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>gh', builtin.git_commits, {})
 vim.keymap.set('n', '<leader>gfh', builtin.git_bcommits, {})
 
---vim.keymap.set('n', 'gr', builtin.lsp_references, {})
 vim.keymap.set('n', 'gic', builtin.lsp_incoming_calls, {})
+vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, {})
+
 function show_greatings()
   require("alpha").start(false, require("alpha").default_config)
 end
@@ -246,3 +247,4 @@ vim.keymap.set('n', '<leader>prt', '<cmd>lua Run_test()<cr>');
 --]]
 
 require("local")
+require("ui.help")

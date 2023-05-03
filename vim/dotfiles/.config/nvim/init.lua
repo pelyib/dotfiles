@@ -17,6 +17,9 @@ vim.opt.listchars={
 vim.opt.spell=true
 vim.opt.shada=NONE
 
+-- Temporary solution: https://github.com/f-person/git-blame.nvim/issues/65
+vim.g.gitblame_enabled = 0
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -204,6 +207,14 @@ local plugins = {
   },
   {
     "jiangmiao/auto-pairs"
+  },
+  {
+    'f-person/git-blame.nvim',
+    config = function ()
+        --vim.g.gitblame_enabled = 0
+        vim.g.gitblame_date_format = "%Y-%m-%dT%H:%M:%S (%r)"
+        vim.g.gitblame_message_template = "[<author>@<date>] <summary>"
+    end
   }
 }
 require("lazy").setup(plugins, {})
@@ -231,6 +242,8 @@ vim.keymap.set('n', '<leader>gfh', builtin.git_bcommits, {})
 
 vim.keymap.set('n', 'gic', builtin.lsp_incoming_calls, {})
 vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, {})
+
+vim.keymap.set('n', '<leader>gb', '<cmd>GitBlameToggle<cr>', {})
 
 function show_greatings()
   require("alpha").start(false, require("alpha").default_config)

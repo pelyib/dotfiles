@@ -217,7 +217,7 @@ lsp.on_attach(function(client, bufnr)
   vim.keymap.set('n', 'gr', '<cmd>Telescope lsp_references<cr>', {buffer = true})
   vim.keymap.set('n', 'gd', '<cmd>Telescope lsp_definitions<cr>', {buffer = true})
   -- Don't know why but lsp-zero does not register this
-  vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>')
+  vim.keymap.set('n', 'gi', '<cmd>Telescope lsp_implementations<cr>', {buffer = true})
 end)
 
 lsp.setup()
@@ -236,5 +236,13 @@ function show_greatings()
 end
 vim.keymap.set('n', '<c-h>', '<cmd>lua show_greatings()<cr>')
 --show_greatings()
+
+--[[
+TODO: Read the word under the cursor and call a 3rd party app with it
+function Run_test()
+  vim.api.nvim_echo('vim.fn.expand "<cword>"', false, {})
+end
+vim.keymap.set('n', '<leader>prt', '<cmd>lua Run_test()<cr>');
+--]]
 
 require("local")

@@ -135,7 +135,20 @@ local plugins = {
   {
     'nvim-telescope/telescope.nvim',
     tag = '0.1.1',
-    dependencies = { 'nvim-lua/plenary.nvim' }
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    config = function ()
+        require("telescope").setup({
+            defaults = {
+                path_display = { truncate = 2 },
+                layout_strategy = "horizontal",
+                layout_config = {
+                    horizontal = {
+                        prompt_position = "top"
+                    }
+                }
+            }
+        })
+    end
   },
   {
     'akinsho/toggleterm.nvim',

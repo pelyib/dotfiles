@@ -289,11 +289,6 @@ vim.keymap.set('n', 'zc', '<cmd>foldclose<cr>')
 vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
 vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
 
-function show_greatings()
-  require("alpha").start(false, require("alpha").default_config)
-end
-vim.keymap.set('n', '<c-h>', '<cmd>lua show_greatings()<cr>')
---show_greatings()
 
 --[[
 TODO: Read the word under the cursor and call a 3rd party app with it

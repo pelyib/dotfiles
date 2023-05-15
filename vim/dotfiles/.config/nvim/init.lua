@@ -139,13 +139,32 @@ local plugins = {
     config = function ()
         require("telescope").setup({
             defaults = {
-                path_display = { truncate = 2 },
-                layout_strategy = "horizontal",
+                path_display = {
+                    "shorten",
+                    shorten = {
+                        len = 3,
+                        exclude = {2, -1, -2}
+                    }
+                },
+                layout_strategy = "vertical",
                 layout_config = {
                     horizontal = {
-                        prompt_position = "top"
+                       -- prompt_position = "top"
                     }
-                }
+                },
+            },
+            pickers = {
+                find_files = {
+                    hidden = true,
+                    --theme = 'dropdown'
+                },
+                live_grep = {
+                    hidden = true,
+                    --theme = 'dropdown'
+                },
+                lsp_references = {
+                    --theme = 'dropdown'
+                },
             }
         })
     end

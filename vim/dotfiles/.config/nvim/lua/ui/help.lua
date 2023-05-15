@@ -1,8 +1,8 @@
 local alpha = require("alpha")
 local dashboard = require("alpha.themes.dashboard")
 
--- Set header
-dashboard.section.header.val = {
+local headers = {
+    {
 "      ╔═══════════════════════════════════════════════════════════════════════════════╗",
 "    ╔═╣                                       ,pm        mq.                          ╠═╗",
 "   ╔╩═╣  `7MM\"\"\"Yp,   .g8\"\"8q.  MMP\"\"MM\"\"YMM 6M            Mb `7MMF'`7MMM.     ,MMF'  ╠═╩╗",
@@ -15,8 +15,36 @@ dashboard.section.header.val = {
 "   ╚╦═╣                                       YM           M9                         ╠═╦╝",
 "    ╚═╣                                        `bm        md'                         ╠═╝",
 "      ╚═══════════════════════════════════════════════════════════════════════════════╝"
+    },
+    {
+"",
+"                              ███╗       ███╗",
+"                             ██╔═╝       ╚═██╗",
+" ██████╗  ██████╗ ████████╗  █╔╝ ██╗   ██╗ ╚█║  ██╗███╗   ███╗",
+" ██╔══██╗██╔═══██╗╚══██╔══╝  █║  ██║   ██║  █║  ██║████╗ ████║",
+" ██████╔╝██║   ██║   ██║    ██║  ██║   ██║  ██╗ ██║██╔████╔██║",
+" ██╔══██╗██║   ██║   ██║    ██║  ██║   ██║  ██║ ██║██║╚██╔╝██║",
+" ██████╔╝╚██████╔╝   ██║    ╚█║  ╚██╗ ██╔╝  █╔╝ ██║██║ ╚═╝ ██║",
+" ╚═════╝  ╚═════╝    ╚═╝     █║   ╚████╔╝   █║  ╚═╝╚═╝     ╚═╝",
+"                             ██╗   ╚═══╝   ██║",
+"                             ╚███╗       ███╔╝",
+"                              ╚══╝       ╚══╝",
+"",
+    },
+    {
+"",
+" dP                  dP     .d88P          d88b.   oo            ",
+" 88                  88     8:                :8                 ",
+" 88d888b. .d8888b. d8888P .oY8.   dP   .dP   .8Yo. dP 88d8b.d8b. ",
+" 88'  `88 88'  `88   88     d8    88   d8'    8b   88 88'`88'`88 ",
+" 88.  .88 88.  .88   88     8:    88 .88'     :8   88 88  88  88 ",
+" 88Y8888' `88888P'   dP     `Y88b 8888P'   Y88P'   dP dP  dP  dP ",
+"",
+    }
 }
 
+-- Set header
+dashboard.section.header.val = headers[math.random(#headers)]
 
 --[[
     "                                                     ",
@@ -95,12 +123,13 @@ dP                  dP     .d88P          d88b.   oo
 88Y8888' `88888P'   dP     `Y88b 8888P'   Y88P'   dP dP  dP  dP
 
 
-============
-
-
-
-
 --]]
 
 
 alpha.setup(dashboard.opts)
+
+function show_greatings()
+  require("alpha").start(false, require("alpha").default_config)
+end
+vim.keymap.set('n', '<c-h>', '<cmd>lua show_greatings()<cr>')
+--show_greatings()

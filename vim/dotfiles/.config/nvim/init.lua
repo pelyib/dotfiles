@@ -53,7 +53,7 @@ local plugins = {
   {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v2.x",
-    dependencies = { 
+    dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
       "MunifTanjim/nui.nvim",
@@ -247,6 +247,32 @@ local plugins = {
         vim.g.gitblame_date_format = "%Y-%m-%dT%H:%M:%S (%r)"
         vim.g.gitblame_message_template = "[<author>@<date>] <summary>"
     end
+  },
+  {
+      'kevinhwang91/nvim-ufo',
+      dependencies = {
+        'kevinhwang91/promise-async'
+      },
+      config = function ()
+          vim.o.foldcolumn = '1'
+          vim.o.foldlevel = 99
+          vim.o.foldlevelstart = 99
+          vim.o.foldenable = true
+
+          local capabilities = vim.lsp.protocol.make_client_capabilities()
+          capabilities.textDocument.foldingRange = {
+              dynamicRegistration = false,
+              lineFoldingOnly = true
+          }
+          local language_servers = require("lspconfig").util.available_servers()
+          for _, ls in ipairs(language_servers) do
+              require('lspconfig')[ls].setup({
+                  capabilities = capabilities
+              })
+          end
+
+          require('ufo').setup()
+      end
   }
 }
 require("lazy").setup(plugins, {})
@@ -277,11 +303,11 @@ vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, {})
 
 vim.keymap.set('n', '<leader>gb', '<cmd>GitBlameToggle<cr>', {})
 
-function show_greatings()
-  require("alpha").start(false, require("alpha").default_config)
-end
-vim.keymap.set('n', '<c-h>', '<cmd>lua show_greatings()<cr>')
---show_greatings()
+vim.keymap.set('n', 'zo', '<cmd>foldopen<cr>')
+vim.keymap.set('n', 'zc', '<cmd>foldclose<cr>')
+vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
+vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
+
 
 --[[
 TODO: Read the word under the cursor and call a 3rd party app with it

@@ -273,6 +273,12 @@ local plugins = {
 
           require('ufo').setup()
       end
+  },
+  {
+      'numToStr/Comment.nvim',
+      config = function()
+          require('Comment').setup()
+      end
   }
 }
 require("lazy").setup(plugins, {})

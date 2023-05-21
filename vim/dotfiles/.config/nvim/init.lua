@@ -16,6 +16,8 @@ vim.opt.listchars={
 }
 vim.opt.spell=true
 vim.opt.shada=NONE
+vim.opt.scrolloff=5000
+vim.opt.scroll=10
 
 -- Temporary solution: https://github.com/f-person/git-blame.nvim/issues/65
 vim.g.gitblame_enabled = 0

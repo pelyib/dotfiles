@@ -274,6 +274,16 @@ local plugins = {
         config = function()
             require('Comment').setup()
         end
+    },
+    {
+        'AckslD/nvim-neoclip.lua',
+        dependencies = {
+            {'kkharji/sqlite.lua', module = 'sqlite'},
+        },
+        config = function()
+            require('neoclip').setup({enable_persistent_history = true, continuous_sync = true })
+            require('telescope').load_extension('neoclip')
+        end,
     }
 }
 require("lazy").setup(plugins, {})
@@ -309,6 +319,7 @@ vim.keymap.set('n', 'zc', '<cmd>foldclose<cr>')
 vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
 vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
 
+vim.keymap.set('n', 'cp', '<cmd>Telescope neoclip<cr>')
 
 --[[
 TODO: Read the word under the cursor and call a 3rd party app with it

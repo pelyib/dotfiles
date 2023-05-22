@@ -198,7 +198,8 @@ local plugins = {
 },
 {
     'Exafunction/codeium.vim',
-    enable = false
+    enable = false,
+    cond = false
 },
 {
     -- TODO: add build script to run composer install in the installed plugin directory [botond.pelyi]

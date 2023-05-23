@@ -2,5 +2,9 @@
 .zshenv
 .gitconfig
 .local.nvim
+.NERDTreeBookmarks
+.bash_history
+.php-cs-fixer.cache
+vim/dotfiles/.config/nvim/lua/local/init.lua
 
 # folders

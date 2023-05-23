@@ -1,9 +1,0 @@
-" PHP CS Fixer configuration based on the local env
-"let g:php_cs_fixer_path = "~/.config/nvim/php-cs-fixer/php-cs-fixer.phar"
-"let g:php_cs_fixer_php_path = '/usr/local/opt/php/bin/php'
-"let g:php_cs_fixer_config_file = '/path/to/the/.php-cs'
-
-" Phpactor local configuration
-" Set PHP path if you wanna specify (e.g.: default is not compatible with Phpactor min reqs)
-" https://phpactor.readthedocs.io/en/master/usage/vim-plugin.html?highlight=phpactorPhpBin#phpactor-requires-at-least-php-7-3-0
-"let g:phpactorPhpBin = "/usr/local/opt/php/bin/php"

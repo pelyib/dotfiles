@@ -2,10 +2,8 @@
 
 UNACCAPTABLE_JIRA_TICKET_STATUSES=(Cancelled Closed)
 LAST_COMMIT_MESSAGE=$(git show -s --format=%B)
-# TODO: It finds any capital letters not just in the ticket numbers [botond.pelyi]
-JIRA_TICKET_NUMBER=$(echo ${LAST_COMMIT_MESSAGE} | sed 's/[^1-9A-Z-]//g')
-
-JIRA_TICKET_STATUS=$(curl -s --location --request GET "${JIRA_DOMAIN}/rest/api/2/issue/${JIRA_TICKET_NUMBER}" --header 'Accept: application/json' --user "${JIRA_USER_NAME}:${JIRA_USER_PASSWD}" | jq -r ".fields.status.name")
+JIRA_TICKET_NUMBER=$(echo ${LAST_COMMIT_MESSAGE} | grep -Eo '[A-Z]+-[0-9]+')
+JIRA_TICKET_STATUS=$(curl -s --location --request GET "${JIRA_DOMAIN}/rest/api/2/issue/${JIRA_TICKET_NUMBER}" --header 'Accept: application/json' --header 'Authorization: Basic ${JIRA_AUTH_BASIC}' | jq -r ".fields.status.name")
 
 CAN_BE_PUSHED=$(printf "%s\n" "${UNACCAPTABLE_JIRA_TICKET_STATUSES[@]}" | grep -c "^${JIRA_TICKET_STATUS}$")
 if [[ "$CAN_BE_PUSHED" -eq 1 ]]; then

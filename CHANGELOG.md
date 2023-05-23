@@ -10,10 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [NVIM] - configuration is in lua instead of vimscript, more details in the [README.md](/vim/README.md)
 
 ## [0.0.10] - 2022.12.28
+
 ### Changed
 - [NVIM] - maintain the [Dockerfile](vim/Dockerfile)
 
 ## [0.0.9] - 2022.09.05
+
 ### Added
 - [GIT] - [pre-commit-jira](git/hooks/pre-commit-jira) script to prevent the usage of a closed / cancelled ticket number in the commit message
 
@@ -21,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [Neovim] - coc-sh because it causes issues
 
 ## [0.0.8] - 2022.09.02
+
 ### Added
 - [MIGRATION.md](MIGRATION.md) file for fast migration between versions
 
@@ -33,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [NeoVim] - dotfiles extension, all them is .vim
 
 ## [0.0.7] - 2022.08.18
+
 ### Added
 - [NeoVim] - [PHP Coding Standards Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) with a [configuration](/vim/vendor/php-cs/.php-cs)
 - [NeoVim] - Optional [local config](/vim/dotfiles/.local.nvim.dist), and project config
@@ -48,14 +52,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [phpactor](https://github.com/phpactor/phpactor)
 
 ## [0.0.5] - 2022.06.13
+
 ### Added
 - Do not indent style and script tag's body in HTML
 
 ## [0.0.4] - 2022.06.08
+
 ### Added
 - Javascript and HTML LSP support
 
 ## [0.0.3] - 2022.06.07
+
 ### Added
 - Enable spell check in VIM
 

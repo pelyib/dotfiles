@@ -1,2 +1,8 @@
 export ZSH=/path/of/the/zsh/config
 export JIRA_DOMAIN=https://your.jira.server.tld
+export JIRA_AUTH_BASIC=base64_encoded(your.jira.name:yourJiraPassword)
+export PATH="$HOME/.bin:$PATH"
+export CLI_TOOLS=/path/to/Projects/cli-tools
+export PROJECT_ROOT_PATH=/path/to/Projects/
+export COMPOSER_HOME=/composer/folder/path/.composer
+export GOPATH=/go/folder/path/.go

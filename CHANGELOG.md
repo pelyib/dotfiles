@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.11] - 2023.05.23
+
+### Changed
+- [NVIM] - configuration is in lua instead of vimscript, more details in the [README.md](/vim/README.md)
+
 ## [0.0.10] - 2022.12.28
 ### Changed
 - [NVIM] - maintain the [Dockerfile](vim/Dockerfile)
@@ -21,7 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Rename "appication.md" files to README.md
-- Reformat and add short description about the apps in the root [README.md](README.md)
+- Reformat and add short description about the apps in the root [README.md](/README.md)
 - [GIT] - [prepare-commit-msg](git/hooks/prepare-commit-msg) is executable now
 
 ### Fixed

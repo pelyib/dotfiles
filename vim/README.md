@@ -9,7 +9,6 @@ Following steps will describe how to install everything
 ### Nvim
 
 - [install nvim](https://github.com/neovim/neovim/wiki/Installing-Neovim)
-- [install vim-plug](https://github.com/junegunn/vim-plug#unix-linux), a plugin manager
 
 ### NodeJS
 
@@ -28,14 +27,8 @@ From more info: `:help provider-python`
 
 ## Configuration
 
-- link / copy [config file](/vim/dotfiles/.nvim.vim) to `~/.config/nvim/init.vim`
-- create a local env config based on the [.local.vim.dist](/vim/dotfiles/.local.vim.dist), link copy to `~/.config/nvim/local.vim`
-- link / copy [Phpactor files](/vim/vendor/phpactor/) to `~/.config/phpactor/`
+TODO: describe configuration
 
-## Install plugins
-
-- start NeoVim: `$ nvim`
-- ESC then type: `:PlugInstall`
 
 ## Testing
 

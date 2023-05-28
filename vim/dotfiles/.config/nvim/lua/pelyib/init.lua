@@ -7,10 +7,14 @@ M.modules = {
     'pluginmanager',
     'greater',
     'lsp',
-    'telescope'
+    'telescope',
+    'gitblame',
+    'nvimufo'
 }
 
-M.installPluginManager = function ()
+M.localModulePath = '~/config/nvim/lua/local'
+
+M.ensurePluginManagerInstalled = function ()
     local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
     if not vim.loop.fs_stat(lazypath) then
         vim.fn.system({
@@ -25,33 +29,41 @@ M.installPluginManager = function ()
     vim.opt.rtp:prepend(lazypath)
 end
 
-M.installModules = function ()
+M.setupModules = function ()
     for key, module in pairs(M.modules) do
+        M.setupLocalBeforeModule(module)
+
         local fullModuleName = 'pelyib.' .. module
-        local localModulePath = '~/.config/nvim/lua/local/'
-        local beforeModule = 'before' .. module
-        local beforeModuleName = 'local.' .. beforeModule
-        local afterModule = 'after' .. module
-        local afterModuleName = 'local.' .. afterModule
-        local beforeModuleFile = localModulePath .. beforeModule .. '.lua'
-        local afterModuleFile = localModulePath .. afterModule .. '.lua'
-
-        if vim.fn.filereadable(vim.fn.expand(beforeModuleFile, 'r')) == 1 then
-            require(beforeModuleName).setup()
-        end
-
         require(fullModuleName).setup()
 
-        if vim.fn.filereadable(vim.fn.expand(afterModuleFile, 'r')) == 1 then
-            require(afterModuleName).setup()
-        end
+        M.setupLocalAfterModule(module)
+    end
+end
+
+M.setupLocalBeforeModule = function (moduleName)
+    local beforeModule = 'before' .. moduleName
+    local beforeModuleName = 'local.' .. beforeModule
+    local beforeModuleFile = M.localModulePath .. beforeModule .. '.lua'
+
+    if vim.fn.filereadable(vim.fn.expand(beforeModuleFile, 'r')) == 1 then
+        require(beforeModuleName).setup()
+    end
+end
+
+M.setupLocalAfterModule = function (moduleName)
+    local afterModule = 'after' .. moduleName
+    local afterModuleName = 'local.' .. afterModule
+    local afterModuleFile = M.localModulePath .. afterModule .. '.lua'
+
+    if vim.fn.filereadable(vim.fn.expand(afterModuleFile, 'r')) == 1 then
+        require(afterModuleName).setup()
     end
 end
 
 M.setup = function ()
     vim.cmd("echo 'init pelyib'")
-    M.installPluginManager()
-    M.installModules()
+    M.ensurePluginManagerInstalled()
+    M.setupModules()
 end
 
 return M

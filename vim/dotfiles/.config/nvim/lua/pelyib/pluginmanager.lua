@@ -123,6 +123,7 @@ M.plugins = {
                     },
                     lsp_references = {
                         --theme = 'dropdown'
+                        show_line = false,
                     },
                 }
             })

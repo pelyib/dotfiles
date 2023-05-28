@@ -30,9 +30,9 @@ M.installModules = function ()
         local fullModuleName = 'pelyib.' .. module
         local localModulePath = '~/.config/nvim/lua/local/'
         local beforeModule = 'before' .. module
-	local beforeModuleName = 'local.' .. beforeModule
+        local beforeModuleName = 'local.' .. beforeModule
         local afterModule = 'after' .. module
-	local afterModuleName = 'local.' .. afterModule
+        local afterModuleName = 'local.' .. afterModule
         local beforeModuleFile = localModulePath .. beforeModule .. '.lua'
         local afterModuleFile = localModulePath .. afterModule .. '.lua'
 

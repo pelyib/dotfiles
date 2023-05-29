@@ -1,7 +1,6 @@
-local alpha = require("alpha")
-local dashboard = require("alpha.themes.dashboard")
+local M = {}
 
-local headers = {
+M.headers = {
     {
 "      ╔═══════════════════════════════════════════════════════════════════════════════╗",
 "    ╔═╣                                       ,pm        mq.                          ╠═╗",
@@ -41,11 +40,7 @@ local headers = {
 " 88Y8888' `88888P'   dP     `Y88b 8888P'   Y88P'   dP dP  dP  dP ",
 "",
     }
-}
-
--- Set header
-dashboard.section.header.val = headers[math.random(#headers)]
-
+-- TODO: add more headers
 --[[
     "                                                     ",
     "  ███╗   ██╗███████╗ ██████╗ ██╗ | ██╗██╗███╗   ███╗ ",
@@ -124,12 +119,18 @@ dP                  dP     .d88P          d88b.   oo
 
 
 --]]
+}
 
+M.setup = function ()
+    local alpha = require("alpha")
+    local dashboard = require("alpha.themes.dashboard")
+    dashboard.section.header.val = M.headers[math.random(#M.headers)]
+    alpha.setup(dashboard.opts)
 
-alpha.setup(dashboard.opts)
-
-function show_greatings()
-  require("alpha").start(false, require("alpha").default_config)
+    function show_greatings()
+        alpha.start(false, alpha.default_config)
+    end
+    vim.keymap.set('n', '<c-h>', '<cmd>lua show_greatings()<cr>')
 end
-vim.keymap.set('n', '<c-h>', '<cmd>lua show_greatings()<cr>')
---show_greatings()
+
+return M

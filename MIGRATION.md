@@ -1,5 +1,12 @@
 # Migration
 
+## From 0.0.11 to 0.0.12
+
+### NeoVim
+
+- [local/init.lua](vim/dotfiles/.config/nvim/lua/local/init.lua) is deprecated, not supported anymore. Use the `before
+  and after` local modules instead. Move your changes into the new files.
+
 ## From 0.0.8 to 0.0.11
 
 ### NoeVim

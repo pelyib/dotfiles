@@ -119,6 +119,7 @@ M.plugins = {
                     },
                     live_grep = {
                         hidden = true,
+                        show_line = false,
                         --theme = 'dropdown'
                     },
                     lsp_references = {

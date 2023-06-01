@@ -12,7 +12,7 @@ M.modules = {
     'nvimufo'
 }
 
-M.localModulePath = '~/config/nvim/lua/local'
+M.localModulePath = '~/.config/nvim/lua/local/'
 
 M.ensurePluginManagerInstalled = function ()
     local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"

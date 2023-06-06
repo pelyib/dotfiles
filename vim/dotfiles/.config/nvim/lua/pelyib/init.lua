@@ -40,6 +40,14 @@ M.setupModules = function ()
     end
 end
 
+M.setupProjectModule = function ()
+    local cwd = vim.fn.getcwd()
+    local projectModule = cwd .. '/.local.lua'
+    if vim.fn.filereadable(vim.fn.expand(projectModule, 'r')) == 1 then
+        vim.cmd.luafile(projectModule)
+    end
+end
+
 M.setupLocalBeforeModule = function (moduleName)
     local beforeModule = 'before' .. moduleName
     local beforeModuleName = 'local.' .. beforeModule
@@ -61,9 +69,9 @@ M.setupLocalAfterModule = function (moduleName)
 end
 
 M.setup = function ()
-    vim.cmd("echo 'init pelyib'")
     M.ensurePluginManagerInstalled()
     M.setupModules()
+    M.setupProjectModule()
 end
 
 return M

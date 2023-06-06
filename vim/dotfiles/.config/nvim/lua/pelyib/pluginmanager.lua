@@ -111,6 +111,9 @@ M.plugins = {
                             -- prompt_position = "top"
                         }
                     },
+                    preview = {
+                        treesitter = true,
+                    },
                 },
                 pickers = {
                     find_files = {
@@ -124,7 +127,6 @@ M.plugins = {
                     },
                     lsp_references = {
                         --theme = 'dropdown'
-                        show_line = false,
                     },
                 }
             })

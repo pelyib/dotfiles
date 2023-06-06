@@ -35,6 +35,7 @@ Temporary Items
 
 # Dotfile
 .local.vim
+.local.lua
 
 # Windows
 ## Windows thumbnail cache files

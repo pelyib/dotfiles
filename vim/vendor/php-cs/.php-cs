@@ -29,7 +29,8 @@ return $config->setRules(
         'binary_operator_spaces' => [
             'operators' => [
                 '=' => 'align_single_space_minimal',
-                '=>' => 'align_single_space_minimal',
+                '=>' => 'align_single_space_minimal_by_scope',
+                '&&' => 'align_single_space_minimal_by_scope',
             ],
         ],
         'cast_spaces' => ['space' => 'none',],
@@ -37,6 +38,12 @@ return $config->setRules(
         'function_typehint_space' => true,
         'declare_strict_types' => true,
         'method_chaining_indentation' => true,
+        'operator_linebreak' => [
+            'position' => 'beginning',
+        ],
+        'method_argument_space' => [
+            'on_multiline' => 'ensure_fully_multiline',
+        ],
     ]
 )
     ->setIndent('    ')

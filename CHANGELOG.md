@@ -8,9 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - [NVIM] - before and after local modules around the `pelyib` modules
+- [NVIM] - load project based lua file
 
 ### Changed
 - [NVIM] - introduce `pelyib` lua module, move and split the init.lua to specific modules
+- [NVIM] - maintain the PHP-CS-FIXER rules
 
 ### Removed
 - [NVIM] - init.lua.dist, use before and after local modules instead 

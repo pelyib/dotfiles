@@ -9,7 +9,8 @@ M.modules = {
     'lsp',
     'telescope',
     'gitblame',
-    'nvimufo'
+    'nvimufo',
+    'toggleterm'
 }
 
 M.localModulePath = '~/.config/nvim/lua/local/'

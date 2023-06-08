@@ -140,14 +140,6 @@ M.plugins = {
                 direction = 'float',
                 open_mapping = [[<F7>]]
             })
-            local Terminal = require('toggleterm.terminal').Terminal
-            local _git = Terminal:new({ cmd = "gitui", hidden = true })
-            function gitui_toggle()
-                _git:toggle()
-            end
-
-            vim.keymap.set('n', '<leader>t', '<cmd>ToggleTerm<cr>')
-            vim.keymap.set('n', '<leader>git', '<cmd>lua gitui_toggle()<cr>', {noremap = true, silent = true})
         end
     },
     {

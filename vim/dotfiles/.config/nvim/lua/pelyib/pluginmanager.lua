@@ -244,6 +244,10 @@ M.plugins = {
             require('neoclip').setup({enable_persistent_history = true, continuous_sync = true })
             require('telescope').load_extension('neoclip')
         end,
+    },
+    {
+        "folke/neodev.nvim",
+        opts = {}
     }
 }
 

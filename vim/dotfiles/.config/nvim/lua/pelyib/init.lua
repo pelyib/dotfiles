@@ -44,7 +44,7 @@ end
 M.setupProjectModule = function ()
     local cwd = vim.fn.getcwd()
     local projectModule = cwd .. '/.local.lua'
-    if vim.fn.filereadable(vim.fn.expand(projectModule, 'r')) == 1 then
+    if vim.fn.filereadable(vim.fn.expand(projectModule)) == 1 then
         vim.cmd.luafile(projectModule)
     end
 end
@@ -54,7 +54,7 @@ M.setupLocalBeforeModule = function (moduleName)
     local beforeModuleName = 'local.' .. beforeModule
     local beforeModuleFile = M.localModulePath .. beforeModule .. '.lua'
 
-    if vim.fn.filereadable(vim.fn.expand(beforeModuleFile, 'r')) == 1 then
+    if vim.fn.filereadable(vim.fn.expand(beforeModuleFile)) == 1 then
         require(beforeModuleName).setup()
     end
 end
@@ -64,7 +64,7 @@ M.setupLocalAfterModule = function (moduleName)
     local afterModuleName = 'local.' .. afterModule
     local afterModuleFile = M.localModulePath .. afterModule .. '.lua'
 
-    if vim.fn.filereadable(vim.fn.expand(afterModuleFile, 'r')) == 1 then
+    if vim.fn.filereadable(vim.fn.expand(afterModuleFile)) == 1 then
         require(afterModuleName).setup()
     end
 end

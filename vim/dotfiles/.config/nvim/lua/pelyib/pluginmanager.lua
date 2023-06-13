@@ -153,7 +153,7 @@ M.plugins = {
     },
     {
         'Exafunction/codeium.vim',
-        enable = false,
+        enable = vim.g.pelyib_codeium_enabled,
         cond = false
     },
     {

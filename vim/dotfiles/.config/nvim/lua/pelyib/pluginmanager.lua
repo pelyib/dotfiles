@@ -138,7 +138,9 @@ M.plugins = {
         config = function ()
             require('toggleterm').setup({
                 direction = 'float',
-                open_mapping = [[<F7>]]
+                --open_mapping = [[<F7>]],
+                open_mapping = [[<leader>t]],
+                auto_scroll = false
             })
         end
     },
@@ -151,7 +153,7 @@ M.plugins = {
     },
     {
         'Exafunction/codeium.vim',
-        enable = false,
+        enable = vim.g.pelyib_codeium_enabled,
         cond = false
     },
     {

@@ -121,16 +121,209 @@ dP                  dP     .d88P          d88b.   oo
 --]]
 }
 
+-- https://github.com/goolord/alpha-nvim/discussions/16#discussioncomment-1924014
+M.col = function(strlist, opts)
+  -- strlist is a TABLE of TABLES, representing columns of text
+  -- opts is a text display option
+
+  -- column spacing
+  local padding = 3
+  -- fill lines up to the maximim length with 'fillchar'
+  local fillchar = ' '
+  -- columns padding char (for testing)
+  local padchar = ' '
+  local column_delimiter = '|'
+  local bottom_delimiter = '-'
+
+  -- define maximum string length in a table
+  local maxlen = function(str)
+    local max = 0
+    for i in pairs(str) do
+      if #str[i] > max then
+        max = #str[i]
+      end
+    end
+    return max
+  end
+
+  -- add as much right-padding to align the text block
+  local pad = function(str, max)
+    local strlist = {}
+    for i in pairs(str) do
+      if #str[i] < max then
+        local newstr = str[i] .. string.rep(fillchar, max-#str[i])
+        table.insert(strlist, newstr .. string.rep(padchar, padding) .. column_delimiter)
+      else
+        table.insert(strlist, str[i] .. string.rep(padchar, padding) .. column_delimiter)
+      end
+    end
+    return strlist
+  end
+
+  -- this is a table for text strings
+  local values = {}
+  -- process all the lines
+  for i=1,maxlen(strlist) do
+    local str = ''
+    -- process all the columns but last, because we dont wand extra padding
+    -- after last column
+    for column=1,#strlist-1 do
+      local maxstr = maxlen(strlist[column])
+      local padded = pad(strlist[column], maxstr)
+      if strlist[column][i] == nil then
+        str = str .. string.rep(fillchar, maxstr) .. string.rep(padchar, padding)
+      else
+        str = str .. padded[i] .. string.rep(padchar, padding)
+      end
+    end
+
+    -- lets process the last column, no extra padding
+    do
+      local maxstr = maxlen(strlist[#strlist])
+      local padded = pad(strlist[#strlist], maxstr)
+      if strlist[#strlist][i] == nil then
+        str = str .. string.rep(fillchar, maxlen(strlist[#strlist]))
+      else
+        str = str .. padded[i]
+      end
+    end
+
+    -- insert result into output table
+    table.insert(values, { type = "text", val = str, opts = opts })
+  end
+
+  table.insert(values, { type = "text", val ={string.rep(bottom_delimiter, vim.api.nvim_win_get_width(0))}, opts = opts})
+  return values
+end
+
+M.cheat_sheet = {
+    layout = {
+        {
+            type = "text",
+            val = M.headers[math.random(#M.headers)],
+            opts = {
+                position = "center",
+            }
+        },
+        {
+            type = "group",
+            val = M.col({}),
+            opts = {}
+        },
+        {
+            type = "group",
+            val = M.col({
+                {
+                    "[n] - Normal mode | [v] - Visual mode"
+                }
+            }),
+            opts = {}
+        },
+        {
+            type = "group",
+            val = M.col({
+                {
+                    "                   << toggleterm.nvim  >>",
+                    "[n]<leader>t       Open default shell in floating terminal",
+                    "[n]<leader>git     Open gitui in floating terminal",
+                    "   q               Close gitui window",
+                },
+                {
+                    "       << VIM >>",
+                    "[n]i  Switch to insert mode",
+                    "",
+                    ""
+                },
+                {
+                    " << LSP >>",
+                    "[n]gr  ",
+                    "[n]gi  ",
+                    "[n]gd  ",
+                }
+            }),
+            opts = {}
+        },
+        {
+            type = "group",
+            val = M.col({
+                {
+                    "                       << // Comment.nvim >> ",
+                    "[n]gcc                 Toggles the current line using linewise comment",
+                    "[n]gbc                 Toggles the current line using blockwise comment",
+                    "[n][count]gcc          Toggles the number of line given as a prefix-count using linewisei",
+                    "[n][count]gbc          Toggles the number of line given as a prefix-count using blockwisei",
+                    "[n]gc[count]{motion}   (Op-pending) Toggles the region using linewise comment",
+                    "[n]gb[count]{motion}   (Op-pending) Toggles the region using blockwise comment",
+                    "[v]gc                  Toggles the region using linewise comment",
+                    "[v]gb                  Toggles the region using blockwise comment",
+                },
+                {
+                    "               << Telescope >>",
+                    "[n]<leader>ff  Open file finder",
+                    "[n]<leader>fg  Open live grep",
+                    "[n]gfh         Show GIT history of the file",
+                    "[n]gh          Show GIT history of the repo",
+                },
+                {
+                    " << nvim-ufo >>"
+                },
+            }),
+            opts = {}
+        },
+        {
+            type = "group",
+            val = M.col({
+                {
+                    "       << Neo-tree >>",
+                    "[n]fb  Show neo-tree window",
+                    "q      Close neo-tree window"
+                },
+                {
+                    "       << Arial >>",
+                    "[n]ar  Toggle Arial window"
+                },
+                {
+                    "       << git-blame >> ",
+                    "[n]gb  Toggle inline blame info"
+                }
+            }),
+            opts = {}
+        },
+        {
+            type = "group",
+            val = M.col({
+                {
+                    "       << nvim-neoclip >>",
+                    "[n]cp  Open clipboard list"
+                },
+                {
+                    " << ??? >>"
+                },
+                {
+                    " << ??? >> "
+                }
+            }),
+            opts = {}
+        }
+    },
+    opts = {}
+}
+
+M.show_cheat_sheet = function ()
+    M.alpha.start(false, M.cheat_sheet)
+end
+
 M.setup = function ()
-    local alpha = require("alpha")
+    M.alpha = require("alpha")
     local dashboard = require("alpha.themes.dashboard")
     dashboard.section.header.val = M.headers[math.random(#M.headers)]
-    alpha.setup(dashboard.opts)
+    M.alpha.setup(dashboard.opts)
 
-    function show_greatings()
-        alpha.start(false, alpha.default_config)
-    end
-    vim.keymap.set('n', '<c-h>', '<cmd>lua show_greatings()<cr>')
+    vim.keymap.set('n', '<c-h>', '<cmd>lua GreatingsShowCheetSheet()<cr>')
+end
+
+GreatingsShowCheetSheet = function ()
+    M.show_cheat_sheet()
 end
 
 return M

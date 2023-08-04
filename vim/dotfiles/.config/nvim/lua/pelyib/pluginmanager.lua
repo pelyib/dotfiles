@@ -56,7 +56,7 @@ M.plugins = {
         config = function ()
             vim.cmd([[syntax off]])
             require("nvim-treesitter.configs").setup({
-                ensure_installed = {"bash", "cmake", "css", "dockerfile", "dot", "graphql", "html", "lua", "make", "python", "javascript", "sql", "vim", "yaml", "regex", "go", "php", "markdown", "json"},
+                ensure_installed = {"bash", "cmake", "css", "dockerfile", "dot", "graphql", "html", "lua", "make", "python", "javascript", "sql", "vim", "yaml", "regex", "go", "php", "markdown", "json" },
                 highlight={
                     enable=true,
                     additional_vim_regex_highlighting=true,
@@ -86,7 +86,22 @@ M.plugins = {
             {'neovim/nvim-lspconfig'},
             {'williamboman/mason.nvim',build = function() pcall(vim.cmd, 'MasonUpdate') end },
             {'williamboman/mason-lspconfig.nvim'},
-            {'hrsh7th/nvim-cmp'},
+            {
+                'hrsh7th/nvim-cmp',
+                dependencies = {
+                    { 'hrsh7th/cmp-buffer' }
+                },
+                config = function ()
+                    local cmp = require("cmp")
+                    cmp.setup({
+                        sources = cmp.config.sources({
+                            { name = 'nvim_lsp' }
+                        }, {
+                            { name = 'buffer' }
+                        })
+                    })
+                end
+            },
             {'hrsh7th/cmp-nvim-lsp'},
             {'L3MON4D3/LuaSnip'}
         }

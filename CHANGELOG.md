@@ -4,7 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.0.12] - 2023.05.29
+## [0.0.13] - 2023-11-26
+
+### Added
+- [ZSH] - aliases file
+
+### Fixed
+- Changelog date format
+
+## [0.0.12] - 2023-05-29
 
 ### Added
 - [NVIM] - before and after local modules around the `pelyib` modules
@@ -17,17 +25,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 - [NVIM] - init.lua.dist, use before and after local modules instead 
 
-## [0.0.11] - 2023.05.23
+## [0.0.11] - 2023-05-23
 
 ### Changed
 - [NVIM] - configuration is in lua instead of vimscript, more details in the [README.md](/vim/README.md)
 
-## [0.0.10] - 2022.12.28
+## [0.0.10] - 2022-12-28
 
 ### Changed
 - [NVIM] - maintain the [Dockerfile](vim/Dockerfile)
 
-## [0.0.9] - 2022.09.05
+## [0.0.9] - 2022-09-05
 
 ### Added
 - [GIT] - [pre-commit-jira](git/hooks/pre-commit-jira) script to prevent the usage of a closed / cancelled ticket number in the commit message
@@ -35,7 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 - [Neovim] - coc-sh because it causes issues
 
-## [0.0.8] - 2022.09.02
+## [0.0.8] - 2022-09-02
 
 ### Added
 - [MIGRATION.md](MIGRATION.md) file for fast migration between versions
@@ -48,7 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - [NeoVim] - dotfiles extension, all them is .vim
 
-## [0.0.7] - 2022.08.18
+## [0.0.7] - 2022-08-18
 
 ### Added
 - [NeoVim] - [PHP Coding Standards Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) with a [configuration](/vim/vendor/php-cs/.php-cs)
@@ -59,22 +67,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 - [NeoVim] - Remove Vitor's config
 
-## [0.0.6] - 2022.08.03
+## [0.0.6] - 2022-08-03
 
 ### Added
 - [phpactor](https://github.com/phpactor/phpactor)
 
-## [0.0.5] - 2022.06.13
+## [0.0.5] - 2022-06-13
 
 ### Added
 - Do not indent style and script tag's body in HTML
 
-## [0.0.4] - 2022.06.08
+## [0.0.4] - 2022-06-08
 
 ### Added
 - Javascript and HTML LSP support
 
-## [0.0.3] - 2022.06.07
+## [0.0.3] - 2022-06-07
 
 ### Added
 - Enable spell check in VIM
@@ -82,7 +90,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Typos
 
-## [0.0.2] - 2022.04.06
+## [0.0.2] - 2022-04-06
 
 ### Added
 - GIT hooks ([prepare-commit-msg](git/hooks/prepare-commit-msg))
@@ -91,7 +99,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Typo in [.gitignore_global](git/.gitignore_global)
 
-## [0.0.1] - 2021.12.02
+## [0.0.1] - 2021-12-02
 
 ### Added
 - GIT dotfiles

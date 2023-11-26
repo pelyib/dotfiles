@@ -1,5 +1,11 @@
 # Migration
 
+## From 0.0.12 to 0.0.13
+
+### ZSH
+
+- Link / copy the [ZSH aliases](zsh/dotfiles/.aliases) file
+
 ## From 0.0.11 to 0.0.12
 
 ### NeoVim

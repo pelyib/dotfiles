@@ -9,8 +9,8 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(git)
 source $ZSH/oh-my-zsh.sh
 
-if [[ -f $CLI_TOOLS/aliases ]]; then
-    source $CLI_TOOLS/aliases
+if [[ -f ~/.aliases ]]; then
+    source ~/.aliases
 fi
 
 if type rg &> /dev/null; then

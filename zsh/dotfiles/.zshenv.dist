@@ -6,3 +6,4 @@ export CLI_TOOLS=/path/to/Projects/cli-tools
 export PROJECT_ROOT_PATH=/path/to/Projects/
 export COMPOSER_HOME=/composer/folder/path/.composer
 export GOPATH=/go/folder/path/.go
+export EDITOR=nvim

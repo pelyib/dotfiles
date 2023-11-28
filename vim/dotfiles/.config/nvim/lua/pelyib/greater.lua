@@ -306,7 +306,11 @@ M.cheat_sheet = {
             opts = {}
         }
     },
-    opts = {}
+    opts = {
+        keymap = {
+            press = nil
+        }
+    }
 }
 
 M.show_cheat_sheet = function ()

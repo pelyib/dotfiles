@@ -265,6 +265,17 @@ M.plugins = {
     {
         "folke/neodev.nvim",
         opts = {}
+    },
+    {
+        "ray-x/lsp_signature.nvim",
+        event = "VeryLazy",
+        opts = {
+            floating_window = true,
+            auto_close_after = 3,
+            always_trigger = true,
+            extra_trigger_chars = {}
+        },
+        config = function(_, opts) require'lsp_signature'.setup(opts) end
     }
 }
 

@@ -2,9 +2,6 @@ local M = {}
 
 M.plugins = {
     {
-        "folke/tokyonight.nvim",
-    },
-    {
         "sainnhe/everforest",
         config = function()
             vim.g.everforest_transparent_background = 2
@@ -16,7 +13,7 @@ M.plugins = {
             vim.opt.termguicolors = true
         end
     },
-    'nvim-tree/nvim-web-devicons',
+    "nvim-tree/nvim-web-devicons",
     {
         "nvim-neo-tree/neo-tree.nvim",
         branch = "v2.x",
@@ -53,6 +50,7 @@ M.plugins = {
     },
     {
         'nvim-treesitter/nvim-treesitter',
+        tag = 'v0.9.1',
         config = function ()
             vim.cmd([[syntax off]])
             require("nvim-treesitter.configs").setup({
@@ -65,7 +63,8 @@ M.plugins = {
         end
     },
     {
-        'stevearc/aerial.nvim',
+        "stevearc/aerial.nvim",
+        commit = "8876456",
         config = function ()
             require('aerial').setup({
                 close_automatic_events = {'unfocus'},
@@ -161,6 +160,7 @@ M.plugins = {
     },
     {
         'goolord/alpha-nvim',
+        commit = "29074ee",
         requires = { 'nvim-tree/nvim-web-devicons' },
         config = function ()
             require'alpha'.setup(require'alpha.themes.startify'.config)
@@ -168,17 +168,21 @@ M.plugins = {
     },
     {
         'Exafunction/codeium.vim',
+        tag = "1.4.21",
         enable = vim.g.pelyib_codeium_enabled,
         cond = false
     },
     {
         'phpactor/phpactor',
-        config = function ()
+        tag = "2023.09.24.0",
+        build = function ()
             --[[
             TODO: add build script to run composer install in the installed plugin directory [botond.pelyi]
             cd into vim.fn.stdpath("data") .. '/lazy/phpactor'
             then run the composer install --no-dev --ignore-plaform-reqs
             --]]
+        end,
+        config = function ()
             function PhpactorCreateNewObj()
                 vim.api.nvim_call_function(
                 'phpactor#rpc',
@@ -206,6 +210,7 @@ M.plugins = {
     },
     {
         'stephpy/vim-php-cs-fixer',
+        commit = "d6dec5d",
         config = function ()
             function PhpCsFixerFixAll()
                 vim.api.nvim_call_function('PhpCsFixerFixFile', {})
@@ -215,13 +220,16 @@ M.plugins = {
         end
     },
     {
-        "jiangmiao/auto-pairs"
+        "jiangmiao/auto-pairs",
+        tag = "v2.0.0"
     },
     {
         'f-person/git-blame.nvim',
+        commit = "f07e913"
     },
     {
         'kevinhwang91/nvim-ufo',
+        tag = "v1.3.0",
         dependencies = {
             'kevinhwang91/promise-async'
         },
@@ -248,12 +256,14 @@ M.plugins = {
     },
     {
         'numToStr/Comment.nvim',
+        tag = "v0.8.0",
         config = function()
             require('Comment').setup()
         end
     },
     {
         'AckslD/nvim-neoclip.lua',
+        commit = "4e406ae",
         dependencies = {
             {'kkharji/sqlite.lua', module = 'sqlite'},
         },
@@ -264,18 +274,8 @@ M.plugins = {
     },
     {
         "folke/neodev.nvim",
+        tag = "v2.5.2",
         opts = {}
-    },
-    {
-        "ray-x/lsp_signature.nvim",
-        event = "VeryLazy",
-        opts = {
-            floating_window = true,
-            auto_close_after = 3,
-            always_trigger = true,
-            extra_trigger_chars = {}
-        },
-        config = function(_, opts) require'lsp_signature'.setup(opts) end
     }
 }
 

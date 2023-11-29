@@ -13,7 +13,9 @@ M.plugins = {
             vim.opt.termguicolors = true
         end
     },
-    "nvim-tree/nvim-web-devicons",
+    {
+        "nvim-tree/nvim-web-devicons",
+    },
     {
         "nvim-neo-tree/neo-tree.nvim",
         branch = "v2.x",
@@ -106,8 +108,8 @@ M.plugins = {
         }
     },
     {
-        'nvim-telescope/telescope.nvim',
-        tag = '0.1.4',
+        "nvim-telescope/telescope.nvim",
+        tag = "0.1.4",
         dependencies = { 'nvim-lua/plenary.nvim' },
         config = function ()
             require("telescope").setup({
@@ -225,7 +227,12 @@ M.plugins = {
     },
     {
         'f-person/git-blame.nvim',
-        commit = "f07e913"
+        commit = "f07e913",
+        config = function ()
+            require("gitblame").setup({
+                enabled = false,
+            })
+        end
     },
     {
         'kevinhwang91/nvim-ufo',

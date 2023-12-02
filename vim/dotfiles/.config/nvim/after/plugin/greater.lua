@@ -1,6 +1,4 @@
-local M = {}
-
-M.headers = {
+local headers = {
     {
 "      ╔═══════════════════════════════════════════════════════════════════════════════╗",
 "    ╔═╣                                       ,pm        mq.                          ╠═╗",
@@ -122,7 +120,7 @@ dP                  dP     .d88P          d88b.   oo
 }
 
 -- https://github.com/goolord/alpha-nvim/discussions/16#discussioncomment-1924014
-M.col = function(strlist, opts)
+function col(strlist, opts)
   -- strlist is a TABLE of TABLES, representing columns of text
   -- opts is a text display option
 
@@ -196,23 +194,23 @@ M.col = function(strlist, opts)
   return values
 end
 
-M.cheat_sheet = {
+local cheat_sheet = {
     layout = {
         {
             type = "text",
-            val = M.headers[math.random(#M.headers)],
+            val = headers[math.random(#headers)],
             opts = {
                 position = "center",
             }
         },
         {
             type = "group",
-            val = M.col({}),
+            val = col({}),
             opts = {}
         },
         {
             type = "group",
-            val = M.col({
+            val = col({
                 {
                     "[n] - Normal mode | [v] - Visual mode"
                 }
@@ -221,7 +219,7 @@ M.cheat_sheet = {
         },
         {
             type = "group",
-            val = M.col({
+            val = col({
                 {
                     "                   << toggleterm.nvim  >>",
                     "[n]<leader>t       Open default shell in floating terminal",
@@ -245,7 +243,7 @@ M.cheat_sheet = {
         },
         {
             type = "group",
-            val = M.col({
+            val = col({
                 {
                     "                       << // Comment.nvim >> ",
                     "[n]gcc                 Toggles the current line using linewise comment",
@@ -272,7 +270,7 @@ M.cheat_sheet = {
         },
         {
             type = "group",
-            val = M.col({
+            val = col({
                 {
                     "       << Neo-tree >>",
                     "[n]fb  Show neo-tree window",
@@ -291,7 +289,7 @@ M.cheat_sheet = {
         },
         {
             type = "group",
-            val = M.col({
+            val = col({
                 {
                     "       << nvim-neoclip >>",
                     "[n]cp  Open clipboard list"
@@ -313,21 +311,13 @@ M.cheat_sheet = {
     }
 }
 
-M.show_cheat_sheet = function ()
-    M.alpha.start(false, M.cheat_sheet)
+local alpha = require("alpha")
+
+function GreatingsShowCheetSheet()
+    alpha.start(false, cheat_sheet)
 end
+vim.keymap.set('n', '<c-h>', '<cmd>lua GreatingsShowCheetSheet()<cr>')
 
-M.setup = function ()
-    M.alpha = require("alpha")
-    local dashboard = require("alpha.themes.dashboard")
-    dashboard.section.header.val = M.headers[math.random(#M.headers)]
-    M.alpha.setup(dashboard.opts)
-
-    vim.keymap.set('n', '<c-h>', '<cmd>lua GreatingsShowCheetSheet()<cr>')
-end
-
-GreatingsShowCheetSheet = function ()
-    M.show_cheat_sheet()
-end
-
-return M
+local dashboard = require("alpha.themes.dashboard")
+dashboard.section.header.val = headers[math.random(#headers)]
+alpha.setup(dashboard.opts)

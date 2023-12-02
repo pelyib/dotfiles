@@ -1,22 +1,16 @@
-local M = {}
+local pelyib = {}
 
-M.opts = {
+pelyib.opts = {
     -- Order is important, it will load the modules in the given order.
     modules = {
         variables = true,
         vim = true,
         pluginmanager = true,
-        greater = true,
-        lsp = true,
-        telescope = true,
-        gitblame = true,
-        nvimufo = true,
-        toggleterm = true
     },
     localModulePath = '~/.config/nvim/lua/local/',
 }
 
-M.ensurePluginManagerInstalled = function ()
+function pelyib.ensurePluginManagerInstalled()
     local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
     if not vim.loop.fs_stat(lazypath) then
         vim.fn.system({
@@ -31,20 +25,20 @@ M.ensurePluginManagerInstalled = function ()
     vim.opt.rtp:prepend(lazypath)
 end
 
-M.setupModules = function ()
-    for module, enabled in pairs(M.opts.modules) do
+function pelyib.setupModules()
+    for module, enabled in pairs(pelyib.opts.modules) do
         if enabled then
-            M.setupLocalBeforeModule(module)
+            pelyib.setupLocalBeforeModule(module)
 
             local fullModuleName = 'pelyib.' .. module
             require(fullModuleName).setup()
 
-            M.setupLocalAfterModule(module)
+            pelyib.setupLocalAfterModule(module)
         end
     end
 end
 
-M.setupProjectModule = function ()
+function pelyib.setupProjectModule()
     local cwd = vim.fn.getcwd()
     local projectModule = cwd .. '/.local.lua'
     if vim.fn.filereadable(vim.fn.expand(projectModule)) == 1 then
@@ -52,30 +46,30 @@ M.setupProjectModule = function ()
     end
 end
 
-M.setupLocalModule = function (moduleName)
+function pelyib.setupLocalModule(moduleName)
     local localModuleName = 'local.' .. moduleName
-    local localModuleFile = M.opts.localModulePath .. moduleName .. '.lua'
+    local localModuleFile = pelyib.opts.localModulePath .. moduleName .. '.lua'
 
     if vim.fn.filereadable(vim.fn.expand(localModuleFile)) == 1 then
         require(localModuleName).setup()
     end
 end
 
-M.setupLocalBeforeModule = function (moduleName)
-    M.setupLocalModule('before' .. moduleName)
+function pelyib.setupLocalBeforeModule(moduleName)
+    pelyib.setupLocalModule('before' .. moduleName)
 end
 
-M.setupLocalAfterModule = function (moduleName)
-    M.setupLocalModule('after' .. moduleName)
+function pelyib.setupLocalAfterModule(moduleName)
+    pelyib.setupLocalModule('after' .. moduleName)
 end
 
-M.setup = function (opts)
+function pelyib.setup(opts)
     opts = opts or {}
-    M.opts = vim.tbl_deep_extend("force", M.opts, opts)
+    pelyib.opts = vim.tbl_deep_extend("force", pelyib.opts, opts)
 
-    M.ensurePluginManagerInstalled()
-    M.setupModules()
-    M.setupProjectModule()
+    pelyib.ensurePluginManagerInstalled()
+    pelyib.setupModules()
+    pelyib.setupProjectModule()
 end
 
-return M
+return pelyib

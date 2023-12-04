@@ -1,7 +1,0 @@
-{
-  "intelephense.licenceKey": "0123456ABCDEFG",
-  "intelephense.environment.phpVersion": "8.2.0",
-  "coc.preferences.extensionUpdateCheck": "daily",
-  "phpactor.enable": true,
-  "phpactor.path": "/path/of/phpactor/bin/folder/"
-}

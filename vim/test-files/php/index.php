@@ -12,7 +12,5 @@ class Foo
 $a = new Foo();
 $a->bar();
 
-$b = new Datetime();
-echo $b->format(DateTimeInterface::RFC3339);
-
-$a->bar();
+$b = new DateTime();
+echo $b->format(DateTimeInterface::RFC3339) . PHP_EOL . PHP_EOL;

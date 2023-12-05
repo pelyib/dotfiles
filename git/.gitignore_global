@@ -33,6 +33,9 @@ Temporary Items
 # PHPStorm
 .idea
 
+# Phpactor
+.phpactor.json
+
 # Dotfile
 .local.vim
 .local.lua

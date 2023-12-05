@@ -13,7 +13,7 @@ return {
                 check_on_startup = "none",
             },
             lspconfig = {
-                enabled = true,
+                enabled = false,
                 options = {},
             },
         })

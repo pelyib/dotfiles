@@ -3,10 +3,12 @@ local lsp = require('lsp-zero').preset({})
 lsp.on_attach(function(client, bufnr)
     lsp.default_keymaps({buffer = bufnr})
 
-    vim.keymap.set('n', 'gr', '<cmd>Telescope lsp_references<cr>', {buffer = true})
-    vim.keymap.set('n', 'gd', '<cmd>Telescope lsp_definitions<cr>', {buffer = true})
+    local builtin = require('telescope.builtin')
+
+    vim.keymap.set('n', 'gr', function () builtin.lsp_references({include_current_line = true, include_declaration = false}) end, {buffer = true})
+    vim.keymap.set('n', 'gd', function () builtin.lsp_definitions() end, {buffer = true})
     -- Don't know why but lsp-zero does not register this
-    vim.keymap.set('n', 'gi', '<cmd>Telescope lsp_implementations<cr>', {buffer = true})
+    vim.keymap.set('n', 'gi', function () builtin.lsp_implementations() end, {buffer = true})
 end)
 
 lsp.setup()

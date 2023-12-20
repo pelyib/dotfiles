@@ -40,6 +40,7 @@ return {
                     --theme = 'dropdown'
                 },
                 lsp_references = {
+                    show_line = false,
                     --theme = 'dropdown'
                 },
             }

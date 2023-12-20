@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - [NVIM] - telescope.lsp_reference doesn't show the line in the result list
 - [NVIM] - add some keymaps to the greater definition
+- [NVIM] - move PHP related things to after/ftplugin
 
 ## [0.0.17] - 2023-12-19
 

@@ -7,11 +7,14 @@ M.vars = {
     end,
     lazy = function ()
         vim.g.pelyib_codeium_enabled = false
+    end,
+    phpcsfixer = function ()
+        vim.g.php_cs_fixer_allow_risky = 'yes'
     end
 }
 
 M.setup = function ()
-    for key, fn in pairs(M.vars) do
+    for _, fn in pairs(M.vars) do
         fn()
     end
 end

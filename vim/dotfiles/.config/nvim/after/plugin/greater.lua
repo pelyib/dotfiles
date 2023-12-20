@@ -259,11 +259,9 @@ local cheat_sheet = {
                     "               << Telescope >>",
                     "[n]<leader>ff  Open file finder",
                     "[n]<leader>fg  Open live grep",
+                    "[n]<leader>fG  Open live grep with args support",
                     "[n]gfh         Show GIT history of the file",
                     "[n]gh          Show GIT history of the repo",
-                },
-                {
-                    " << nvim-ufo >>"
                 },
             }),
             opts = {}
@@ -292,10 +290,13 @@ local cheat_sheet = {
             val = col({
                 {
                     "       << nvim-neoclip >>",
-                    "[n]cp  Open clipboard list"
+                    "[n]cp  Open clipboard list",
+                    ""
                 },
                 {
-                    " << ??? >>"
+                    "    << nvim-ufo >>   ",
+                    "[n]zc  Close block",
+                    "[n]zo  Open block"
                 },
                 {
                     " << ??? >> "
@@ -312,12 +313,7 @@ local cheat_sheet = {
 }
 
 local alpha = require("alpha")
-
-function GreatingsShowCheetSheet()
-    alpha.start(false, cheat_sheet)
-end
-vim.keymap.set('n', '<c-h>', '<cmd>lua GreatingsShowCheetSheet()<cr>')
-
 local dashboard = require("alpha.themes.dashboard")
+vim.keymap.set('n', '<c-h>', function () alpha.start(false, cheat_sheet) end)
 dashboard.section.header.val = headers[math.random(#headers)]
 alpha.setup(dashboard.opts)

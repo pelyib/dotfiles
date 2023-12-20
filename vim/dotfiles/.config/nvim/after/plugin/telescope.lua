@@ -2,6 +2,7 @@ local builtin = require('telescope.builtin')
 
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+vim.keymap.set("n", "<leader>fga", function () require('telescope').extensions.live_grep_args.live_grep_args() end )
 vim.keymap.set('n', '<leader>fG', function () builtin.live_grep({ default_text = vim.fn.expand('<cword>')}) end)
 vim.keymap.set('v', '<leader>fg', function ()
     vim.cmd('noau normal! "vy"')

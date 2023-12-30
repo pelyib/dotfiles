@@ -18,3 +18,27 @@ end)
 vim.keymap.set('n', 'csf', function ()
     vim.api.nvim_call_function('PhpCsFixerFixFile', {})
 end)
+
+local testRunner = require("pelyib.php-test-runner")
+testRunner.setup()
+
+-- TODO: run test method
+-- unit test criteria: current line is a "function" + method name starts with "test" + the file name ends with "Test"
+-- API or other tests: current line is a "function" + method is public + the file name ends with "Cest"
+-- suite: check the file path
+
+-- Run a test case
+vim.keymap.set('n', 'ptt', function ()
+    testRunner.runOneCase()
+end)
+
+-- Run all cases in the file
+vim.keymap.set('n', 'pta', function ()
+    testRunner.runOneFile()
+end)
+
+-- Run a suite
+vim.keymap.set('n', 'pts', function ()
+    -- TODO: display the available suite list, read the selected one and call the test runner [botond.pelyi]
+    testRunner.runSuite("unit")
+end)

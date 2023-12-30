@@ -1,7 +1,6 @@
 return {
     "gbprod/phpactor.nvim",
-    --tag = "v1.0.0", latest fix is not released yet and causing an error [botond.pelyi]
-    commit = "5c8227d324a19c4c54d38c262241ce5687f38414",
+    tag = "v1.0.1",
     config = function()
         require("phpactor").setup({
             install = {

@@ -1,3 +1,8 @@
+---@class M
+---@field opts opts
+local M = {
+}
+
 ---@class opts
 local opts = {
     verbose = {
@@ -17,6 +22,12 @@ local opts = {
     },
 }
 
+---@class runner
+local runner = {
+    LOCAL = 'local',
+    MAKE = 'make',
+}
+
 ---@class testCase
 ---@field class string
 ---@field method string
@@ -25,41 +36,17 @@ local opts = {
 ---@field isCodeceptTest boolean
 local testCase = {}
 
+local function sendNotification(message)
+    if M.opts.verbose.enabled then
+        vim.notify(vim.inspect(message), vim.log.levels.INFO, {title = "PHP test runner"} )
+    end
+end
+
 local function runTest(command)
     -- to call external commands
     -- vim.fn.system("put here the command")
-    -- Spawn for async
-    -- vim.loop.spawn()
-    --require("pelyib.shell-runner")({"echo", "maci", "laci"})
-    require("pelyib.shell-runner")({"make", "test.run", "suite=unit"})
-end
-
----@class runner
-local runner = {
-    LOCAL = 'local',
-    MAKE = 'make',
-}
-
-local notify = require("notify")
-local notifyOpts = {title = "PHP test runner"}
-
----@class pelyib.phpTestRunner
----@field opts opts
-local M = {
-}
-
-function M.setup(commandMaker)
-    local root = vim.fn.getcwd()
-    M.opts = opts
-    if vim.fn.filereadable(vim.fn.expand(root .. '/vendor/bin/phpunit')) == 1 then
-        M.opts.frameworks.phpunit.available = true
-    end
-    if vim.fn.filereadable(vim.fn.expand(root .. '/vendor/bin/codecept')) == 1 then
-        M.opts.frameworks.codeception.available = true
-    end
-    -- if commandMaker ~= nil then
-    --     M.commandMaker = commandMaker
-    -- end
+    sendNotification(command)
+    require("pelyib.shell-runner")(command)
 end
 
 ---@return testCase
@@ -71,7 +58,7 @@ local function testCaseFactory()
 
     repeat
         if node == nil then
-            return
+            return {}
         end
 
         parent = node:parent()
@@ -98,52 +85,70 @@ local function testCaseFactory()
     until node:parent() == nil
 
     if method == nil or class == nil then
-        notify.notify("Could not find test case", vim.log.levels.INFO, notifyOpts)
+        sendNotification("Could not find test case")
     end
 
-    tc = {
-        class = tsUtils.get_node_text(class:child(2), bufnr)[1],
+    local tc = {
+        class = tsUtils.get_node_text(class:child(1), bufnr)[1], -- TODO: refact the class, it should be an object, name and relative path [botond.pelyi]
         method = tsUtils.get_node_text(method:child(2), bufnr)[1],
         suite = tsUtils.get_node_text(suite, bufnr)[1],
         isUnitTest = vim.fn.stridx(tsUtils.get_node_text(class:child(2), bufnr)[1], "Test") > -1,
         isCodeceptTest = vim.fn.stridx(tsUtils.get_node_text(class:child(2), bufnr)[1], "Cest") > -1,
     }
 
-    notify.notify(string.format(
+    sendNotification(string.format(
     "Class: %s\nMethod: %s\nSuite: %s\nIs unit test: %s\nIs Codeception: %s",
     tc.class,
     tc.method,
     tc.suite,
     tostring(tc.isUnitTest),
     tostring(tc.isCodeceptTest)
-    ), vim.log.levels.INFO, notifyOpts)
+    ))
 
     return tc
 end
 
----@param testCase testCase
-function M.buildCommand(testCase)
+---@param tc testCase
+local function buildCommand(tc)
     -- TODO: need some parameter to build the command [botond.pelyi]
+    return {
+        "make",
+        "env=test",
+        "test",
+        string.format("test=\"%s:%s\"", vim.fn.expand("%:r"), tc.method)
+    }
+end
+
+function M.setup(commandMaker)
+    local root = vim.fn.getcwd()
+    M.opts = opts
+    if vim.fn.filereadable(vim.fn.expand(root .. '/vendor/bin/phpunit')) == 1 then
+        M.opts.frameworks.phpunit.available = true
+    end
+    if vim.fn.filereadable(vim.fn.expand(root .. '/vendor/bin/codecept')) == 1 then
+        M.opts.frameworks.codeception.available = true
+    end
+    -- if commandMaker ~= nil then
+    --     M.commandMaker = commandMaker
+    -- end
 end
 
 function M.runOneCase()
     local tc = testCaseFactory()
 
-    notify.notify(
-    string.format("Codeception: %s\nPhpUnit: %s", tostring(M.opts.frameworks.codeception.available), tostring(M.opts.frameworks.phpunit.available)),
-    vim.log.levels.INFO,
-    notifyOpts
-    )
+    -- notify.notify(
+    -- string.format("Codeception: %s\nPhpUnit: %s", tostring(M.opts.frameworks.codeception.available), tostring(M.opts.frameworks.phpunit.available)),
+    -- vim.log.levels.INFO,
+    -- notifyOpts
+    -- )
 
-    runTest()
+    runTest(buildCommand(tc))
 end
 
 function M.runOneFile()
-
 end
 
 function M.runSuite(suite)
 end
-
 
 return M

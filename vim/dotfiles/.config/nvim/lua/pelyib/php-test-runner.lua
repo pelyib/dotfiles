@@ -1,6 +1,7 @@
 ---@class M
 ---@field opts opts
 local M = {
+    notify = require("pelyib.notifier")
 }
 
 ---@class opts
@@ -36,16 +37,10 @@ local runner = {
 ---@field isCodeceptTest boolean
 local testCase = {}
 
-local function sendNotification(message)
-    if M.opts.verbose.enabled then
-        vim.notify(vim.inspect(message), vim.log.levels.INFO, {title = "PHP test runner"} )
-    end
-end
-
 local function runTest(command)
     -- to call external commands
     -- vim.fn.system("put here the command")
-    sendNotification(command)
+    M.notify.debug(command)
     require("pelyib.shell-runner")(command)
 end
 
@@ -65,38 +60,46 @@ local function testCaseFactory()
         node = parent
 
         if method == nil and node:type() == "method_declaration" then
-            method = node
+            for methodDecChild in node:iter_children() do
+                if methodDecChild:type() == "name" then
+                    method = methodDecChild
+                end
+            end
         end
 
         if class == nil and node:type() == "class_declaration" then
-            class = node
-            local sibling = class:prev_sibling()
-            repeat
-                if suite == nil and sibling:type() == "namespace_definition" then
-                    for item in sibling:child(1):iter_children() do
-                        if tsUtils.get_node_text(item, bufnr)[1] == "Test" then
-                            suite = item:next_sibling():next_sibling()
+            for classDecChild in node:iter_children() do
+                if classDecChild:type() == "name" then
+                    class = classDecChild
+                    local sibling = class:prev_sibling()
+                    repeat
+                        if suite == nil and sibling:type() == "namespace_definition" then
+                            for namespaceDefItem in sibling:child(1):iter_children() do
+                                if tsUtils.get_node_text(namespaceDefItem, bufnr)[1] == "Test" then
+                                    suite = namespaceDefItem:next_sibling():next_sibling()
+                                end
+                            end
                         end
-                    end
+                        sibling = sibling:prev_sibling()
+                    until sibling == nil
                 end
-                sibling = sibling:prev_sibling()
-            until sibling == nil
+            end
         end
     until node:parent() == nil
 
     if method == nil or class == nil then
-        sendNotification("Could not find test case")
+        M.notify.info("Could not find any test")
     end
 
     local tc = {
-        class = tsUtils.get_node_text(class:child(1), bufnr)[1], -- TODO: refact the class, it should be an object, name and relative path [botond.pelyi]
-        method = tsUtils.get_node_text(method:child(2), bufnr)[1],
+        class = tsUtils.get_node_text(class, bufnr)[1], -- TODO: refact the class, it should be an object, name and relative path [botond.pelyi]
+        method = tsUtils.get_node_text(method, bufnr)[1],
         suite = tsUtils.get_node_text(suite, bufnr)[1],
         isUnitTest = vim.fn.stridx(tsUtils.get_node_text(class:child(2), bufnr)[1], "Test") > -1,
         isCodeceptTest = vim.fn.stridx(tsUtils.get_node_text(class:child(2), bufnr)[1], "Cest") > -1,
     }
 
-    sendNotification(string.format(
+    M.notify.debug(string.format(
     "Class: %s\nMethod: %s\nSuite: %s\nIs unit test: %s\nIs Codeception: %s",
     tc.class,
     tc.method,
@@ -136,11 +139,7 @@ end
 function M.runOneCase()
     local tc = testCaseFactory()
 
-    -- notify.notify(
-    -- string.format("Codeception: %s\nPhpUnit: %s", tostring(M.opts.frameworks.codeception.available), tostring(M.opts.frameworks.phpunit.available)),
-    -- vim.log.levels.INFO,
-    -- notifyOpts
-    -- )
+    M.notify.debug(string.format("Codeception: %s\nPhpUnit: %s", tostring(M.opts.frameworks.codeception.available), tostring(M.opts.frameworks.phpunit.available)))
 
     runTest(buildCommand(tc))
 end

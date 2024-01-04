@@ -22,11 +22,6 @@ end)
 local testRunner = require("pelyib.php-test-runner")
 testRunner.setup()
 
--- TODO: run test method
--- unit test criteria: current line is a "function" + method name starts with "test" + the file name ends with "Test"
--- API or other tests: current line is a "function" + method is public + the file name ends with "Cest"
--- suite: check the file path
-
 -- Run a test case
 vim.keymap.set('n', 'ptt', function ()
     testRunner.runOneCase()
@@ -34,11 +29,16 @@ end)
 
 -- Run all cases in the file
 vim.keymap.set('n', 'pta', function ()
-    testRunner.runOneFile()
+    testRunner.runOneClass()
 end)
 
 -- Run a suite
 vim.keymap.set('n', 'pts', function ()
-    -- TODO: display the available suite list, read the selected one and call the test runner [botond.pelyi]
-    testRunner.runSuite("unit")
+    -- TODO read test/suite folder for the list [botond.pelyi]
+    vim.ui.select({"integration", "unit"}, {prompt = "Select the suite to run"}, function (choice)
+        if choice == nil then
+            return
+        end
+        testRunner.runSuite(choice)
+    end)
 end)

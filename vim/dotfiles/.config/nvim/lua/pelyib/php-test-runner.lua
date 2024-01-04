@@ -1,11 +1,34 @@
 ---@class M
----@field opts opts
+---@field opts defaultOpts
 local M = {
     notify = require("pelyib.notifier")
 }
 
----@class opts
-local opts = {
+---@enum target
+local target = {
+    METHOD = 'method',
+    CLASS = 'class',
+    SUITE = 'suite',
+}
+
+---@class testCase
+---@field class string|nil
+---@field method string|nil
+---@field suite string|nil
+---@field isUnitTest boolean
+---@field isCodeceptTest boolean
+---@field target target|nil
+local testCase = {
+    class = nil,
+    method = nil,
+    suite = nil,
+    isUnitTest = false,
+    isCodeceptTest = false,
+    target = nil,
+}
+
+---@class defaultOpts
+local defaultOpts = {
     verbose = {
         enabled = false
     },
@@ -21,26 +44,37 @@ local opts = {
             path = vim.fn.getcwd() .. '/vendor/bin/codepect'
         }
     },
-}
+    command = {
+        env = {"make", "env=test", "test.run"},
+        framework = {},
+        args = {
+            ---@param tc testCase
+            function (tc)
+                local serializer = {
+                    [target.METHOD] = function (tc)
+                        return string.format("suite=\"%s:%s\"", vim.fn.expand("%:r"), tc.method)
+                    end,
+                    [target.CLASS] = function (tc)
+                        return string.format("suite=\"%s\"", vim.fn.expand("%:r"))
+                    end,
+                    [target.SUITE] = function (tc)
+                        return string.format("suite=\"%s\"", tc.suite)
+                    end
+                }
 
----@class runner
-local runner = {
-    LOCAL = 'local',
-    MAKE = 'make',
-}
+                local case = serializer[tc.target]
+                if case then
+                    return case(tc)
+                end
 
----@class testCase
----@field class string
----@field method string
----@field suite string
----@field isUnitTest boolean
----@field isCodeceptTest boolean
-local testCase = {}
+                return ""
+            end
+        },
+    }
+}
 
 local function runTest(command)
-    -- to call external commands
-    -- vim.fn.system("put here the command")
-    M.notify.debug(command)
+    M.notify.info(command)
     require("pelyib.shell-runner")(command)
 end
 
@@ -53,13 +87,13 @@ local function testCaseFactory()
 
     repeat
         if node == nil then
-            return {}
+            return testCase
         end
 
         parent = node:parent()
         node = parent
 
-        if method == nil and node:type() == "method_declaration" then
+        if method == nil and node ~= nil and node:type() == "method_declaration" then
             for methodDecChild in node:iter_children() do
                 if methodDecChild:type() == "name" then
                     method = methodDecChild
@@ -67,7 +101,7 @@ local function testCaseFactory()
             end
         end
 
-        if class == nil and node:type() == "class_declaration" then
+        if class == nil and node ~= nil and node:type() == "class_declaration" then
             for classDecChild in node:iter_children() do
                 if classDecChild:type() == "name" then
                     class = classDecChild
@@ -87,16 +121,12 @@ local function testCaseFactory()
         end
     until node:parent() == nil
 
-    if method == nil or class == nil then
-        M.notify.info("Could not find any test")
-    end
-
     local tc = {
-        class = tsUtils.get_node_text(class, bufnr)[1], -- TODO: refact the class, it should be an object, name and relative path [botond.pelyi]
-        method = tsUtils.get_node_text(method, bufnr)[1],
-        suite = tsUtils.get_node_text(suite, bufnr)[1],
-        isUnitTest = vim.fn.stridx(tsUtils.get_node_text(class:child(2), bufnr)[1], "Test") > -1,
-        isCodeceptTest = vim.fn.stridx(tsUtils.get_node_text(class:child(2), bufnr)[1], "Cest") > -1,
+        class = class and tsUtils.get_node_text(class, bufnr)[1] or nil, -- TODO: refact the class, it should be an object, name and relative path [botond.pelyi]
+        method = method and tsUtils.get_node_text(method, bufnr)[1] or nil,
+        suite = suite and tsUtils.get_node_text(suite, bufnr)[1] or nil,
+        isUnitTest = class and vim.fn.stridx(tsUtils.get_node_text(class, bufnr)[1], "Test") > -1 or false,
+        isCodeceptTest = class and vim.fn.stridx(tsUtils.get_node_text(class, bufnr)[1], "Cest") > -1 or false,
     }
 
     M.notify.debug(string.format(
@@ -112,42 +142,63 @@ local function testCaseFactory()
 end
 
 ---@param tc testCase
-local function buildCommand(tc)
-    -- TODO: need some parameter to build the command [botond.pelyi]
-    return {
-        "make",
-        "env=test",
-        "test",
-        string.format("test=\"%s:%s\"", vim.fn.expand("%:r"), tc.method)
-    }
+local function buildCommand(commandEnv, tc)
+    local cmd = {}
+--    for key, section in pairs(commandEnv) do
+    for _, section in pairs({"env", "framework", "args"}) do
+        for _, item in pairs(commandEnv[section]) do
+            if type(item) == "string" then
+                table.insert(cmd, item)
+            elseif type(item) == "function" then
+                table.insert(cmd, item(tc))
+            end
+        end
+    end
+
+    return cmd
 end
 
-function M.setup(commandMaker)
+function M.setup(opts)
     local root = vim.fn.getcwd()
-    M.opts = opts
+    opts = opts or {}
+    M.opts = vim.tbl_deep_extend("force", defaultOpts, opts)
     if vim.fn.filereadable(vim.fn.expand(root .. '/vendor/bin/phpunit')) == 1 then
         M.opts.frameworks.phpunit.available = true
     end
     if vim.fn.filereadable(vim.fn.expand(root .. '/vendor/bin/codecept')) == 1 then
         M.opts.frameworks.codeception.available = true
     end
-    -- if commandMaker ~= nil then
-    --     M.commandMaker = commandMaker
-    -- end
 end
 
 function M.runOneCase()
     local tc = testCaseFactory()
+    if tc.class == nil or tc.method == nil then
+        M.notify.info("Cursor is not in a test method")
+        M.notify.info(tc)
+        return
+    end
+
+    tc.target = target.METHOD
 
     M.notify.debug(string.format("Codeception: %s\nPhpUnit: %s", tostring(M.opts.frameworks.codeception.available), tostring(M.opts.frameworks.phpunit.available)))
 
-    runTest(buildCommand(tc))
+    runTest(buildCommand(M.opts.command, tc))
 end
 
-function M.runOneFile()
+function M.runOneClass()
+    local tc = testCaseFactory()
+    if tc.class == nil then
+        M.notify.info("Cursor is not in a test class")
+        return
+    end
+
+    tc.target = target.CLASS
+    runTest(buildCommand(M.opts.command, tc))
 end
 
 function M.runSuite(suite)
+    local tc = vim.tbl_extend("force", testCase, {suite = suite, target = target.SUITE})
+    runTest(buildCommand(M.opts.command, tc))
 end
 
 return M

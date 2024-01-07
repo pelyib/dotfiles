@@ -4,8 +4,14 @@ return {
     branch = "v2.x",
     dependencies = {
         "nvim-lua/plenary.nvim",
-        "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-        "MunifTanjim/nui.nvim",
+        {
+            "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+            commit = "cff25ce621e6d15fae0b0bfe38c00be50ce38468",
+        },
+        {
+            "MunifTanjim/nui.nvim",
+            commit = "35da9ca1de0fc4dda96c2e214d93d363c145f418",
+        }
     },
     config = function ()
         -- disable netrw at the very start of your init.lua (strongly advised)

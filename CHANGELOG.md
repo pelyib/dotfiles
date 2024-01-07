@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - [NVIM] - PHP test runner refactored, command building can be injected.
+- [NVIM] - Lazy: specify dependency version
 
 ### Removed
 - [NVIM] - remove local/init.lua.dist becuase other files took over its job

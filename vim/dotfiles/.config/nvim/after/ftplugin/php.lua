@@ -20,15 +20,19 @@ vim.keymap.set('n', 'csf', function ()
 end)
 
 local testRunner = require("pelyib.php-test-runner")
-testRunner.setup()
+local opts = {}
+if vim.fn.filereadable(vim.fn.expand("~/.config/nvim/lua/local/php-test-runner.lua")) == 1 then
+    opts = require("local.php-test-runner")
+end
+testRunner.setup(opts)
 
 -- Run a test case
-vim.keymap.set('n', 'ptt', function ()
+vim.keymap.set('n', 'ptc', function ()
     testRunner.runOneCase()
 end)
 
 -- Run all cases in the file
-vim.keymap.set('n', 'pta', function ()
+vim.keymap.set('n', 'ptf', function ()
     testRunner.runOneClass()
 end)
 

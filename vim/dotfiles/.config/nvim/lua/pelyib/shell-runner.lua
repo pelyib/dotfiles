@@ -9,6 +9,8 @@ return function (command)
     local notify = function (msg, level)
         vim.notify(msg, level, { title = table.concat(command, " ") })
     end
+    --@TODO: find the first single word instead of the first item [botond.pelyi]
+    -- example: env=test make test
     vim.loop.spawn(command[1], {
         stdio = { stdin, stdout, stderr },
         detached = true,

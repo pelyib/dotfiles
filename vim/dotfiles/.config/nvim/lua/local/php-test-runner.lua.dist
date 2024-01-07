@@ -1,0 +1,36 @@
+--[[
+Example
+Each steps can contain any number of command.
+Command can be a simple string or a function.
+Function has only one parameter `pelyi.php-test-runner.testCase`.
+--]]
+
+return {
+    command = {
+        env = {"make", "env=test", "test.run"},
+        framework = {},
+        args = {
+            ---@param tc testCase
+            function (tc)
+                local serializer = {
+                    [Target.METHOD] = function (tc)
+                        return string.format("suite=\"%s:%s\"", vim.fn.expand("%:r"), tc.method)
+                    end,
+                    [Target.CLASS] = function (tc)
+                        return string.format("suite=\"%s\"", vim.fn.expand("%:r"))
+                    end,
+                    [Target.SUITE] = function (tc)
+                        return string.format("suite=\"%s\"", tc.suite)
+                    end
+                }
+
+                local case = serializer[tc.target]
+                if case then
+                    return case(tc)
+                end
+
+                return ""
+            end
+        },
+    }
+}

@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.21] - 2024-01-07
 
+### Changed
+- [NVIM] - PHP test runner refactored, command building can be injected.
+
 ### Removed
 - [NVIM] - remove local/init.lua.dist becuase other files took over its job
 

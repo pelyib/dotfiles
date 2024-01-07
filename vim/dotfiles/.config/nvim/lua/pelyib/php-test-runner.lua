@@ -5,7 +5,7 @@ local M = {
 }
 
 ---@enum target
-local target = {
+Target = {
     METHOD = 'method',
     CLASS = 'class',
     SUITE = 'suite',
@@ -45,31 +45,9 @@ local defaultOpts = {
         }
     },
     command = {
-        env = {"make", "env=test", "test.run"},
+        env = {"echo", "no command configured"},
         framework = {},
-        args = {
-            ---@param tc testCase
-            function (tc)
-                local serializer = {
-                    [target.METHOD] = function (tc)
-                        return string.format("suite=\"%s:%s\"", vim.fn.expand("%:r"), tc.method)
-                    end,
-                    [target.CLASS] = function (tc)
-                        return string.format("suite=\"%s\"", vim.fn.expand("%:r"))
-                    end,
-                    [target.SUITE] = function (tc)
-                        return string.format("suite=\"%s\"", tc.suite)
-                    end
-                }
-
-                local case = serializer[tc.target]
-                if case then
-                    return case(tc)
-                end
-
-                return ""
-            end
-        },
+        args = {}
     }
 }
 
@@ -83,6 +61,16 @@ local function testCaseFactory()
     local bufnr = vim.api.nvim_get_current_buf()
     local tsUtils = require("nvim-treesitter.ts_utils")
     local node = tsUtils.get_node_at_cursor()
+    --@TODO: use the query solution instead of iterating over the nodes [botond.pelyi]
+    -- local cRow, _ = unpack(vim.api.nvim_win_get_cursor(0))
+    -- local parser = vim.treesitter.get_parser(bufnr, "php")
+    -- local root = parser:parse()[1]:root()
+    -- local tsQuery = require("vim.treesitter.query")
+    -- local classNameQuery = tsQuery.parse_query('php', "(class_declaration body: (declaration_list (method_declaration name: (name) @methodsName )))")
+    -- for _, found, _ in classNameQuery:iter_captures(root, bufnr, 0, cRow) do
+    --     vim.notify(tsUtils.get_node_text(found, bufnr)[1])
+    -- end
+
     local parent, method, class, suite
 
     repeat
@@ -144,7 +132,6 @@ end
 ---@param tc testCase
 local function buildCommand(commandEnv, tc)
     local cmd = {}
---    for key, section in pairs(commandEnv) do
     for _, section in pairs({"env", "framework", "args"}) do
         for _, item in pairs(commandEnv[section]) do
             if type(item) == "string" then
@@ -160,8 +147,7 @@ end
 
 function M.setup(opts)
     local root = vim.fn.getcwd()
-    opts = opts or {}
-    M.opts = vim.tbl_deep_extend("force", defaultOpts, opts)
+    M.opts = vim.tbl_deep_extend("force", defaultOpts, opts or {})
     if vim.fn.filereadable(vim.fn.expand(root .. '/vendor/bin/phpunit')) == 1 then
         M.opts.frameworks.phpunit.available = true
     end
@@ -174,14 +160,10 @@ function M.runOneCase()
     local tc = testCaseFactory()
     if tc.class == nil or tc.method == nil then
         M.notify.info("Cursor is not in a test method")
-        M.notify.info(tc)
         return
     end
 
-    tc.target = target.METHOD
-
-    M.notify.debug(string.format("Codeception: %s\nPhpUnit: %s", tostring(M.opts.frameworks.codeception.available), tostring(M.opts.frameworks.phpunit.available)))
-
+    tc.target = Target.METHOD
     runTest(buildCommand(M.opts.command, tc))
 end
 
@@ -192,12 +174,12 @@ function M.runOneClass()
         return
     end
 
-    tc.target = target.CLASS
+    tc.target = Target.CLASS
     runTest(buildCommand(M.opts.command, tc))
 end
 
 function M.runSuite(suite)
-    local tc = vim.tbl_extend("force", testCase, {suite = suite, target = target.SUITE})
+    local tc = vim.tbl_extend("force", testCase, {suite = suite, target = Target.SUITE})
     runTest(buildCommand(M.opts.command, tc))
 end
 

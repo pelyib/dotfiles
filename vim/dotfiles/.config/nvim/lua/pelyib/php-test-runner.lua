@@ -52,7 +52,7 @@ local defaultOpts = {
 }
 
 local function runTest(command)
-    M.notify.info(command)
+    M.notify.debug(command)
     require("pelyib.shell-runner")(command)
 end
 

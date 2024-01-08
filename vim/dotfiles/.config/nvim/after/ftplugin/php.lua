@@ -38,8 +38,16 @@ end)
 
 -- Run a suite
 vim.keymap.set('n', 'pts', function ()
-    -- TODO read test/suite folder for the list [botond.pelyi]
-    vim.ui.select({"integration", "unit"}, {prompt = "Select the suite to run"}, function (choice)
+    local suites = {}
+    local p = io.popen('find "' .. vim.fn.getcwd() ..'/test/suite" -type d -depth 1')
+    if p == nil then
+        vim.notify("No suite in the test/suite directory", vim.log.levels.INFO, {title = "PHP test runner"})
+        return
+    end
+    for file in p:lines() do
+        table.insert(suites, vim.fn.fnamemodify(file, ":t"))
+    end
+    vim.ui.select(suites, {prompt = "Select the suite to run"}, function (choice)
         if choice == nil then
             return
         end

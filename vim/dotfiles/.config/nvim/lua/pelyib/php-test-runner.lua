@@ -53,7 +53,30 @@ local defaultOpts = {
 
 local function runTest(command)
     M.notify.debug(command)
-    require("pelyib.shell-runner")(command)
+    require("pelyib.shell-runner")(command, function (code, success, error)
+        if #success > 0 then
+            local lines = {}
+            for line in success:gmatch("([^\n]*)\n?") do
+                table.insert(lines, line)
+            end
+
+            local totalLines = #lines
+            local result = {}
+            for i = math.max(1, totalLines - 2), totalLines do
+                table.insert(result, lines[i])
+            end
+
+            M.notify.info(lines[#lines - 1])
+        end
+
+        if #error > 0 then
+            M.notify.warning("Banan")
+        end
+
+        if #success == 0 and #error == 0 then
+            M.notify.info("No output of command, exit code: " .. code)
+        end
+    end)
 end
 
 ---@return testCase

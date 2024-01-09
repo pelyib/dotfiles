@@ -48,35 +48,25 @@ local defaultOpts = {
         env = {"echo", "no command configured"},
         framework = {},
         args = {}
-    }
-}
-
-local function runTest(command)
-    M.notify.debug(command)
-    require("pelyib.shell-runner")(command, function (code, success, error)
+    },
+    callback = function (code, success, error)
         if #success > 0 then
-            local lines = {}
-            for line in success:gmatch("([^\n]*)\n?") do
-                table.insert(lines, line)
-            end
-
-            local totalLines = #lines
-            local result = {}
-            for i = math.max(1, totalLines - 2), totalLines do
-                table.insert(result, lines[i])
-            end
-
-            M.notify.info(lines[#lines - 1])
+            M.notify.info(success)
         end
 
         if #error > 0 then
-            M.notify.warning("Banan")
+            M.notify.warning(error)
         end
 
         if #success == 0 and #error == 0 then
             M.notify.info("No output of command, exit code: " .. code)
         end
-    end)
+    end
+}
+
+local function runTest(command, callback)
+    M.notify.debug(command)
+    require("pelyib.shell-runner")(command, callback)
 end
 
 ---@return testCase
@@ -177,6 +167,7 @@ function M.setup(opts)
     if vim.fn.filereadable(vim.fn.expand(root .. '/vendor/bin/codecept')) == 1 then
         M.opts.frameworks.codeception.available = true
     end
+    M.notify.setup({vimNotOpts = {title="PHP test runner"}})
 end
 
 function M.runOneCase()
@@ -187,7 +178,7 @@ function M.runOneCase()
     end
 
     tc.target = Target.METHOD
-    runTest(buildCommand(M.opts.command, tc))
+    runTest(buildCommand(M.opts.command, tc), M.opts.callback)
 end
 
 function M.runOneClass()
@@ -198,12 +189,12 @@ function M.runOneClass()
     end
 
     tc.target = Target.CLASS
-    runTest(buildCommand(M.opts.command, tc))
+    runTest(buildCommand(M.opts.command, tc), M.opts.callback)
 end
 
 function M.runSuite(suite)
     local tc = vim.tbl_extend("force", testCase, {suite = suite, target = Target.SUITE})
-    runTest(buildCommand(M.opts.command, tc))
+    runTest(buildCommand(M.opts.command, tc), M.opts.callback)
 end
 
 return M

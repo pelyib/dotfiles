@@ -6,18 +6,21 @@ local level = {
     ERROR = 400,
 }
 
+---@class pelyib.notifier
+---@field opts defaultOpts
+local M = {}
 
----@class M
-local M = {
-    verbose = {
-        level = level.INFO,
-    },
+---@class defaultOpts
+local defaultOpts = {
+    vimNotOpts = {
+        title = "[pelyib.notifier] - default"
+    }
 }
 
+---@param level integer
+---@param message any
 local function notify(level, message)
-    if level >= M.verbose.level then
-        vim.notify(vim.inspect(message), level/100, {})
-    end
+    vim.notify(vim.inspect(message), level/100, M.opts.vimNotOpts)
 end
 
 function M.debug(message)
@@ -36,5 +39,9 @@ function M.error(message)
     notify(level.ERROR, message)
 end
 
+---@param opts defaultOpts
+function M.setup(opts)
+    M.opts = vim.tbl_deep_extend("force", defaultOpts, opts or {})
+end
 
 return M

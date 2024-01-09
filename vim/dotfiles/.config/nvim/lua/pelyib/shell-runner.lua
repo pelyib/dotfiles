@@ -8,13 +8,17 @@ return function (command, clientCallback)
     local output = ""
     local error_output = ""
 
-    local callback = function (code, _)
+    local function closePipes()
         stdin:close()
         stdout:close()
         stderr:close()
-        local result, _ = pcall(function () clientCallback(code, output, error_output) end)
-        if not result then
-            vim.notify("Callback script is not callable or failed", vim.log.levels.WARN, {"Shell script runner"})
+    end
+
+    local callback = function (code, _)
+        closePipes()
+        local success, result = pcall(function () clientCallback(code, output, error_output) end)
+        if not success then
+            vim.notify("Callback script is not callable or failed\n" .. vim.inspect(result), vim.log.levels.WARN, {"Shell script runner"})
         end
     end
 

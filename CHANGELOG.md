@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.24] - 2024-04-18
+
+### Added
+- [NVIM] - spell check: working with PHP files (including camel case)
+
 ## [0.0.23] - 2024-01-09
 
 ### Changed
@@ -22,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [NVIM] - Lazy: specify dependency version
 
 ### Removed
-- [NVIM] - remove local/init.lua.dist becuase other files took over its job
+- [NVIM] - remove local/init.lua.dist because other files took over its job
 
 ## [0.0.20] - 2023-12-30
 
@@ -115,7 +120,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [MIGRATION.md](MIGRATION.md) file for fast migration between versions
 
 ### Changed
-- Rename "appication.md" files to README.md
+- Rename "application.md" files to README.md
 - Reformat and add short description about the apps in the root [README.md](/README.md)
 - [GIT] - [prepare-commit-msg](git/hooks/prepare-commit-msg) is executable now
 

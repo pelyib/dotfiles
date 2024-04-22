@@ -18,6 +18,7 @@ M.setup = function ()
         precedes='<'
     }
     vim.opt.spell=true
+    vim.opt.spelloptions='camel'
     vim.opt.shada=NONE
     vim.opt.scrolloff=5000
     vim.opt.scroll=10

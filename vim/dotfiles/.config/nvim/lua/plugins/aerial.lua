@@ -11,6 +11,5 @@ return {
                 relative='win'
             }
         })
-        vim.keymap.set('n', 'ar', ':AerialToggle<CR>')
     end
 }

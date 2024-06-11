@@ -25,4 +25,5 @@ vim.keymap.set('n', 'gic', builtin.lsp_incoming_calls, {})
 vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, {})
 
 vim.keymap.set('n', 'cp', '<cmd>Telescope neoclip<cr>')
+vim.keymap.set('n', 'ar', '<cmd>Telescope aerial<cr>')
 vim.keymap.set('n', 'gn', function () require('telescope').extensions.notify.notify() end)

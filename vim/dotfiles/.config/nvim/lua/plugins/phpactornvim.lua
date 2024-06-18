@@ -1,5 +1,6 @@
 return {
     "gbprod/phpactor.nvim",
+    enabled = true,
     tag = "v1.0.1",
     config = function()
         require("phpactor").setup({

@@ -1,5 +1,6 @@
 return {
     'nvim-treesitter/nvim-treesitter',
+    enabled = true,
     lazy=false,
     tag = 'v0.9.1',
     config = function ()

@@ -1,6 +1,7 @@
 return {
     'kevinhwang91/nvim-ufo',
-    tag = "v1.3.0",
+    enabled = true,
+    tag = "v1.4.0",
     lazy = false,
     dependencies = {
         'kevinhwang91/promise-async'

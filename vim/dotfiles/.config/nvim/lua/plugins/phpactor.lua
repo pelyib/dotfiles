@@ -1,5 +1,6 @@
 return {
     'phpactor/phpactor',
+    enabled = true,
     tag = "2023.09.24.0",
     build = function ()
         --[[

@@ -1,5 +1,6 @@
 return {
     'AckslD/nvim-neoclip.lua',
+    enabled = true,
     commit = "4e406ae",
     dependencies = {
         {'kkharji/sqlite.lua', module = 'sqlite'},

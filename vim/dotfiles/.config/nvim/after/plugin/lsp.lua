@@ -1,4 +1,7 @@
-local lsp = require('lsp-zero').preset({})
+local success, lsp = pcall(require, "lsp-zero")
+if success == false then
+    return
+end
 
 lsp.on_attach(function(_, bufnr)
     lsp.default_keymaps({buffer = bufnr})

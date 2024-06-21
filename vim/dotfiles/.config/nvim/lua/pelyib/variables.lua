@@ -1,16 +1,24 @@
 local M = {}
 
 M.vars = {
+    pelyib = function ()
+        vim.g.pelyib = {}
+    end,
     gitblamnvim = function ()
         vim.g.gitblame_date_format = "%Y-%m-%dT%H:%M:%S (%r)"
         vim.g.gitblame_message_template = "[<author>@<date>] <summary>"
     end,
     lazy = function ()
+        -- TODO: remove me [botond.pelyi]
         vim.g.pelyib_codeium_enabled = false
     end,
     phpcsfixer = function ()
         vim.g.php_cs_fixer_allow_risky = 'yes'
-    end
+    end,
+    vim = function ()
+        vim.g.loaded_ruby_provider = 0
+	    vim.g.loaded_perl_provider = 0
+    end,
 }
 
 M.setup = function ()

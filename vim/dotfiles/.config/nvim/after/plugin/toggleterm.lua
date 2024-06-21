@@ -1,4 +1,9 @@
-local Terminal = require('toggleterm.terminal').Terminal
+local success, toggleterm = pcall(require, "toggleterm.terminal")
+if success == false then
+    return
+end
+
+local Terminal = toggleterm.Terminal
 local gitui = Terminal:new({cmd = "gitui", hidden = true})
 
 vim.api.nvim_create_user_command('Gituitoggle', function ()

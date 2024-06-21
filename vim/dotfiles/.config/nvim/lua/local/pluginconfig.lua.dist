@@ -1,0 +1,79 @@
+return {
+    config = {
+        aerial = {
+            enabled = true,
+        },
+        alpha = {
+            enabled = true,
+        },
+        autopairs = {
+            enabled = true,
+        },
+        codeium = {
+            enabled = true,
+        },
+        comment = {
+            enabled = true,
+        },
+        copilot = {
+            enabled = true,
+        },
+        dapui = {
+            enabled = true,
+        },
+        dap = {
+            enabled = true,
+        },
+        devicons = {
+            enabled = true,
+        },
+        dressing = {
+            enabled = true,
+        },
+        everforest = {
+            enabled = true,
+        },
+        gitblame = {
+            enabled = true,
+        },
+        gruvbox = {
+            enabled = true,
+        },
+        lspzero = {
+            enabled = true,
+        },
+        neoclip = {
+            enabled = true,
+        },
+        neodev = {
+            enabled = true,
+        },
+        neotree = {
+            enabled = true,
+        },
+        notify = {
+            enabled = true,
+        },
+        phpactor = {
+            enabled = true,
+        },
+        phpactornvim = {
+            enabled = true,
+        },
+        phpcsfixer = {
+            enabled = true,
+        },
+        telescope = {
+            enabled = true,
+        },
+        toggleterm = {
+            enabled = true,
+        },
+        treesitter = {
+            enabled = true,
+        },
+        ufo = {
+            enabled = true,
+        },
+    }
+}

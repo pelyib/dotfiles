@@ -1,4 +1,8 @@
-local dap = require("dap")
+local success, dap = pcall(require, "dap")
+if success == false then
+    return
+end
+
 dap.adapters.php = {
     type = 'executable',
     command = 'node',

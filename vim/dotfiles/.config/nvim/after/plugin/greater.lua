@@ -1,3 +1,13 @@
+local success, alpha = pcall(require, "alpha")
+if success == false then
+    return
+end
+
+local success, dashboard = pcall(require, "alpha.themes.dashboard")
+if success == false then
+  return
+end
+
 local headers = {
     {
 "      ╔═══════════════════════════════════════════════════════════════════════════════╗",
@@ -312,8 +322,6 @@ local cheat_sheet = {
     }
 }
 
-local alpha = require("alpha")
-local dashboard = require("alpha.themes.dashboard")
 vim.keymap.set('n', '<c-h>', function () alpha.start(false, cheat_sheet) end)
 dashboard.section.header.val = headers[math.random(#headers)]
 alpha.setup(dashboard.opts)

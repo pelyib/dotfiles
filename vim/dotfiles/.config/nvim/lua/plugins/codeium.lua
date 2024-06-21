@@ -1,6 +1,11 @@
-return {
-    'Exafunction/codeium.vim',
-    tag = "1.4.21",
-    enabled = vim.g.pelyib_codeium_enabled,
-    cond = false
-}
+local pelyib = vim.g.pelyib.pluginconfig
+
+return vim.tbl_deep_extend(
+    "force",
+    {
+        'Exafunction/codeium.vim',
+        tag = "1.8.62",
+        enabled = false,
+    },
+    pelyib.config.codeium
+)

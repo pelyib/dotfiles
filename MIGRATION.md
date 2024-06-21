@@ -1,5 +1,12 @@
 # Migration
 
+## To 0.0.29
+
+### NeoVim
+
+- Create your own config from [pluginconfig.lua.dist](vim/dotfiles/.config/nvim/lua/local/pluginconfig.lua.dist), just
+  copy and edit whatever you want.
+
 ## From 0.0.12 to 0.0.13
 
 ### ZSH

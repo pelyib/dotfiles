@@ -1,4 +1,13 @@
-local dap, dapui = require("dap"), require("dapui")
+local success, dap = pcall(require, "dap")
+if success == false then
+    return
+end
+
+local success, dapui = pcall(require, "dapui")
+if success == false then
+    return
+end
+
 dap.listeners.after.event_initialized["dapui_config"] = function()
     dapui.open()
 end

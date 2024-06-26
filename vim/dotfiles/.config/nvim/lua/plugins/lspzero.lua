@@ -6,7 +6,7 @@ return vim.tbl_deep_extend(
         'VonHeikemen/lsp-zero.nvim',
         enabled = false,
         lazy = false,
-        branch = 'v2.x',
+        branch = 'v3.x',
         dependencies = {
             {
                 'neovim/nvim-lspconfig',
@@ -14,15 +14,41 @@ return vim.tbl_deep_extend(
             },
             {
                 'williamboman/mason.nvim',
-                tag = 'v1.8.3',
+                tag = 'v1.10.0',
                 lazy = false,
-                build = function()
-                    pcall(vim.cmd, 'MasonUpdate')
-                end
+                config = function()
+                    require("mason").setup({})
+                end,
             },
             {
                 'williamboman/mason-lspconfig.nvim',
-                tag = 'v1.26.0',
+                tag = 'v1.29.0',
+                config = function()
+                    require("mason-lspconfig").setup({
+                        ensure_installed = {
+                            "lua_ls",
+                            "bashls",
+                            "cmake",
+                            "dockerls",
+                            "docker_compose_language_service",
+                            "dotls",
+                            "html",
+                            "tsserver",
+                            "lua_ls",
+                            "autotools_ls",
+                            "spectral",
+                            "intelephense",
+                            "sqlls",
+                            "vimls"
+                        },
+                        automatic_installation = true,
+                        handlers = {
+                            function(server_name)
+                                require('lspconfig')[server_name].setup({})
+                            end,
+                        }
+                    })
+                end,
             },
             {
                 'hrsh7th/nvim-cmp',

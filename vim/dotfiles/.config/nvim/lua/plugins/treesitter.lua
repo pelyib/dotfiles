@@ -6,7 +6,7 @@ return vim.tbl_deep_extend(
         'nvim-treesitter/nvim-treesitter',
         enabled = false,
         lazy = false,
-        tag = 'v0.9.1',
+        tag = 'v0.9.2',
         config = function ()
             vim.cmd([[syntax off]])
             require("nvim-treesitter.configs").setup({

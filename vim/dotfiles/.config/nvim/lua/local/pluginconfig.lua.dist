@@ -36,8 +36,11 @@ return {
         gitblame = {
             enabled = true,
         },
+        kanagawa = {
+            enabled = false
+        },
         gruvbox = {
-            enabled = true,
+            enabled = false,
         },
         lspzero = {
             enabled = true,

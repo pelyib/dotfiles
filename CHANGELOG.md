@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.30] - 2024-06-27
+
+### Added
+- [NVIM] - install rebelot/kanagawa.nvim color scheme
+- [NVIM] - Mason install default LSP servers
+
+### Changed
+- [NVIM] - treesitter version bump
+
 ## [0.0.29] - 2024-06-20
 
 ### Added

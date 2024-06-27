@@ -24,31 +24,52 @@ return vim.tbl_deep_extend(
                 'williamboman/mason-lspconfig.nvim',
                 tag = 'v1.29.0',
                 config = function()
+                    local lsp_zero = require('lsp-zero')
+                    lsp_zero.extend_lspconfig()
+
+                    lsp_zero.on_attach(function(client, bufnr)
+                        lsp_zero.default_keymaps({buffer = bufnr})
+                    end)
+
                     require("mason-lspconfig").setup({
                         ensure_installed = {
-                            "lua_ls",
+                            "autotools_ls",
                             "bashls",
                             "cmake",
-                            "dockerls",
                             "docker_compose_language_service",
+                            "dockerls",
                             "dotls",
+                            "eslint",
                             "html",
-                            "tsserver",
-                            "lua_ls",
-                            "autotools_ls",
-                            "spectral",
                             "intelephense",
+                            "lua_ls",
+                            "lua_ls",
+                            "spectral",
                             "sqlls",
-                            "vimls"
+                            "tsserver",
+                            "vimls",
                         },
                         automatic_installation = true,
                         handlers = {
                             function(server_name)
                                 require('lspconfig')[server_name].setup({})
                             end,
+
+                            eslint = function()
+                                require('lspconfig').eslint.setup({
+                                    on_attach = function(client, bufnr)
+                                        vim.api.nvim_create_autocmd("BufWritePre", {
+                                            buffer = bufnr,
+                                            command = "EslintFixAll",
+                                        })
+                                    end
+                                })
+                            end
                         }
                     })
                 end,
+
+
             },
             {
                 'hrsh7th/nvim-cmp',

@@ -37,7 +37,7 @@ return {
             enabled = true,
         },
         kanagawa = {
-            enabled = false
+            enabled = false,
         },
         gruvbox = {
             enabled = false,

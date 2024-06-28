@@ -36,8 +36,16 @@ M.setup = function ()
     if loaded then
         local pluginconfig = vim.tbl_deep_extend("force", config, locConfig)
         local pelyibConf = vim.g.pelyib
-        vim.g.pelyib = vim.tbl_deep_extend("force", pelyibConf, {pluginconfig = pluginconfig})
+        if pluginconfig and pelyibConf then
+            vim.g.pelyib = vim.tbl_deep_extend("force", pelyibConf, {pluginconfig = pluginconfig})
+        else
+            print("banan")
+            print(vim.inspect(pelyibConf))
+        end
+    else
+        vim.notify("pluginconfig could not be loaded")
     end
+
 
     require("lazy").setup("plugins", {})
 end

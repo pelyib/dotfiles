@@ -2,6 +2,7 @@ local M = {}
 
 M.vars = {
     pelyib = function ()
+        print("pelyib variables set")
         vim.g.pelyib = {}
     end,
     gitblamnvim = function ()

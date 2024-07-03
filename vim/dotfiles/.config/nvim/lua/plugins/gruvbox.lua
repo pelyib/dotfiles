@@ -9,6 +9,7 @@ return vim.tbl_deep_extend(
         tag = "v2.0.0",
         config = function()
             vim.opt.termguicolors = true
+            vim.cmd("colorscheme gruvbox")
         end
     },
     pelyib.config.gruvbox

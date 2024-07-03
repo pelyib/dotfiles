@@ -6,15 +6,39 @@ return vim.tbl_deep_extend(
         'nvim-treesitter/nvim-treesitter',
         enabled = false,
         lazy = false,
-        tag = 'v0.9.2',
+        -- Swtich to a specific tag later when they release a new version that contains the tree-sitter-php v0.22.5
+        -- that fixes this issue: https://github.com/tree-sitter/tree-sitter-php/issues/243
+        --tag = 'v0.9.2',
+        commit = "caf275382f91ec8a2498d455c4d7d3fd0265ebd3",
         build = ":TSUpdate",
         config = function ()
             vim.cmd([[syntax off]])
             require("nvim-treesitter.configs").setup({
-                ensure_installed = {"bash", "cmake", "css", "dockerfile", "dot", "graphql", "html", "lua", "make", "python", "javascript", "sql", "vim", "yaml", "regex", "go", "php", "markdown", "json" },
+                ensure_installed = {
+                    "bash",
+                    "cmake",
+                    "css",
+                    "dockerfile",
+                    "dot",
+                    "go",
+                    "graphql",
+                    "html",
+                    "javascript",
+                    "json",
+                    "lua",
+                    "make",
+                    "markdown",
+                    "php",
+                    "python",
+                    "regex",
+                    "sql",
+                    "typescript",
+                    "vim",
+                    "yaml",
+                },
                 highlight={
                     enable = true,
-                    additional_vim_regex_highlighting=true,
+                    additional_vim_regex_highlighting = false,
                 }
             })
         end

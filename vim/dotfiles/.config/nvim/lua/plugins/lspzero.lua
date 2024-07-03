@@ -103,10 +103,10 @@ return vim.tbl_deep_extend(
                                 { name = 'buffer', group_index = 1000, max_item_count = 2 }
                             },
                             {
-                                { name = "lazydev", group_index = 200, max_item_count = 3 }
+                                { name = "lazydev", group_index = 200, max_item_count = 5 }
                             },
                             {
-                                { name = 'path', group_index = 2000, max_item_count = 3 }
+                                { name = 'path', group_index = 2000, max_item_count = 5 }
                             }
                         )
                     })

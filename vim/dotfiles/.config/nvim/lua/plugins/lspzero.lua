@@ -84,6 +84,10 @@ return vim.tbl_deep_extend(
                         commit = "5af77f54de1b16c34b23cba810150689a3a90312",
                     },
                     {
+                        'hrsh7th/cmp-path',
+                        commit = "91ff86cd9c29299a64f968ebb45846c485725f23",
+                    },
+                    {
                         'L3MON4D3/LuaSnip',
                         tag = 'v2.1.1',
                     }
@@ -93,13 +97,16 @@ return vim.tbl_deep_extend(
                     cmp.setup({
                         sources = cmp.config.sources(
                             {
-                                { name = 'nvim_lsp' }
+                                { name = 'nvim_lsp', group_index = 100, max_item_count = 5 }
                             },
                             {
-                                { name = 'buffer' }
+                                { name = 'buffer', group_index = 1000, max_item_count = 2 }
                             },
                             {
-                                { name = "lazydev", group_index = 0 }
+                                { name = "lazydev", group_index = 200, max_item_count = 3 }
+                            },
+                            {
+                                { name = 'path', group_index = 2000, max_item_count = 3 }
                             }
                         )
                     })

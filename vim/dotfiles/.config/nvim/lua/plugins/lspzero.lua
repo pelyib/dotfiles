@@ -91,11 +91,17 @@ return vim.tbl_deep_extend(
                 config = function ()
                     local cmp = require("cmp")
                     cmp.setup({
-                        sources = cmp.config.sources({
-                            { name = 'nvim_lsp' }
-                        }, {
-                            { name = 'buffer' }
-                        })
+                        sources = cmp.config.sources(
+                            {
+                                { name = 'nvim_lsp' }
+                            },
+                            {
+                                { name = 'buffer' }
+                            },
+                            {
+                                { name = "lazydev", group_index = 0 }
+                            }
+                        )
                     })
                 end
             },

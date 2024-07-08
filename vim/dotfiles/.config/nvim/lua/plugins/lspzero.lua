@@ -55,6 +55,19 @@ return vim.tbl_deep_extend(
                                 require('lspconfig')[server_name].setup({})
                             end,
 
+                            tsserver = function ()
+                                require('lspconfig').tsserver.setup({
+                                    filetypes = {
+                                        "javascript",
+                                        "javascriptreact",
+                                        "javascript.jsx",
+                                        "typescript",
+                                        "typescriptreact",
+                                        "typescript.tsx",
+                                    },
+                                })
+                            end,
+
                             eslint = function()
                                 require('lspconfig').eslint.setup({
                                     on_attach = function(client, bufnr)

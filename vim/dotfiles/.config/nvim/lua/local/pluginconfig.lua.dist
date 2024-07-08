@@ -9,6 +9,9 @@ return {
         autopairs = {
             enabled = true,
         },
+        bracketpair = {
+            enabled = true,
+        },
         codeium = {
             enabled = true,
         },

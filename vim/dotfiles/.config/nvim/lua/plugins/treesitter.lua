@@ -39,8 +39,12 @@ return vim.tbl_deep_extend(
                 highlight={
                     enable = true,
                     additional_vim_regex_highlighting = false,
+                },
+                indent = {
+                    enable = true
                 }
             })
+            vim.treesitter.language.register('typescript', 'typescriptreact')
         end
     },
     pelyib.config.treesitter

@@ -2,7 +2,6 @@ local M = {}
 
 M.vars = {
     pelyib = function ()
-        print("pelyib variables set")
         vim.g.pelyib = {}
     end,
     gitblamnvim = function ()
@@ -10,15 +9,13 @@ M.vars = {
         vim.g.gitblame_message_template = "[<author>@<date>] <summary>"
     end,
     lazy = function ()
-        -- TODO: remove me [botond.pelyi]
-        vim.g.pelyib_codeium_enabled = false
     end,
     phpcsfixer = function ()
         vim.g.php_cs_fixer_allow_risky = 'yes'
     end,
     vim = function ()
         vim.g.loaded_ruby_provider = 0
-	    vim.g.loaded_perl_provider = 0
+        vim.g.loaded_perl_provider = 0
     end,
 }
 

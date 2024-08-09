@@ -3,9 +3,9 @@ local pelyib = {}
 pelyib.opts = {
     -- Order is important, it will load the modules in the given order.
     modules = {
-        variables = true,
-        vim = true,
-        pluginmanager = true,
+        { name = 'variables', enabled = true },
+        { name = 'vim', enabled = true },
+        { name = 'pluginmanager', enabled = true },
     },
     localModulePath = '~/.config/nvim/lua/local/',
 }
@@ -26,11 +26,12 @@ function pelyib.ensurePluginManagerInstalled()
 end
 
 function pelyib.setupModules()
-    for module, enabled in pairs(pelyib.opts.modules) do
-        if enabled then
+    for _, module in pairs(pelyib.opts.modules) do
+        if module.enabled then
             pelyib.setupLocalBeforeModule(module)
 
-            local fullModuleName = 'pelyib.' .. module
+            vim.notify("Setting up module: " .. module.name)
+            local fullModuleName = 'pelyib.' .. module.name
             require(fullModuleName).setup()
 
             pelyib.setupLocalAfterModule(module)
@@ -55,12 +56,12 @@ function pelyib.setupLocalModule(moduleName)
     end
 end
 
-function pelyib.setupLocalBeforeModule(moduleName)
-    pelyib.setupLocalModule('before' .. moduleName)
+function pelyib.setupLocalBeforeModule(module)
+    pelyib.setupLocalModule('before' .. module.name)
 end
 
-function pelyib.setupLocalAfterModule(moduleName)
-    pelyib.setupLocalModule('after' .. moduleName)
+function pelyib.setupLocalAfterModule(module)
+    pelyib.setupLocalModule('after' .. module.name)
 end
 
 function pelyib.setup(opts)

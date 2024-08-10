@@ -110,16 +110,19 @@ return vim.tbl_deep_extend(
                     cmp.setup({
                         sources = cmp.config.sources(
                             {
-                                { name = 'nvim_lsp', group_index = 100, max_item_count = 5 }
+                                { name = 'nvim_lsp', group_index = 0, max_item_count = 5 }
                             },
                             {
-                                { name = 'buffer', group_index = 1000, max_item_count = 2 }
-                            },
-                            {
-                                { name = "lazydev", group_index = 200, max_item_count = 5 }
+                                { name = 'codeium', group_index = 1000, max_item_count = 5 }
                             },
                             {
                                 { name = 'path', group_index = 2000, max_item_count = 5 }
+                            },
+                            {
+                                { name = "lazydev", group_index = 3000, max_item_count = 5 }
+                            },
+                            {
+                                { name = 'buffer', group_index = 4000, max_item_count = 2 }
                             }
                         )
                     })

@@ -9,6 +9,9 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(git)
 source $ZSH/oh-my-zsh.sh
 
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 if [[ -f ~/.aliases ]]; then
     source ~/.aliases
 fi
@@ -18,5 +21,4 @@ if type rg &> /dev/null; then
   export FZF_DEFAULT_OPTS='-m --height 50% --border'
 fi
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ ! -f ~/.python3/bin/activate ]] || source ~/.python3/bin/activate

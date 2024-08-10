@@ -1,1 +1,2 @@
 alias tree="tree -ughfa"
+alias ls="ls -al"

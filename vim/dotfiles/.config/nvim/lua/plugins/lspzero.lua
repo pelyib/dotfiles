@@ -10,7 +10,7 @@ return vim.tbl_deep_extend(
         dependencies = {
             {
                 'neovim/nvim-lspconfig',
-                commit = "9099871a7c7e1c16122e00d70208a2cd02078d80",
+                tag = 'v0.1.8'
             },
             {
                 'williamboman/mason.nvim',
@@ -42,7 +42,6 @@ return vim.tbl_deep_extend(
                             "eslint",
                             "html",
                             "intelephense",
-                            "lua_ls",
                             "lua_ls",
                             "spectral",
                             "sqlls",
@@ -77,16 +76,23 @@ return vim.tbl_deep_extend(
                                         })
                                     end
                                 })
+                            end,
+
+                            html = function ()
+                                local capabilities = vim.lsp.protocol.make_client_capabilities()
+                                capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+                                require('lspconfig').html.setup {
+                                    capabilities = capabilities,
+                                }
                             end
                         }
                     })
                 end,
-
-
             },
             {
                 'hrsh7th/nvim-cmp',
-                commit = '538e37ba87284942c1d76ed38dd497e54e65b891',
+                commit = 'd818fd0624205b34e14888358037fb6f5dc51234',
                 dependencies = {
                     {
                         'hrsh7th/cmp-buffer',
@@ -94,7 +100,8 @@ return vim.tbl_deep_extend(
                     },
                     {
                         'hrsh7th/cmp-nvim-lsp',
-                        commit = "5af77f54de1b16c34b23cba810150689a3a90312",
+                        commit = "39e2eda76828d88b773cc27a3f61d2ad782c922d",
+                        lazy = false,
                     },
                     {
                         'hrsh7th/cmp-path',

@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - [NVIM] - fine tune CMP sources
-- [ZSH] - small adjusment
+- [ZSH] - small adjustment
 
 ## [0.0.34] - 2024-08-09
 

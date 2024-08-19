@@ -30,7 +30,7 @@ function pelyib.setupModules()
         if module.enabled then
             pelyib.setupLocalBeforeModule(module)
 
-            vim.notify("Setting up module: " .. module.name)
+--            vim.notify("Setting up module: " .. module.name)
             local fullModuleName = 'pelyib.' .. module.name
             require(fullModuleName).setup()
 

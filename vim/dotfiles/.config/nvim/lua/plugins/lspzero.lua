@@ -50,10 +50,6 @@ return vim.tbl_deep_extend(
                         },
                         automatic_installation = true,
                         handlers = {
-                            function(server_name)
-                                require('lspconfig')[server_name].setup({})
-                            end,
-
                             tsserver = function ()
                                 require('lspconfig').tsserver.setup({
                                     filetypes = {
@@ -69,6 +65,14 @@ return vim.tbl_deep_extend(
 
                             eslint = function()
                                 require('lspconfig').eslint.setup({
+                                    filetypes = {
+                                        "javascript",
+                                        "javascriptreact",
+                                        "javascript.jsx",
+                                        "typescript",
+                                        "typescriptreact",
+                                        "typescript.tsx",
+                                    },
                                     on_attach = function(client, bufnr)
                                         vim.api.nvim_create_autocmd("BufWritePre", {
                                             buffer = bufnr,
@@ -85,6 +89,10 @@ return vim.tbl_deep_extend(
                                 require('lspconfig').html.setup {
                                     capabilities = capabilities,
                                 }
+                            end,
+
+                            function(server_name)
+                                require('lspconfig')[server_name].setup({})
                             end
                         }
                     })

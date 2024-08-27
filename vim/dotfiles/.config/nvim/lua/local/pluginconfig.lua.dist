@@ -57,6 +57,9 @@ return {
         neotree = {
             enabled = true,
         },
+        noice = {
+            enabled = true,
+        },
         notify = {
             enabled = true,
         },

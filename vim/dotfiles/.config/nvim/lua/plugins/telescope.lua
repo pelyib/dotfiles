@@ -52,6 +52,7 @@ return vim.tbl_deep_extend(
             })
 
             telescope.load_extension("live_grep_args")
+            telescope.load_extension("noice")
         end
     },
     locConfig.config.telescope

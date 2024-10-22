@@ -43,10 +43,10 @@ return vim.tbl_deep_extend(
                             "html",
                             "intelephense",
                             "lua_ls",
-                            "spectral",
                             "sqlls",
                             "tsserver",
                             "vimls",
+                            "yamlls",
                         },
                         automatic_installation = true,
                         handlers = {
@@ -78,6 +78,7 @@ return vim.tbl_deep_extend(
                                             buffer = bufnr,
                                             command = "EslintFixAll",
                                         })
+                                        vim.notify("EslintFixAll will run on save", "info")
                                     end
                                 })
                             end,

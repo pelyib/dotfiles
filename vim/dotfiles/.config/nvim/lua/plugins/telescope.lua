@@ -17,6 +17,7 @@ return vim.tbl_deep_extend(
             local telescope = require("telescope")
             telescope.setup({
                 defaults = {
+                    prompt_prefix = " 🔍 ",
                     path_display = {
                         "shorten",
                         shorten = {

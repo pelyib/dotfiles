@@ -51,7 +51,20 @@ local defaultOpts = {
     },
     callback = function (code, success, error)
         if #success > 0 then
-            M.notify.info(success)
+            local lines = {}
+            for line in success:gmatch("[^\n]+") do
+                if line:match("%S") then
+                    table.insert(lines, line)
+                end
+            end
+
+            local errors = lines[#lines]:match("Errors:%s*(%d+)")
+            errors = tonumber(errors)
+            if errors and errors > 0 then
+                M.notify.error("Failed")
+            else
+                M.notify.info("Success")
+            end
         end
 
         if #error > 0 then
@@ -150,7 +163,14 @@ local function buildCommand(commandEnv, tc)
             if type(item) == "string" then
                 table.insert(cmd, item)
             elseif type(item) == "function" then
-                table.insert(cmd, item(tc))
+                local result = item(tc)
+                if (type(result) == "string") then
+                    table.insert(cmd, result)
+                elseif (type(result) == "table") then
+                    for _, subItem in pairs(result) do
+                        table.insert(cmd, subItem)
+                    end
+                end
             end
         end
     end

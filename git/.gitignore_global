@@ -36,6 +36,9 @@ Temporary Items
 # Phpactor
 .phpactor.json
 
+# PHP Laravel IDE Helper
+ide-helper.php
+
 # Dotfile
 .local.vim
 .local.lua

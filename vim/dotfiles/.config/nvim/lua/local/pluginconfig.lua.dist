@@ -57,6 +57,23 @@ return {
         neotree = {
             enabled = true,
         },
+        neotest = {
+            enabled = true,
+        },
+        neotest_phpunit = {
+            enabled = true,
+            setup = {
+                phpunit_cmd = function()
+                    return "./vim/vendor/neotest/phpunit"
+                end,
+                env = {
+                    COMMAND = "./vendor/bin/phpunit",
+                    HOST_PROJECT_ROOT = "/host/filesystem/project/root",
+                    CONTAINER_PROJECT_ROOT = "/container/filesystem/project/root",
+                    JUNIT_LOG_FILE = "/tests/_output/junit.xml",
+                },
+            }
+        },
         noice = {
             enabled = true,
         },

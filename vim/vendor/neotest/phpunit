@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+# https://github.com/olimorris/neotest-phpunit/issues/11
+# See the issue why we need this script
+
+# The script is used to run the phpunit command in the container.
+# Following ENV variables are needed:
+# HOST_PROJECT_ROOT is the root directory of the project on the host machine.
+# CONTAINER_PROJECT_ROOT is the root directory of the project in the container.
+# JUNIT_LOG_FILE is the relative path of the junit log file. Relative to HOST_PROJECT_ROOT and CONTAINER_PROJECT_ROOT as
+# well. Assume that the HOST_PROJECT_ROOT is mounted to the CONTAINER_PROJECT_ROOT in the container.
+
+if [[ -z "$HOST_PROJECT_ROOT" || -z "$CONTAINER_PROJECT_ROOT" || -z "$JUNIT_LOG_FILE" ]]; then
+    echo "One of the following ENV variables are not set: HOST_PROJECT_ROOT, CONTAINER_PROJECT_ROOT, JUNIT_LOG_FILE"
+    echo "HOST_PROJECT_ROOT: $HOST_PROJECT_ROOT"
+    echo "CONTAINER_PROJECT_ROOT: $CONTAINER_PROJECT_ROOT"
+    echo "JUNIT_LOG_FILE: $JUNIT_LOG_FILE"
+    exit 1
+fi
+
+# Log is needed because the feedback is calculated from it so we need to store the expected file name and copy the
+# result to the expected file name after the test run.
+key="--log-junit="
+param=$(printf "%s\n" "$@" | grep -- "^${key}")
+junit_log_file="${param#${key}}"
+
+command_params="$1"
+
+# If only a test case is provided, we need to add the filter parameter to the phpunit command.
+# But only the method name because it has other useless chars in the value.
+if [ -n "$3" ] && [ "$3" == "--filter" ]; then
+    filter=$(echo "$4" | awk -F '[(]' '{print $1}')
+    command_params="$command_params $3 $filter"
+fi
+
+modified_string="${command_params//$HOST_PROJECT_ROOT/$CONTAINER_PROJECT_ROOT}"
+
+$COMMAND --log-junit="$CONTAINER_PROJECT_ROOT$JUNIT_LOG_FILE" $modified_string
+
+sed -i '' -e "s|$CONTAINER_PROJECT_ROOT|$HOST_PROJECT_ROOT|g" $HOST_PROJECT_ROOT$JUNIT_LOG_FILE
+mv $HOST_PROJECT_ROOT$JUNIT_LOG_FILE $junit_log_file

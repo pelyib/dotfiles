@@ -19,14 +19,6 @@ vim.keymap.set('n', 'csf', function ()
     vim.api.nvim_call_function('PhpCsFixerFixFile', {})
 end)
 
-local neotest = require("neotest")
-vim.keymap.set("n", "rc", function ()
-    neotest.run.run()
-end)
-vim.keymap.set("n", "rf", function ()
-    neotest.run.run(vim.fn.expand("%"))
-end)
-
 local testRunner = require("pelyib.php-test-runner")
 local opts = {}
 if vim.fn.filereadable(vim.fn.expand("~/.config/nvim/lua/local/php-test-runner.lua")) == 1 then

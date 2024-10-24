@@ -60,6 +60,9 @@ return {
         neotest = {
             enabled = true,
         },
+        neotest_jest = {
+            enabled = true,
+        },
         neotest_phpunit = {
             enabled = true,
             setup = {

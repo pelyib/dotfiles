@@ -21,6 +21,10 @@ return vim.tbl_deep_extend(
                 commit = "3523adcf9ffaad1911960c5813b0136c1b63a2ec"
             },
             {
+                "nvim-neotest/neotest-jest",
+                commit = "514fd4eae7da15fd409133086bb8e029b65ac43f"
+            },
+            {
                 "olimorris/neotest-phpunit",
                 commit = "baae8dfa0a3aaacd9f0bb6845d6348f5bcdc48bb"
             }

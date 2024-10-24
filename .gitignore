@@ -8,3 +8,5 @@
 vim/dotfiles/.config/nvim/lua/local/*.lua
 
 # folders
+node_modules
+vendor

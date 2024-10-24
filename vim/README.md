@@ -25,6 +25,11 @@ From more info: `:help provider-python`
   - python3: `python3 -m pip install --user --upgrade pynvim`
   - python2: `python2 -m pip install --user --upgrade pynvim`
 
+### ripgrep
+
+[telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) Neovim plugin requires it.
+[instruction](https://github.com/BurntSushi/ripgrep?tab=readme-ov-file#installation)
+
 ## Configuration
 
 TODO: describe configuration

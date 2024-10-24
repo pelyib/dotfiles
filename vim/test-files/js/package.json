@@ -1,0 +1,14 @@
+{
+  "name": "neovim-js-test",
+  "version": "1.0.0",
+  "description": "JS test code for Neovim config",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Botond Pelyi",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

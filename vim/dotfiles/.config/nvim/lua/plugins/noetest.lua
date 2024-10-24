@@ -34,6 +34,7 @@ return vim.tbl_deep_extend(
                 adapters = {
                     require("neotest-plenary"),
                     require("neotest-phpunit")(pelyib.config.neotest_phpunit.setup or {}),
+                    require("neotest-jest"),
                 },
             })
         end

@@ -1,4 +1,4 @@
-local pelyib = vim.g.pelyib.pluginconfig
+local pluginconf = require('pelyib.pluginconf').config.patched
 
 return vim.tbl_deep_extend(
     "force",
@@ -10,5 +10,5 @@ return vim.tbl_deep_extend(
             require('Comment').setup()
         end
     },
-    pelyib.config.comment
+    pluginconf.comment
 )

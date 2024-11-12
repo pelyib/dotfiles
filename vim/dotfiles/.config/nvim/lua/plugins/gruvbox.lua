@@ -1,4 +1,4 @@
-local pelyib = vim.g.pelyib.pluginconfig
+local pluginconf = require("pelyib.pluginconf").config.patched
 
 return vim.tbl_deep_extend(
     "force",
@@ -12,5 +12,5 @@ return vim.tbl_deep_extend(
             vim.cmd("colorscheme gruvbox")
         end
     },
-    pelyib.config.gruvbox
+    pluginconf.gruvbox or {}
 )

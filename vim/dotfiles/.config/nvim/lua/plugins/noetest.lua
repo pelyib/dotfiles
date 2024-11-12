@@ -1,4 +1,4 @@
-local pelyib = vim.g.pelyib.pluginconfig
+local pluginconf = require('pelyib.pluginconf').config.patched
 
 return vim.tbl_deep_extend(
     "force",
@@ -27,17 +27,28 @@ return vim.tbl_deep_extend(
             {
                 "olimorris/neotest-phpunit",
                 commit = "baae8dfa0a3aaacd9f0bb6845d6348f5bcdc48bb"
+            },
+            {
+                'V13Axel/neotest-pest',
+                --tag = 'v1.0'
+                commit = "b665a4881c706eea476fcaf79a21996e9b65514d"
             }
         },
         config = function ()
             require("neotest").setup({
+                log_level = vim.log.levels.DEBUG,
                 adapters = {
                     require("neotest-plenary"),
-                    require("neotest-phpunit")(pelyib.config.neotest_phpunit.setup or {}),
-                    require("neotest-jest"),
+                    pluginconf.neotest_pest.enabled and require("neotest-pest")(pluginconf.neotest_pest.setup or {}),
+                    pluginconf.neotest_jest.enabled and require("neotest-jest")({
+                        jestCommand = "npm run test --detectOpenHandles",
+                        --jestCommand = "/Users/botond.pelyi/Projects/dotfiles/vim/vendor/neotest/jest --detectOpenHandles",
+                        jestConfigFile = "/Users/botond.pelyi/Projects/portal/jest.config.ts"
+                    }),
+                    pluginconf.neotest_phpunit.enabled and require("neotest-phpunit")(pluginconf.neotest_phpunit.setup or {}),
                 },
             })
         end
     },
-    pelyib.config.neotest or {}
+    pluginconf.neotest or {}
 )

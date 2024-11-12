@@ -5,6 +5,9 @@ pelyib.opts = {
     modules = {
         { name = 'variables', enabled = true },
         { name = 'vim', enabled = true },
+        { name = "pluginconf-project", enabled = true },
+        { name = "pluginconf-host", enabled = true },
+        { name = 'pluginconf', enabled = true },
         { name = 'pluginmanager', enabled = true },
     },
     localModulePath = '~/.config/nvim/lua/local/',
@@ -30,20 +33,11 @@ function pelyib.setupModules()
         if module.enabled then
             pelyib.setupLocalBeforeModule(module)
 
---            vim.notify("Setting up module: " .. module.name)
             local fullModuleName = 'pelyib.' .. module.name
             require(fullModuleName).setup()
 
             pelyib.setupLocalAfterModule(module)
         end
-    end
-end
-
-function pelyib.setupProjectModule()
-    local cwd = vim.fn.getcwd()
-    local projectModule = cwd .. '/.local.lua'
-    if vim.fn.filereadable(vim.fn.expand(projectModule)) == 1 then
-        vim.cmd.luafile(projectModule)
     end
 end
 
@@ -70,7 +64,6 @@ function pelyib.setup(opts)
 
     pelyib.ensurePluginManagerInstalled()
     pelyib.setupModules()
-    pelyib.setupProjectModule()
 end
 
 return pelyib

@@ -1,4 +1,4 @@
-local pelyib = vim.g.pelyib.pluginconfig
+local pluginconf = require("pelyib.pluginconf").config.patched
 
 return vim.tbl_deep_extend(
     "force",
@@ -11,5 +11,5 @@ return vim.tbl_deep_extend(
             vim.notify.setup({background_colour = "#000000",})
         end
     },
-    pelyib.config.notify
+    pluginconf.notify or {}
 )

@@ -35,18 +35,27 @@ return vim.tbl_deep_extend(
             }
         },
         config = function ()
+
+            local adapters = {
+                require("neotest-plenary"),
+            }
+            if (pluginconf.neotest_pest.enabled) then
+                table.insert(adapters, require("neotest-pest")(pluginconf.neotest_pest.setup or {}))
+            end
+            if (pluginconf.neotest_jest.enabled) then
+                table.insert(adapters, require("neotest-jest")({
+                    jestCommand = "npm run test --detectOpenHandles",
+                    --jestCommand = "/Users/botond.pelyi/Projects/dotfiles/vim/vendor/neotest/jest --detectOpenHandles",
+                    jestConfigFile = "/Users/botond.pelyi/Projects/portal/jest.config.ts"
+                }))
+            end
+            if (pluginconf.neotest_phpunit.enabled) then
+                table.insert(adapters, require("neotest-phpunit")(pluginconf.neotest_phpunit.setup or {}))
+            end
+
             require("neotest").setup({
                 log_level = vim.log.levels.DEBUG,
-                adapters = {
-                    require("neotest-plenary"),
-                    pluginconf.neotest_pest.enabled and require("neotest-pest")(pluginconf.neotest_pest.setup or {}),
-                    pluginconf.neotest_jest.enabled and require("neotest-jest")({
-                        jestCommand = "npm run test --detectOpenHandles",
-                        --jestCommand = "/Users/botond.pelyi/Projects/dotfiles/vim/vendor/neotest/jest --detectOpenHandles",
-                        jestConfigFile = "/Users/botond.pelyi/Projects/portal/jest.config.ts"
-                    }),
-                    pluginconf.neotest_phpunit.enabled and require("neotest-phpunit")(pluginconf.neotest_phpunit.setup or {}),
-                },
+                adapters = adapters,
             })
         end
     },

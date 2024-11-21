@@ -1,4 +1,8 @@
-local neotest = require("neotest")
+local success, neotest = pcall(require, "neotest")
+if success == false then
+    return
+end
+
 vim.keymap.set("n", "rc", function ()
     neotest.run.run()
 end)

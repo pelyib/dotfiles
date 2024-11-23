@@ -11,3 +11,5 @@ vim/dotfiles/.config/nvim/lua/local/*.lua
 node_modules/
 vendor/
 dist/
+
+!vim/vendor

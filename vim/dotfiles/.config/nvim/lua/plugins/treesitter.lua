@@ -26,6 +26,7 @@ return vim.tbl_deep_extend(
                     "javascript",
                     "json",
                     "lua",
+                    "luadoc",
                     "make",
                     "markdown",
                     "php",
@@ -34,6 +35,7 @@ return vim.tbl_deep_extend(
                     "sql",
                     "typescript",
                     "vim",
+                    "vimdoc",
                     "yaml",
                 },
                 highlight={

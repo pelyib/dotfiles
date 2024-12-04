@@ -32,8 +32,22 @@ From more info: `:help provider-python`
 
 ## Configuration
 
-TODO: describe configuration
+It supports three levels of configuration:
+- 1st layer: hard-coded and tracked in this repository. Use this one if you want to share and apply it on multiple
+machines.
+- 2nd layer: ["host"](vim/dotfiles/.config/nvim/lua/local/pluginconfig.lua.dist) (or local) This applies to all instances running on the same machine.
+- 3rd layer: project specific. Each project can have its own configuration
 
+3rd layer should be in the root dir of the project. projectConf.config is the same as the 2nd layer.
+```lua
+local projectConf = {
+    config = {}
+}
+
+return pluginConf
+```
+
+Configuration are applied from 3rd -> 2nd -> 1st
 
 ## Testing
 

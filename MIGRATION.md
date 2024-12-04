@@ -1,5 +1,13 @@
 # Migration
 
+## From 0.0.29 to 0.0.37
+
+### Neovim
+
+The host and project configuration have changed significantly.
+Check the [README](README.md) for more information.
+Convert your "host" and "project" configurations to the new format.
+
 ## To 0.0.29
 
 ### NeoVim

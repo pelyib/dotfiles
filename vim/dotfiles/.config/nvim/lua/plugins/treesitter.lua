@@ -1,4 +1,4 @@
-local pelyib = vim.g.pelyib.pluginconfig
+local pluginconf = require('pelyib.pluginconf').config.patched
 
 return vim.tbl_deep_extend(
     "force",
@@ -26,6 +26,7 @@ return vim.tbl_deep_extend(
                     "javascript",
                     "json",
                     "lua",
+                    "luadoc",
                     "make",
                     "markdown",
                     "php",
@@ -34,6 +35,7 @@ return vim.tbl_deep_extend(
                     "sql",
                     "typescript",
                     "vim",
+                    "vimdoc",
                     "yaml",
                 },
                 highlight={
@@ -47,5 +49,5 @@ return vim.tbl_deep_extend(
             vim.treesitter.language.register('typescript', 'typescriptreact')
         end
     },
-    pelyib.config.treesitter
+    pluginconf.treesitter or {}
 )

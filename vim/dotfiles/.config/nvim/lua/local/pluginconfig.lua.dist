@@ -1,88 +1,117 @@
+-- Copy this file, remove the .dist extension and adjust the settings to your liking.
+-- By default, all plugins are disabled. To enable a plugin, set its `enabled` key to `true`.
+
 return {
-    config = {
-        aerial = {
-            enabled = true,
-        },
-        alpha = {
-            enabled = true,
-        },
-        autopairs = {
-            enabled = true,
-        },
-        bracketpair = {
-            enabled = true,
-        },
-        codeium = {
-            enabled = true,
-        },
-        comment = {
-            enabled = true,
-        },
-        copilot = {
-            enabled = true,
-        },
-        dapui = {
-            enabled = true,
-        },
-        dap = {
-            enabled = true,
-        },
-        devicons = {
-            enabled = true,
-        },
-        dressing = {
-            enabled = true,
-        },
-        gitblame = {
-            enabled = true,
-        },
-        kanagawa = {
-            enabled = false,
-        },
-        gruvbox = {
-            enabled = false,
-        },
-        lazydev = {
-            enabled = false,
-        },
-        lspzero = {
-            enabled = true,
-        },
-        neoclip = {
-            enabled = true,
-        },
-        neodev = {
-            enabled = true,
-        },
-        neotree = {
-            enabled = true,
-        },
-        noice = {
-            enabled = true,
-        },
-        notify = {
-            enabled = true,
-        },
-        phpactor = {
-            enabled = true,
-        },
-        phpactornvim = {
-            enabled = true,
-        },
-        phpcsfixer = {
-            enabled = true,
-        },
-        telescope = {
-            enabled = true,
-        },
-        toggleterm = {
-            enabled = true,
-        },
-        treesitter = {
-            enabled = true,
-        },
-        ufo = {
-            enabled = true,
-        },
-    }
+    aerial = {
+        enabled = false,
+    },
+    alpha = {
+        enabled = false,
+    },
+    autopairs = {
+        enabled = false,
+    },
+    bracketpair = {
+        enabled = false,
+    },
+    codeium = {
+        enabled = false,
+    },
+    comment = {
+        enabled = false,
+    },
+    copilot = {
+        enabled = false,
+    },
+    dapui = {
+        enabled = false,
+    },
+    dap = {
+        enabled = false,
+    },
+    devicons = {
+        enabled = false,
+    },
+    dressing = {
+        enabled = false,
+    },
+    gitblame = {
+        enabled = false,
+    },
+    kanagawa = {
+        enabled = false,
+    },
+    gruvbox = {
+        enabled = false,
+    },
+    lazydev = {
+        enabled = false,
+    },
+    lspzero = {
+        enabled = false,
+    },
+    neoclip = {
+        enabled = false,
+    },
+    neodev = {
+        enabled = false,
+    },
+    neotree = {
+        enabled = false,
+    },
+    neotest = {
+        enabled = false,
+    },
+    neotest_jest = {
+        enabled = false,
+    },
+    neotest_phpunit = {
+        enabled = false,
+        setup = {
+            phpunit_cmd = function()
+                return "./vim/vendor/neotest/phpunit"
+            end,
+            env = {
+                COMMAND = "./vendor/bin/phpunit",
+                HOST_PROJECT_ROOT = "/host/filesystem/project/root",
+                CONTAINER_PROJECT_ROOT = "/container/filesystem/project/root",
+                JUNIT_LOG_FILE = "/tests/_output/junit.xml",
+            },
+        }
+    },
+    neotest_pest = {
+        enabled = false,
+        setup = {
+            sail_enabled = function () return false end,
+            --pest_cmd = "./dev run ./vendor/bin/pest",
+            pest_cmd = "/Users/botond.pelyi/Projects/dotfiles/vim/vendor/neotest/pest",
+        }
+    },
+    noice = {
+        enabled = false,
+    },
+    notify = {
+        enabled = false,
+    },
+    phpactor = {
+        enabled = false,
+    },
+    phpactornvim = {
+        enabled = false,
+    },
+    phpcsfixer = {
+        enabled = false,
+    },
+    telescope = {
+        enabled = false,
+    },
+    toggleterm = {
+        enabled = false,
+    },
+    treesitter = {
+        enabled = false,
+    },
+    ufo = {
+        enabled = false,
+    },
 }

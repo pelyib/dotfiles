@@ -1,4 +1,4 @@
-local pelyib = vim.g.pelyib.pluginconfig
+local pluginconf = require('pelyib.pluginconf').config.patched
 
 return vim.tbl_deep_extend(
     "force",
@@ -14,5 +14,5 @@ return vim.tbl_deep_extend(
             require('telescope').load_extension('neoclip')
         end,
     },
-    pelyib.config.neoclip
+    pluginconf.neoclip or {}
 )

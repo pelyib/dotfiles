@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+
+# This script is used to run PHPUnit and Pest tests in a container.
+
+# Following parameters are needed:
+# --command is the command to run in the container.
+# --project-root-host is the root directory of the project on the host machine.
+# --project-root-container is the root directory of the project in the container.
+# --junit-log-file is the relative path of the junit log file, relative to both project_root_host and project_root_container.
+# Assume that the project_root_host is mounted to the project_root_container in the container.
+# --log-file app will log the original and replaced command to this file.
+
+# Extract parameters from command-line arguments
+test_file=""
+for (( i=1; i<=$#; i++ )); do
+    case "${!i}" in
+        --command=*)
+            command="${!i#*=}"
+            command="${command//\"/}"
+            ;;
+        --project-root-host=*)
+            project_root_host="${!i#*=}"
+            ;;
+        --project-root-container=*)
+            project_root_container="${!i#*=}"
+            ;;
+        --junit-log-file=*)
+            junit_log_container="${!i#*=}"
+            ;;
+        --log-junit=*)
+            junit_log_host="${!i#*=}"
+            ;;
+        --filter)
+            i=$((i+1))
+            filter="${!i}"
+            ;;
+        --log-file=*)
+            app_log_file="${!i#*=}"
+            ;;
+        *)
+            if [[ -z "$test_file" ]] && [[ "${!i}" == *"test"* ]]; then
+                test_file="${!i}"
+            fi
+            ;;
+    esac
+done
+
+# Validate required parameters
+if [[ -z "$project_root_host" || -z "$project_root_container" || -z "$junit_log_container" || -z "$command" ]]; then
+    echo "One of the following parameters is missing: --project_root_host, --project_root_container, --junit_log_file, --command"
+    echo "--command: '$command'"
+    echo "--project_root_host: '$project_root_host'"
+    echo "--project_root_container: '$project_root_container'"
+    echo "--junit_log_file: '$junit_log_container'"
+    exit 1
+fi
+
+command+=" ${test_file//$project_root_host/$project_root_container}"
+command+=" --log-junit=${junit_log_container}"
+
+# Handle filter parameter if provided
+if [ -n "$filter" ]; then
+    # Strip unnecessary characters from the filter parameter (only the method name)
+    filter_value=$(echo "$filter" | awk -F '[(]' '{print $1}')
+    command+=" --filter \"$filter_value\""
+fi
+
+if [[ -n "$app_log_file" ]]; then
+    touch "$app_log_file"
+    echo "$(date) $project_root_host" >> "$app_log_file"
+    echo "  ├──[original] $@" >> "$app_log_file"
+    echo "  └──[replaced] $command" >> "$app_log_file"
+    echo "" >> "$app_log_file"
+fi
+
+$command
+
+# Adjust paths in the JUnit log file
+sed -i '' -e "s|$project_root_container|$project_root_host|g" "$project_root_host$junit_log_container"
+
+mkdir -p "$(dirname "$junit_log_host")"
+
+mv "$project_root_host$junit_log_container" "$junit_log_host"
+

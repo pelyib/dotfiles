@@ -1,4 +1,4 @@
-local pelyib = vim.g.pelyib.pluginconfig
+local pluginconfig = require("pelyib.pluginconf").config.patched
 
 return vim.tbl_deep_extend(
     "force",
@@ -7,5 +7,5 @@ return vim.tbl_deep_extend(
         enabled = false,
         tag = "v2.1.0",
     },
-    pelyib.config.dressing
+    pluginconfig.dressing or {}
 )

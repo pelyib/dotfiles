@@ -1,4 +1,4 @@
-local locConfig = vim.g.pelyib.pluginconfig
+local pluginconf = require('pelyib.pluginconf').config.patched
 
 return vim.tbl_deep_extend(
     "force",
@@ -56,5 +56,5 @@ return vim.tbl_deep_extend(
             telescope.load_extension("noice")
         end
     },
-    locConfig.config.telescope
+    pluginconf.telescope or {}
 )

@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.37] - 2024-12-04
+
+### Added
+- [NVIM] - install [neotest](https://github.com/nvim-neotest/neotest)
+- [NVIM] - [neotest-phpunit](https://github.com/olimorris/neotest-phpunit), [V13Axel/neotest-pest](https://github.com/V13Axel/neotest-pest), [nvim-neotest/neotest-jest](https://github.com/nvim-neotest/neotest-jest) added to neotest
+- [NVIM] - [phpic](./vim/vendor/neotest/phpic) script to run PHPUnit and Pest in a container
+
+### Changed
+- [NVIM] - Refactored host and project based configuration loading
+
 ## [0.0.36] - 2024-08-27
 
 ### Added

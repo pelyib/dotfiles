@@ -68,3 +68,7 @@ $RECYCLE.BIN/
 
 ## Windows shortcuts
 *.lnk
+
+# PHP test output files
+test/_output/
+tests/_output/

@@ -1,0 +1,23 @@
+{
+    "name": "neovim/pest",
+    "type": "test",
+    "autoload": {
+        "psr-4": {
+            "Neovim\\Pest\\": "src/",
+            "Neovim\\Pest\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Botond Pelyi"
+        }
+    ],
+    "require-dev": {
+        "pestphp/pest": "^3.5"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}

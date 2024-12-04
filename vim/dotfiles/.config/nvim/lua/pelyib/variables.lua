@@ -2,7 +2,11 @@ local M = {}
 
 M.vars = {
     pelyib = function ()
-        vim.g.pelyib = {}
+        vim.g.pelyib = {
+            project_conf = {
+                -- pluginconfig = {}
+            }
+        }
     end,
     gitblamnvim = function ()
         vim.g.gitblame_date_format = "%Y-%m-%dT%H:%M:%S (%r)"

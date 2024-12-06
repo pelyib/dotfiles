@@ -49,16 +49,15 @@ done
 if [[ -z "$project_root_host" || -z "$project_root_container" || -z "$junit_log_container" || -z "$command" ]]; then
     echo "One of the following parameters is missing: --project_root_host, --project_root_container, --junit_log_file, --command"
     echo "--command: '$command'"
-    echo "--project_root_host: '$project_root_host'"
-    echo "--project_root_container: '$project_root_container'"
-    echo "--junit_log_file: '$junit_log_container'"
+    echo "--project-root-host: '$project_root_host'"
+    echo "--project-root-container: '$project_root_container'"
+    echo "--log-junit: '$junit_log_container'"
     exit 1
 fi
 
 command+=" ${test_file//$project_root_host/$project_root_container}"
 command+=" --log-junit=${junit_log_container}"
 
-# Handle filter parameter if provided
 if [ -n "$filter" ]; then
     # Strip unnecessary characters from the filter parameter (only the method name)
     filter_value=$(echo "$filter" | awk -F '[(]' '{print $1}')
@@ -68,12 +67,20 @@ fi
 if [[ -n "$app_log_file" ]]; then
     touch "$app_log_file"
     echo "$(date) $project_root_host" >> "$app_log_file"
-    echo "  ├──[original] $@" >> "$app_log_file"
-    echo "  └──[replaced] $command" >> "$app_log_file"
+    echo -e "  ├──[original] ${@}" >> "$app_log_file"
+    echo -e "  └──[replaced] ${command}" >> "$app_log_file"
     echo "" >> "$app_log_file"
 fi
 
-$command
+eval "$command"
+
+if [ ! -f "$project_root_host$junit_log_container" ]; then
+    echo "JUnit log file not found: $project_root_host$junit_log_container" >> "$app_log_file"
+
+    echo "JUnit log file not found: $project_root_host$junit_log_container"
+
+    exit 1
+fi
 
 # Adjust paths in the JUnit log file
 sed -i '' -e "s|$project_root_container|$project_root_host|g" "$project_root_host$junit_log_container"

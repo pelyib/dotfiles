@@ -56,6 +56,9 @@ return vim.tbl_deep_extend(
             require("neotest").setup({
                 log_level = vim.log.levels.DEBUG,
                 adapters = adapters,
+                discovery = {
+                    enabled = false,
+                },
             })
         end
     },

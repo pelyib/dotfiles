@@ -70,25 +70,18 @@ local M = {
             },
             neotest_phpunit = {
                 enabled = false,
-                setup = {
-                    phpunit_cmd = function()
-                        return "./vim/vendor/neotest/phpunit"
-                    end,
-                    env = {
-                        COMMAND = "./vendor/bin/phpunit",
-                        HOST_PROJECT_ROOT = "/host/filesystem/project/root",
-                        CONTAINER_PROJECT_ROOT = "/container/filesystem/project/root",
-                        JUNIT_LOG_FILE = "/tests/_output/junit.xml",
-                    },
-                }
+                -- setup = {
+                --     phpunit_cmd = function()
+                --         return "/absolute/path/of/dotfiles/vim/vendor/neotest/phpic"
+                --     end,
+                -- }
             },
             neotest_pest = {
                 enabled = false,
-                setup = {
-                    sail_enabled = function () return false end,
-                    --pest_cmd = "./dev run ./vendor/bin/pest",
-                    pest_cmd = "/Users/botond.pelyi/Projects/dotfiles/vim/vendor/neotest/pest",
-                }
+                -- setup = {
+                --     sail_enabled = function () return false end,
+                --     pest_cmd = "/absolute/path/of/dotfiles/vim/vendor/neotest/phpic",
+                -- }
             },
             noice = {
                 enabled = false,

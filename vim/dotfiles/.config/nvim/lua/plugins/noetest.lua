@@ -32,6 +32,10 @@ return vim.tbl_deep_extend(
                 'V13Axel/neotest-pest',
                 --tag = 'v1.0'
                 commit = "b665a4881c706eea476fcaf79a21996e9b65514d"
+            },
+            {
+                "fredrikaverpil/neotest-golang",
+                tag = "v1.6.2",
             }
         },
         config = function ()
@@ -51,6 +55,9 @@ return vim.tbl_deep_extend(
             end
             if (pluginconf.neotest_phpunit.enabled) then
                 table.insert(adapters, require("neotest-phpunit")(pluginconf.neotest_phpunit.setup or {}))
+            end
+            if (pluginconf.neotest_golang.enabled) then
+                table.insert(adapters, require("neotest-golang")())
             end
 
             require("neotest").setup({

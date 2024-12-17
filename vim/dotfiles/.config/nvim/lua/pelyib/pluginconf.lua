@@ -83,6 +83,9 @@ local M = {
                 --     pest_cmd = "/absolute/path/of/dotfiles/vim/vendor/neotest/phpic",
                 -- }
             },
+            neotest_golang = {
+                enabled = false,
+            },
             noice = {
                 enabled = false,
             },

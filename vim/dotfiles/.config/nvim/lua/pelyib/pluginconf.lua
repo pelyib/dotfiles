@@ -53,6 +53,9 @@ local M = {
             lspzero = {
                 enabled = false,
             },
+            navbuddy = {
+                enabled = false,
+            },
             neoclip = {
                 enabled = false,
             },

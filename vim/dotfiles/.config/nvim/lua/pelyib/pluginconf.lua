@@ -14,6 +14,9 @@ local M = {
             autopairs = {
                 enabled = false,
             },
+            barbecue = {
+                enabled = false,
+            },
             bracketpair = {
                 enabled = false,
             },

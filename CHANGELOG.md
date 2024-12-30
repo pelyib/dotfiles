@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [NVIM] - [Quick navigation within a file #14](https://github.com/pelyib/dotfiles/issues/14)
 - [NVIM] - Golang support in neotest
 
+### Removed
+- [NVIM] - aerial.nvim, replaced with navbuddy
+
 ## [0.0.37] - 2024-12-04
 
 ### Added

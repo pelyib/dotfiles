@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.38] - 2024-12-30
+
+### Added
+- [NVIM] - [Quick navigation within a file #14](https://github.com/pelyib/dotfiles/issues/14)
+- [NVIM] - Golang support in neotest
+
+### Removed
+- [NVIM] - aerial.nvim, replaced with navbuddy
+
 ## [0.0.37] - 2024-12-04
 
 ### Added
@@ -12,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [NVIM] - [phpic](./vim/vendor/neotest/phpic) script to run PHPUnit and Pest in a container
 
 ### Changed
-- [NVIM] - Refactored host and project based configuration loading
+- [NVIM] - Refactored host and project based configuration loading, check the [Migration](MIGRATION.md) guide
 
 ## [0.0.36] - 2024-08-27
 

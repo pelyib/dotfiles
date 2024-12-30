@@ -5,13 +5,13 @@ local M = {
     config = {
         patched = {},
         origin = {
-            aerial = {
-                enabled = false,
-            },
             alpha = {
                 enabled = false,
             },
             autopairs = {
+                enabled = false,
+            },
+            barbecue = {
                 enabled = false,
             },
             bracketpair = {
@@ -51,6 +51,9 @@ local M = {
                 enabled = false,
             },
             lspzero = {
+                enabled = false,
+            },
+            navbuddy = {
                 enabled = false,
             },
             neoclip = {

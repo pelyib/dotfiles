@@ -5,9 +5,6 @@ local M = {
     config = {
         patched = {},
         origin = {
-            aerial = {
-                enabled = false,
-            },
             alpha = {
                 enabled = false,
             },

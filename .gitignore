@@ -6,7 +6,7 @@
 .bash_history
 .php-cs-fixer.cache
 vim/dotfiles/.config/nvim/lua/local/*.lua
-# vim/dotfiles/.config/nvim/lazy-lock.json
+vim/dotfiles/.config/nvim/lazy-lock.json
 
 # folders
 node_modules/

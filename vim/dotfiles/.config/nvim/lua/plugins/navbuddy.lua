@@ -13,7 +13,19 @@ return vim.tbl_deep_extend(
             },
             "MunifTanjim/nui.nvim"
         },
-        opts = { lsp = { auto_attach = true } }
+        config = function()
+            require("nvim-navbuddy").setup({
+                mappings = {
+                    ["t"] = require("nvim-navbuddy.actions").telescope({
+                        layout_config = {
+                            height = 0.60,
+                        },
+                        layout_strategy = "vertical"
+                    }),
+                },
+                lsp = { auto_attach = true } }
+            )
+        end,
     },
     pluginconf.navbuddy or {}
 )

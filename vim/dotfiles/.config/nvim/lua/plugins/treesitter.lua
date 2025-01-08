@@ -23,6 +23,7 @@ return vim.tbl_deep_extend(
                     "go",
                     "graphql",
                     "html",
+                    "hcl",
                     "javascript",
                     "json",
                     "lua",
@@ -47,6 +48,7 @@ return vim.tbl_deep_extend(
                 }
             })
             vim.treesitter.language.register('typescript', 'typescriptreact')
+            vim.treesitter.language.register('hcl', 'terraform')
         end
     },
     pluginconf.treesitter or {}

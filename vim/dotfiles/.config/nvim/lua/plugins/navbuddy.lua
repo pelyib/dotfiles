@@ -15,6 +15,24 @@ return vim.tbl_deep_extend(
         },
         config = function()
             require("nvim-navbuddy").setup({
+                window = {
+                    border = "rounded",
+                    size = {
+                        width = "80%",
+                        height = "30%",
+                    },
+                    sections = {
+                        left = {
+                            size = "25%",
+                        },
+                        mid = {
+                            size = "50%",
+                        },
+                        right = {
+                            preview = "never"
+                        }
+                    },
+                },
                 mappings = {
                     ["t"] = require("nvim-navbuddy.actions").telescope({
                         layout_config = {

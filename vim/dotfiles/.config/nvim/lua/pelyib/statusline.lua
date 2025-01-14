@@ -1,6 +1,8 @@
 local M = {}
 
 M.calc =function ()
+    -- TODO if the buff is not a file or the file is not saved return a simplified statusline
+
     local root = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
     local relative_path = vim.fn.expand("%:.")
     local current_line_length = #vim.fn.getline('.')
@@ -46,6 +48,7 @@ M.calc =function ()
         end
     end
 
+    -- [project/root folder]{relative path}::{namespace.class}.{method}            {line num of curs} / {all lines num} | {col of curs}-{len of row} | percent of cursor position
     return string.format(
         "[%s]%s%s %%=%%l / %%L | %%v-%d | %%p %%",
         root,

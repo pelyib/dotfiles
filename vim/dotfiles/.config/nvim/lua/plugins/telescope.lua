@@ -49,6 +49,13 @@ return vim.tbl_deep_extend(
                         show_line = false,
                         --theme = 'dropdown'
                     },
+                    buffers = {
+                        mappings = {
+                            i = {
+                                ["<c-D>"] = "delete_buffer",
+                            }
+                        }
+                    }
                 }
             })
 

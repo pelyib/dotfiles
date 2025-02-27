@@ -33,7 +33,9 @@ return vim.tbl_deep_extend(
                     },
                     preview = {
                         treesitter = true,
+                        filesize_limit = 1
                     },
+                    file_ignore_patterns = { ".git/", },
                 },
                 pickers = {
                     find_files = {

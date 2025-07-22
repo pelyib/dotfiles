@@ -15,9 +15,10 @@ vim.keymap.set('n', '<leader>pn', function ()
     }
     )
 end)
-vim.keymap.set('n', 'csf', function ()
-    vim.api.nvim_call_function('PhpCsFixerFixFile', {})
-end)
+
+-- vim.keymap.set('n', 'csf', function ()
+--     vim.api.nvim_call_function('PhpCsFixerFixFile', {})
+-- end)
 
 local testRunner = require("pelyib.php-test-runner")
 local opts = {}

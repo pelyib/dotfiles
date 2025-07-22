@@ -5,7 +5,7 @@ return vim.tbl_deep_extend(
     {
         "folke/noice.nvim",
         enabled = false,
-        tag = "v4.5.0",
+        tag = "v4.10.0",
         dependencies = {
             "MunifTanjim/nui.nvim",
             "rcarriga/nvim-notify",

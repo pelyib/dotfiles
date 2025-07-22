@@ -11,6 +11,9 @@ return {
     autopairs = {
         enabled = false,
     },
+    barbecue = {
+        enabled = true,
+    },
     bracketpair = {
         enabled = false,
     },
@@ -49,6 +52,9 @@ return {
     },
     lspzero = {
         enabled = false,
+    },
+    navbuddy = {
+        enabled = true,
     },
     neoclip = {
         enabled = false,

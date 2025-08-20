@@ -1,11 +1,20 @@
-local pluginconf = require("pelyib.pluginconf").config.patched
+local pluginconf_ok, pluginconf = pcall(require, "pelyib.pluginconf")
+if not pluginconf_ok then
+    pluginconf = { config = { patched = {} } }
+else
+    pluginconf = pluginconf.config.patched
+end
 
 return vim.tbl_deep_extend(
     "force",
     {
         "nvim-neo-tree/neo-tree.nvim",
         enabled = true,
-        lazy = false,
+        lazy = true,
+        cmd = { "NeoTreeFloatToggle", "NeoTreeShow", "NeoTreeFocus" },
+        keys = {
+            { "fb", "<cmd>NeoTreeFloatToggle<cr>", desc = "Toggle NeoTree" },
+        },
         branch = "v2.x",
         dependencies = {
             "nvim-lua/plenary.nvim",
@@ -19,7 +28,11 @@ return vim.tbl_deep_extend(
             }
         },
         config = function ()
-            require("neo-tree").setup({
+            local neotree_ok, neotree = pcall(require, "neo-tree")
+            if not neotree_ok then
+                return
+            end
+            neotree.setup({
                 window = {
                     position = "float"
                 },
@@ -35,7 +48,6 @@ return vim.tbl_deep_extend(
                     }
                 }
             })
-            vim.keymap.set('n', 'fb', ':NeoTreeFloatToggle<CR>')
         end
     },
     pluginconf.neotree or {}

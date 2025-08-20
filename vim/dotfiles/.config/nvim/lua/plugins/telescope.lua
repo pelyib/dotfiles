@@ -10,6 +10,8 @@ return vim.tbl_deep_extend(
     {
         "nvim-telescope/telescope.nvim",
         enabled = true,
+        lazy = true,
+        cmd = { "Telescope" },
         tag = "0.1.4",
         dependencies = {
             'nvim-lua/plenary.nvim',

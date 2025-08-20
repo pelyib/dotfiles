@@ -12,6 +12,7 @@ return vim.tbl_deep_extend(
         tag = "v5.6.1",
         enabled = false,
         lazy = true,
+        cmd = { "Neotest" },
         dependencies = {
             {
                 "nvim-neotest/nvim-nio",

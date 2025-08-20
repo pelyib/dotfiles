@@ -1,11 +1,17 @@
-local pluginconf = require('pelyib.pluginconf').config.patched
+local pluginconf_ok, pluginconf = pcall(require, 'pelyib.pluginconf')
+if not pluginconf_ok then
+    pluginconf = { config = { patched = {} } }
+else
+    pluginconf = pluginconf.config.patched
+end
 
 return vim.tbl_deep_extend(
     "force",
     {
         'nvim-treesitter/nvim-treesitter',
         enabled = false,
-        lazy = false,
+        lazy = true,
+        event = { "BufReadPost", "BufNewFile" },
         -- Swtich to a specific tag later when they release a new version that contains the tree-sitter-php v0.22.5
         -- that fixes this issue: https://github.com/tree-sitter/tree-sitter-php/issues/243
         --tag = 'v0.9.2',
@@ -13,7 +19,11 @@ return vim.tbl_deep_extend(
         build = ":TSUpdate",
         config = function ()
             vim.cmd([[syntax off]])
-            require("nvim-treesitter.configs").setup({
+            local treesitter_ok, treesitter = pcall(require, "nvim-treesitter.configs")
+            if not treesitter_ok then
+                return
+            end
+            treesitter.setup({
                 ensure_installed = {
                     "bash",
                     "cmake",

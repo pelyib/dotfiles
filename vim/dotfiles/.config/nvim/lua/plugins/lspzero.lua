@@ -10,17 +10,20 @@ return vim.tbl_deep_extend(
     {
         'VonHeikemen/lsp-zero.nvim',
         enabled = false,
-        lazy = false,
+        lazy = true,
+        event = { "BufReadPre", "BufNewFile" },
         branch = 'v3.x',
         dependencies = {
             {
                 'neovim/nvim-lspconfig',
-                tag = 'v0.1.8'
+                tag = 'v0.1.8',
+                lazy = true,
             },
             {
                 'williamboman/mason.nvim',
                 tag = 'v1.10.0',
-                lazy = false,
+                lazy = true,
+                cmd = "Mason",
                 config = function()
                     local mason_ok, mason = pcall(require, "mason")
                     if mason_ok then
@@ -31,6 +34,7 @@ return vim.tbl_deep_extend(
             {
                 'williamboman/mason-lspconfig.nvim',
                 tag = 'v1.29.0',
+                lazy = true,
                 config = function()
                     local lsp_zero_ok, lsp_zero = pcall(require, 'lsp-zero')
                     if not lsp_zero_ok then
@@ -132,23 +136,28 @@ return vim.tbl_deep_extend(
             {
                 'hrsh7th/nvim-cmp',
                 commit = 'd818fd0624205b34e14888358037fb6f5dc51234',
+                lazy = true,
+                event = "InsertEnter",
                 dependencies = {
                     {
                         'hrsh7th/cmp-buffer',
                         commit = "3022dbc9166796b644a841a02de8dd1cc1d311fa",
+                        lazy = true,
                     },
                     {
                         'hrsh7th/cmp-nvim-lsp',
                         commit = "39e2eda76828d88b773cc27a3f61d2ad782c922d",
-                        lazy = false,
+                        lazy = true,
                     },
                     {
                         'hrsh7th/cmp-path',
                         commit = "91ff86cd9c29299a64f968ebb45846c485725f23",
+                        lazy = true,
                     },
                     {
                         'L3MON4D3/LuaSnip',
                         tag = 'v2.1.1',
+                        lazy = true,
                     }
                 },
                 config = function ()

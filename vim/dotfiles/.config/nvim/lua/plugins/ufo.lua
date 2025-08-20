@@ -1,4 +1,9 @@
-local pluginconf = require('pelyib.pluginconf').config.patched
+local pluginconf_ok, pluginconf = pcall(require, 'pelyib.pluginconf')
+if not pluginconf_ok then
+    pluginconf = { config = { patched = {} } }
+else
+    pluginconf = pluginconf.config.patched
+end
 
 return vim.tbl_deep_extend(
     "force",
@@ -6,7 +11,8 @@ return vim.tbl_deep_extend(
         'kevinhwang91/nvim-ufo',
         enabled = false,
         tag = "v1.4.0",
-        lazy = false,
+        lazy = true,
+        event = "BufReadPost",
         dependencies = {
             'kevinhwang91/promise-async'
         },
@@ -21,14 +27,21 @@ return vim.tbl_deep_extend(
                 dynamicRegistration = false,
                 lineFoldingOnly = true
             }
-            local language_servers = require("lspconfig").util.available_servers()
+            local lspconfig_ok, lspconfig = pcall(require, "lspconfig")
+            if not lspconfig_ok then
+                return
+            end
+            local language_servers = lspconfig.util.available_servers()
             for _, ls in ipairs(language_servers) do
-                require('lspconfig')[ls].setup({
+                lspconfig[ls].setup({
                     capabilities = capabilities
                 })
             end
 
-            require('ufo').setup()
+            local ufo_ok, ufo = pcall(require, 'ufo')
+            if ufo_ok then
+                ufo.setup()
+            end
         end
     },
     pluginconf.ufo or {}

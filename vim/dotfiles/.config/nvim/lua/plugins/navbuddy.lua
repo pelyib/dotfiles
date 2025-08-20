@@ -1,4 +1,9 @@
-local pluginconf = require('pelyib.pluginconf').config.patched
+local pluginconf_ok, pluginconf = pcall(require, 'pelyib.pluginconf')
+if not pluginconf_ok then
+    pluginconf = { config = { patched = {} } }
+else
+    pluginconf = pluginconf.config.patched
+end
 
 return vim.tbl_deep_extend(
     "force",
@@ -6,6 +11,8 @@ return vim.tbl_deep_extend(
         "SmiteshP/nvim-navbuddy",
         commit = "f22bac988f2dd073601d75ba39ea5636ab6e38cb",
         enabled = false,
+        lazy = true,
+        cmd = { "Navbuddy" },
         dependencies = {
             {
                 "SmiteshP/nvim-navic",
@@ -14,7 +21,15 @@ return vim.tbl_deep_extend(
             "MunifTanjim/nui.nvim"
         },
         config = function()
-            require("nvim-navbuddy").setup({
+            local navbuddy_ok, navbuddy = pcall(require, "nvim-navbuddy")
+            if not navbuddy_ok then
+                return
+            end
+            local navbuddy_actions_ok, navbuddy_actions = pcall(require, "nvim-navbuddy.actions")
+            if not navbuddy_actions_ok then
+                return
+            end
+            navbuddy.setup({
                 window = {
                     border = "rounded",
                     size = {
@@ -34,7 +49,7 @@ return vim.tbl_deep_extend(
                     },
                 },
                 mappings = {
-                    ["t"] = require("nvim-navbuddy.actions").telescope({
+                    ["t"] = navbuddy_actions.telescope({
                         layout_config = {
                             height = 0.60,
                         },

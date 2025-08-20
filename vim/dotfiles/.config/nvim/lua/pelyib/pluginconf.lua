@@ -1,5 +1,12 @@
-local hostConf = require('pelyib.pluginconf-host')
-local projectConf = require('pelyib.pluginconf-project')
+local hostConf_ok, hostConf = pcall(require, 'pelyib.pluginconf-host')
+if not hostConf_ok then
+    hostConf = { config = {} }
+end
+
+local projectConf_ok, projectConf = pcall(require, 'pelyib.pluginconf-project')
+if not projectConf_ok then
+    projectConf = { config = {} }
+end
 
 local M = {
     config = {

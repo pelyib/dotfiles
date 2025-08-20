@@ -5,9 +5,17 @@ end
 
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-vim.keymap.set("n", "<leader>fga", function () require('telescope').extensions.live_grep_args.live_grep_args() end )
+vim.keymap.set("n", "<leader>fga", function ()
+    local telescope_ok, telescope = pcall(require, 'telescope')
+    if telescope_ok then
+        telescope.extensions.live_grep_args.live_grep_args()
+    end
+end )
 
-local live_grep_args_shortcuts = require("telescope-live-grep-args.shortcuts")
+local live_grep_args_shortcuts_ok, live_grep_args_shortcuts = pcall(require, "telescope-live-grep-args.shortcuts")
+if not live_grep_args_shortcuts_ok then
+    return
+end
 vim.keymap.set('n', '<leader>fGa', live_grep_args_shortcuts.grep_word_under_cursor )
 vim.keymap.set('n', '<leader>fG', function () builtin.live_grep({ default_text = vim.fn.expand('<cword>')}) end)
 vim.keymap.set('v', '<leader>fg', function ()
@@ -31,4 +39,9 @@ vim.keymap.set('n', 'gic', builtin.lsp_incoming_calls, {})
 vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, {})
 
 vim.keymap.set('n', 'cp', '<cmd>Telescope neoclip<cr>')
-vim.keymap.set('n', 'gn', function () require('telescope').extensions.notify.notify() end)
+vim.keymap.set('n', 'gn', function ()
+    local telescope_ok, telescope = pcall(require, 'telescope')
+    if telescope_ok then
+        telescope.extensions.notify.notify()
+    end
+end)

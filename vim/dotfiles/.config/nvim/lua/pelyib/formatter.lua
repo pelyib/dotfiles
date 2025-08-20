@@ -151,8 +151,13 @@ end
 -- Main setup function
 function M.setup()
     -- Get configuration from pluginconf
-    local pluginconf = require('pelyib.pluginconf').config.patched
-    M.config = pluginconf.formatter or {}
+    local pluginconf_ok, pluginconf = pcall(require, 'pelyib.pluginconf')
+    if not pluginconf_ok then
+        vim.notify("Failed to load pluginconf for formatter", vim.log.levels.ERROR)
+        return
+    end
+    local config = pluginconf.config.patched
+    M.config = config.formatter or {}
     
     -- Skip setup if not enabled
     if not M.config.enabled then

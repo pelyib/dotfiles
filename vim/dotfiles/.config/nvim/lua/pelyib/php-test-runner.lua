@@ -1,7 +1,18 @@
 ---@class M
 ---@field opts defaultOpts
+local notify_ok, notify = pcall(require, "pelyib.notifier")
+if not notify_ok then
+    notify = {
+        debug = function(msg) vim.notify(msg, vim.log.levels.DEBUG) end,
+        info = function(msg) vim.notify(msg, vim.log.levels.INFO) end,
+        warning = function(msg) vim.notify(msg, vim.log.levels.WARN) end,
+        error = function(msg) vim.notify(msg, vim.log.levels.ERROR) end,
+        setup = function() end,
+    }
+end
+
 local M = {
-    notify = require("pelyib.notifier")
+    notify = notify
 }
 
 ---@enum target
@@ -79,13 +90,22 @@ local defaultOpts = {
 
 local function runTest(command, callback)
     M.notify.debug(command)
-    require("pelyib.shell-runner")(command, callback)
+    local shell_runner_ok, shell_runner = pcall(require, "pelyib.shell-runner")
+    if not shell_runner_ok then
+        M.notify.error("Failed to load shell-runner module")
+        return
+    end
+    shell_runner(command, callback)
 end
 
 ---@return testCase
 local function testCaseFactory()
     local bufnr = vim.api.nvim_get_current_buf()
-    local tsUtils = require("nvim-treesitter.ts_utils")
+    local tsUtils_ok, tsUtils = pcall(require, "nvim-treesitter.ts_utils")
+    if not tsUtils_ok then
+        M.notify.error("Failed to load nvim-treesitter.ts_utils")
+        return testCase
+    end
     local node = tsUtils.get_node_at_cursor()
     --@TODO: use the query solution instead of iterating over the nodes [botond.pelyi]
     -- local cRow, _ = unpack(vim.api.nvim_win_get_cursor(0))

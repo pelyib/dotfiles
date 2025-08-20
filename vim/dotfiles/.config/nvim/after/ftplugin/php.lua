@@ -20,10 +20,18 @@ end)
 --     vim.api.nvim_call_function('PhpCsFixerFixFile', {})
 -- end)
 
-local testRunner = require("pelyib.php-test-runner")
+local testRunner_ok, testRunner = pcall(require, "pelyib.php-test-runner")
+if not testRunner_ok then
+    return
+end
+
 local opts = {}
-if vim.fn.filereadable(vim.fn.expand("~/.config/nvim/lua/local/php-test-runner.lua")) == 1 then
-    opts = require("local.php-test-runner")
+local config_file = vim.fn.expand("~/.config/nvim/lua/local/php-test-runner.lua")
+if vim.fn.filereadable(config_file) == 1 then
+    local opts_ok, local_opts = pcall(require, "local.php-test-runner")
+    if opts_ok then
+        opts = local_opts
+    end
 end
 testRunner.setup(opts)
 

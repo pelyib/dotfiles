@@ -1,4 +1,9 @@
-local pluginconf = require('pelyib.pluginconf').config.patched
+local pluginconf_ok, pluginconf = pcall(require, 'pelyib.pluginconf')
+if not pluginconf_ok then
+    pluginconf = { config = { patched = {} } }
+else
+    pluginconf = pluginconf.config.patched
+end
 
 return vim.tbl_deep_extend(
     "force",
@@ -17,21 +22,31 @@ return vim.tbl_deep_extend(
                 tag = 'v1.10.0',
                 lazy = false,
                 config = function()
-                    require("mason").setup({})
+                    local mason_ok, mason = pcall(require, "mason")
+                    if mason_ok then
+                        mason.setup({})
+                    end
                 end,
             },
             {
                 'williamboman/mason-lspconfig.nvim',
                 tag = 'v1.29.0',
                 config = function()
-                    local lsp_zero = require('lsp-zero')
+                    local lsp_zero_ok, lsp_zero = pcall(require, 'lsp-zero')
+                    if not lsp_zero_ok then
+                        return
+                    end
                     lsp_zero.extend_lspconfig()
 
                     lsp_zero.on_attach(function(client, bufnr)
                         lsp_zero.default_keymaps({buffer = bufnr})
                     end)
 
-                    require("mason-lspconfig").setup({
+                    local mason_lspconfig_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
+                    if not mason_lspconfig_ok then
+                        return
+                    end
+                    mason_lspconfig.setup({
                         ensure_installed = {
                             "autotools_ls",
                             "bashls",
@@ -51,7 +66,11 @@ return vim.tbl_deep_extend(
                         automatic_installation = true,
                         handlers = {
                             tsserver = function ()
-                                require('lspconfig').tsserver.setup({
+                                local lspconfig_ok, lspconfig = pcall(require, 'lspconfig')
+                                if not lspconfig_ok then
+                                    return
+                                end
+                                lspconfig.tsserver.setup({
                                     filetypes = {
                                         "javascript",
                                         "javascriptreact",
@@ -64,7 +83,11 @@ return vim.tbl_deep_extend(
                             end,
 
                             eslint = function()
-                                require('lspconfig').eslint.setup({
+                                local lspconfig_ok, lspconfig = pcall(require, 'lspconfig')
+                                if not lspconfig_ok then
+                                    return
+                                end
+                                lspconfig.eslint.setup({
                                     filetypes = {
                                         "javascript",
                                         "javascriptreact",
@@ -84,16 +107,23 @@ return vim.tbl_deep_extend(
                             end,
 
                             html = function ()
+                                local lspconfig_ok, lspconfig = pcall(require, 'lspconfig')
+                                if not lspconfig_ok then
+                                    return
+                                end
                                 local capabilities = vim.lsp.protocol.make_client_capabilities()
                                 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-                                require('lspconfig').html.setup {
+                                lspconfig.html.setup {
                                     capabilities = capabilities,
                                 }
                             end,
 
                             function(server_name)
-                                require('lspconfig')[server_name].setup({})
+                                local lspconfig_ok, lspconfig = pcall(require, 'lspconfig')
+                                if lspconfig_ok then
+                                    lspconfig[server_name].setup({})
+                                end
                             end
                         }
                     })
@@ -122,7 +152,10 @@ return vim.tbl_deep_extend(
                     }
                 },
                 config = function ()
-                    local cmp = require("cmp")
+                    local cmp_ok, cmp = pcall(require, "cmp")
+                    if not cmp_ok then
+                        return
+                    end
                     cmp.setup({
                         sources = cmp.config.sources(
                             {

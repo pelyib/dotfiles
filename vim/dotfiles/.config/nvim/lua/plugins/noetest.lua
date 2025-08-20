@@ -1,4 +1,9 @@
-local pluginconf = require('pelyib.pluginconf').config.patched
+local pluginconf_ok, pluginconf = pcall(require, 'pelyib.pluginconf')
+if not pluginconf_ok then
+    pluginconf = { config = { patched = {} } }
+else
+    pluginconf = pluginconf.config.patched
+end
 
 return vim.tbl_deep_extend(
     "force",
@@ -40,33 +45,50 @@ return vim.tbl_deep_extend(
         },
         config = function ()
 
-            local adapters = {
-                require("neotest-plenary"),
-            }
-            if (pluginconf.neotest_pest.enabled) then
-                table.insert(adapters, require("neotest-pest")(pluginconf.neotest_pest.setup or {}))
+            local adapters = {}
+            local plenary_ok, plenary = pcall(require, "neotest-plenary")
+            if plenary_ok then
+                table.insert(adapters, plenary)
             end
-            if (pluginconf.neotest_jest.enabled) then
-                table.insert(adapters, require("neotest-jest")({
-                    jestCommand = "npm run test --detectOpenHandles",
-                    --jestCommand = "/Users/botond.pelyi/Projects/dotfiles/vim/vendor/neotest/jest --detectOpenHandles",
-                    jestConfigFile = "/Users/botond.pelyi/Projects/portal/jest.config.ts"
-                }))
+            if (pluginconf.neotest_pest and pluginconf.neotest_pest.enabled) then
+                local pest_ok, pest = pcall(require, "neotest-pest")
+                if pest_ok then
+                    table.insert(adapters, pest(pluginconf.neotest_pest.setup or {}))
+                end
             end
-            if (pluginconf.neotest_phpunit.enabled) then
-                table.insert(adapters, require("neotest-phpunit")(pluginconf.neotest_phpunit.setup or {}))
+            if (pluginconf.neotest_jest and pluginconf.neotest_jest.enabled) then
+                local jest_ok, jest = pcall(require, "neotest-jest")
+                if jest_ok then
+                    table.insert(adapters, jest({
+                        jestCommand = "npm run test --detectOpenHandles",
+                        --jestCommand = "/Users/botond.pelyi/Projects/dotfiles/vim/vendor/neotest/jest --detectOpenHandles",
+                        jestConfigFile = "/Users/botond.pelyi/Projects/portal/jest.config.ts"
+                    }))
+                end
             end
-            if (pluginconf.neotest_golang.enabled) then
-                table.insert(adapters, require("neotest-golang")())
+            if (pluginconf.neotest_phpunit and pluginconf.neotest_phpunit.enabled) then
+                local phpunit_ok, phpunit = pcall(require, "neotest-phpunit")
+                if phpunit_ok then
+                    table.insert(adapters, phpunit(pluginconf.neotest_phpunit.setup or {}))
+                end
+            end
+            if (pluginconf.neotest_golang and pluginconf.neotest_golang.enabled) then
+                local golang_ok, golang = pcall(require, "neotest-golang")
+                if golang_ok then
+                    table.insert(adapters, golang())
+                end
             end
 
-            require("neotest").setup({
-                log_level = vim.log.levels.DEBUG,
-                adapters = adapters,
-                discovery = {
-                    enabled = false,
-                },
-            })
+            local neotest_ok, neotest = pcall(require, "neotest")
+            if neotest_ok then
+                neotest.setup({
+                    log_level = vim.log.levels.DEBUG,
+                    adapters = adapters,
+                    discovery = {
+                        enabled = false,
+                    },
+                })
+            end
         end
     },
     pluginconf.neotest or {}

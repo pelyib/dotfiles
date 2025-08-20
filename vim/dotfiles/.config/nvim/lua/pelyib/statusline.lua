@@ -45,8 +45,13 @@ M.code = function ()
     local code_first_lev = ""
     local code_second_lev = ""
     local code_path = ""
-    -- TODO: it does not work without the barbecue plugin
-    local code = require("nvim-navic").get_data()
+    
+    local navic_ok, navic = pcall(require, "nvim-navic")
+    if not navic_ok then
+        return ""
+    end
+    
+    local code = navic.get_data()
     if code ~= nil then
 
         -- TODO: iterate over the items

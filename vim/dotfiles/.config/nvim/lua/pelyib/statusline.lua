@@ -86,16 +86,50 @@ M.get_project_root = function()
     return vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
 end
 
--- Get relative file path with file icon
+-- Get file path with extension replaced by icon when available using nvim-web-devicons
+M.get_file_with_icon = function(path)
+    if path == "" then
+        return ""
+    end
+    
+    local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
+    if not devicons_ok then
+        return path  -- Fallback to original path if devicons not available
+    end
+    
+    local filename = vim.fn.fnamemodify(path, ":t")
+    local extension = vim.fn.fnamemodify(path, ":e")
+    
+    -- Get icon from nvim-web-devicons with default = false
+    local icon, _ = devicons.get_icon(filename, extension, { default = false })
+    
+    if icon then
+        -- Replace extension with icon
+        local path_without_ext = path:match("^(.+)%..+$")
+        if path_without_ext then
+            return path_without_ext .. '.' .. icon
+        else
+            -- No extension in path, just append icon
+            return path .. icon
+        end
+    else
+        -- No icon found, keep original extension
+        return path
+    end
+end
+
+-- Get file path with extension replaced by icon when available
 M.get_file_path = function()
     if vim.bo.buftype == "nofile" or vim.bo.buftype == "quickfix" then
         return ""
     end
+    
     local path = vim.fn.expand("%:.")
     if path == "" then
         return ""
     end
-    return path
+    
+    return M.get_file_with_icon(path)
 end
 
 -- Get file status indicators using git status with caching
@@ -292,11 +326,11 @@ M.clear_cache = function()
     cache.code_context.last_bufnr = -1
 end
 
--- Setup function for configuration
-M.setup = function(opts)
-    if opts then
-        M.config = vim.tbl_deep_extend("force", M.config, opts)
-    end
+-- Setup function for autocmds and initialization
+M.setup = function()
+    vim.notify("Setting up pelyib.statusline",
+        vim.log.levels.INFO,
+        { title = "Pelyib Statusline" })
     
     -- Auto-clear git cache when changing directories
     vim.api.nvim_create_autocmd("DirChanged", {

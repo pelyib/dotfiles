@@ -9,6 +9,7 @@ pelyib.opts = {
         { name = "pluginconf-host", enabled = true },
         { name = 'pluginconf', enabled = true },
         { name = 'pluginmanager', enabled = true },
+        { name = 'statusline', enabled = true },
     },
     localModulePath = '~/.config/nvim/lua/local/',
 }

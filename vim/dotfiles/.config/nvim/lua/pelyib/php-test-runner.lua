@@ -101,75 +101,107 @@ end
 ---@return testCase
 local function testCaseFactory()
     local bufnr = vim.api.nvim_get_current_buf()
-    local tsUtils_ok, tsUtils = pcall(require, "nvim-treesitter.ts_utils")
-    if not tsUtils_ok then
-        M.notify.error("Failed to load nvim-treesitter.ts_utils")
+    local cursor = vim.api.nvim_win_get_cursor(0)
+    local cursor_row, cursor_col = cursor[1] - 1, cursor[2] -- Convert to 0-indexed
+    
+    -- Get parser and root node
+    local parser = vim.treesitter.get_parser(bufnr, "php")
+    if not parser then
+        M.notify.error("Failed to get treesitter parser for PHP")
         return testCase
     end
-    local node = tsUtils.get_node_at_cursor()
-    --@TODO: use the query solution instead of iterating over the nodes [botond.pelyi]
-    -- local cRow, _ = unpack(vim.api.nvim_win_get_cursor(0))
-    -- local parser = vim.treesitter.get_parser(bufnr, "php")
-    -- local root = parser:parse()[1]:root()
-    -- local tsQuery = require("vim.treesitter.query")
-    -- local classNameQuery = tsQuery.parse_query('php', "(class_declaration body: (declaration_list (method_declaration name: (name) @methodsName )))")
-    -- for _, found, _ in classNameQuery:iter_captures(root, bufnr, 0, cRow) do
-    --     vim.notify(tsUtils.get_node_text(found, bufnr)[1])
-    -- end
-
-    local parent, method, class, suite
-
-    repeat
-        if node == nil then
-            return testCase
-        end
-
-        parent = node:parent()
-        node = parent
-
-        if method == nil and node ~= nil and node:type() == "method_declaration" then
-            for methodDecChild in node:iter_children() do
-                if methodDecChild:type() == "name" then
-                    method = methodDecChild
-                end
+    
+    local tree = parser:parse()[1]
+    if not tree then
+        M.notify.error("Failed to parse treesitter tree")
+        return testCase
+    end
+    
+    local root = tree:root()
+    
+    -- Define treesitter queries
+    local method_query = vim.treesitter.query.parse("php", [[
+        (method_declaration 
+            name: (name) @method.name) @method.declaration
+    ]])
+    
+    local class_query = vim.treesitter.query.parse("php", [[
+        (class_declaration
+            name: (name) @class.name) @class.declaration
+    ]])
+    
+    local namespace_query = vim.treesitter.query.parse("php", [[
+        (namespace_definition
+            name: (namespace_name) @namespace.name) @namespace.declaration
+    ]])
+    
+    local method_name, class_name, suite_name
+    
+    -- Find method containing cursor (search entire file, not just cursor row)
+    for id, node, metadata in method_query:iter_captures(root, bufnr, 0, -1) do
+        local capture_name = method_query.captures[id]
+        if capture_name == "method.name" then
+            -- Get the full method declaration (parent of the name node)
+            local method_decl = node:parent()
+            local decl_start_row, decl_start_col, decl_end_row, decl_end_col = method_decl:range()
+            
+            -- Check if cursor is anywhere within the method declaration (including body)
+            if cursor_row >= decl_start_row and cursor_row <= decl_end_row then
+                method_name = vim.treesitter.get_node_text(node, bufnr)
+                break
             end
         end
-
-        if class == nil and node ~= nil and node:type() == "class_declaration" then
-            for classDecChild in node:iter_children() do
-                if classDecChild:type() == "name" then
-                    class = classDecChild
-                    local sibling = class:prev_sibling()
-                    repeat
-                        if suite == nil and sibling:type() == "namespace_definition" then
-                            for namespaceDefItem in sibling:child(1):iter_children() do
-                                if tsUtils.get_node_text(namespaceDefItem, bufnr)[1] == "Test" then
-                                    suite = namespaceDefItem:next_sibling():next_sibling()
-                                end
-                            end
-                        end
-                        sibling = sibling:prev_sibling()
-                    until sibling == nil
-                end
+    end
+    
+    -- Find class containing cursor
+    for id, node, metadata in class_query:iter_captures(root, bufnr, 0, -1) do
+        local capture_name = class_query.captures[id]
+        if capture_name == "class.name" then
+            local class_decl = node:parent()
+            local decl_start_row, decl_start_col, decl_end_row, decl_end_col = class_decl:range()
+            
+            if cursor_row >= decl_start_row and cursor_row <= decl_end_row then
+                class_name = vim.treesitter.get_node_text(node, bufnr)
+                break
             end
         end
-    until node:parent() == nil
-
+    end
+    
+    -- Find namespace (for suite detection)
+    for id, node, metadata in namespace_query:iter_captures(root, bufnr, 0, -1) do
+        local capture_name = namespace_query.captures[id]
+        if capture_name == "namespace.name" then
+            local namespace_text = vim.treesitter.get_node_text(node, bufnr)
+            -- Look for "Test" in namespace segments
+            if namespace_text:find("Test") then
+                -- Extract suite name (segment after "Test")
+                local segments = vim.split(namespace_text, "\\")
+                for i, segment in ipairs(segments) do
+                    if segment == "Test" and segments[i + 1] then
+                        suite_name = segments[i + 1]
+                        break
+                    end
+                end
+            end
+            break
+        end
+    end
+    
     local tc = {
-        class = class and tsUtils.get_node_text(class, bufnr)[1] or nil, -- TODO: refact the class, it should be an object, name and relative path [botond.pelyi]
-        method = method and tsUtils.get_node_text(method, bufnr)[1] or nil,
-        suite = suite and tsUtils.get_node_text(suite, bufnr)[1] or nil,
-        isUnitTest = class and vim.fn.stridx(tsUtils.get_node_text(class, bufnr)[1], "Test") > -1 or false,
-        isCodeceptTest = class and vim.fn.stridx(tsUtils.get_node_text(class, bufnr)[1], "Cest") > -1 or false,
+        class = class_name,
+        method = method_name,
+        suite = suite_name,
+        isUnitTest = class_name and class_name:find("Test") ~= nil or false,
+        isCodeceptTest = class_name and class_name:find("Cest") ~= nil or false,
     }
 
     M.notify.debug(string.format(
-    "Class: %s\nMethod: %s\nSuite: %s\nIs unit test: %s\nIs Codeception: %s",
-    tc.class,
-    tc.method,
-    tc.suite,
-    tostring(tc.isUnitTest),
-    tostring(tc.isCodeceptTest)
+        "Class: %s\nMethod: %s\nSuite: %s\nIs unit test: %s\nIs Codeception: %s",
+        tc.class or "nil",
+        tc.method or "nil",
+        tc.suite or "nil",
+        tostring(tc.isUnitTest),
+        tostring(tc.isCodeceptTest)
     ))
 
     return tc

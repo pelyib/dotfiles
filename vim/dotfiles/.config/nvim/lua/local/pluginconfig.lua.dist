@@ -75,7 +75,7 @@ return {
         enabled = false,
         setup = {
             phpunit_cmd = function()
-                return "/Users/botond.pelyi/Projects/dotfiles/vim/vendor/neotest/phpic"
+                return "/path/to/dotfiles/vim/vendor/neotest/phpic"
             end,
         }
     },
@@ -83,7 +83,7 @@ return {
         enabled = false,
         setup = {
             sail_enabled = function () return false end,
-            pest_cmd = "/Users/botond.pelyi/Projects/dotfiles/vim/vendor/neotest/phpic",
+            pest_cmd = "/path/to/dotfiles/vim/vendor/neotest/phpic",
         }
     },
     noice = {

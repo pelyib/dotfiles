@@ -70,6 +70,10 @@ return {
     },
     neotest_jest = {
         enabled = false,
+        setup = {
+            jestCommand = "npm run test --detectOpenHandles",
+            jestConfigFile = "/path/to/jest.config.ts"
+        },
     },
     neotest_phpunit = {
         enabled = false,

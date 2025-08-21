@@ -45,7 +45,6 @@ return vim.tbl_deep_extend(
             }
         },
         config = function ()
-
             local adapters = {}
             local plenary_ok, plenary = pcall(require, "neotest-plenary")
             if plenary_ok then
@@ -60,11 +59,7 @@ return vim.tbl_deep_extend(
             if (pluginconf.neotest_jest and pluginconf.neotest_jest.enabled) then
                 local jest_ok, jest = pcall(require, "neotest-jest")
                 if jest_ok then
-                    table.insert(adapters, jest({
-                        jestCommand = "npm run test --detectOpenHandles",
-                        --jestCommand = "/Users/botond.pelyi/Projects/dotfiles/vim/vendor/neotest/jest --detectOpenHandles",
-                        jestConfigFile = "/Users/botond.pelyi/Projects/portal/jest.config.ts"
-                    }))
+                    table.insert(adapters, jest(pluginconf.neotest_jest.setup or {}))
                 end
             end
             if (pluginconf.neotest_phpunit and pluginconf.neotest_phpunit.enabled) then

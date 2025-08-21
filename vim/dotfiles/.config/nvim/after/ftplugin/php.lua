@@ -26,7 +26,7 @@ if not testRunner_ok then
 end
 
 local opts = {}
-local config_file = vim.fn.expand("~/.config/nvim/lua/local/php-test-runner.lua")
+local config_file = vim.fn.stdpath("config") .. "/lua/local/php-test-runner.lua"
 if vim.fn.filereadable(config_file) == 1 then
     local opts_ok, local_opts = pcall(require, "local.php-test-runner")
     if opts_ok then

@@ -11,7 +11,7 @@ pelyib.opts = {
         { name = 'pluginmanager', enabled = true },
         { name = 'statusline', enabled = true },
     },
-    localModulePath = '~/.config/nvim/lua/local/',
+    localModulePath = vim.fn.stdpath("config") .. '/lua/local/',
 }
 
 function pelyib.ensurePluginManagerInstalled()

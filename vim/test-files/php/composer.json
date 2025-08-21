@@ -1,2 +1,12 @@
 {
+    "name": "botivim/botivim-php",
+    "description": "A PHP test app for BotiVim",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": "^8.4"
+    },
+    "autoload": {
+        "psr-4": { "BotiVimPhp\\": "src/" }
+    }
 }

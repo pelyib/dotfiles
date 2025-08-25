@@ -328,10 +328,6 @@ end
 
 -- Setup function for autocmds and initialization
 M.setup = function()
-    vim.notify("Setting up pelyib.statusline",
-        vim.log.levels.INFO,
-        { title = "Pelyib Statusline" })
-    
     -- Auto-clear git cache when changing directories
     vim.api.nvim_create_autocmd("DirChanged", {
         callback = function()

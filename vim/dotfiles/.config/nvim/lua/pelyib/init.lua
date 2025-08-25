@@ -9,7 +9,6 @@ pelyib.opts = {
         { name = "pluginconf-host", enabled = true },
         { name = 'pluginconf', enabled = true },
         { name = 'pluginmanager', enabled = true },
-        { name = 'statusline', enabled = true },
     },
     localModulePath = vim.fn.stdpath("config") .. '/lua/local/',
 }

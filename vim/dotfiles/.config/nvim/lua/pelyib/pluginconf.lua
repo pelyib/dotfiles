@@ -154,6 +154,9 @@ local M = {
             phpcsfixer = {
                 enabled = false,
             },
+            statusline = {
+                enabled = false,
+            },
             telescope = {
                 enabled = false,
             },

@@ -50,6 +50,9 @@ return {
     lazydev = {
         enabled = false,
     },
+    lineindicators = {
+        enabled = false,
+    },
     lspzero = {
         enabled = false,
     },

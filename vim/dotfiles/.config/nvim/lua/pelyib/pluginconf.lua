@@ -94,6 +94,9 @@ local M = {
             gruvbox = {
                 enabled = false,
             },
+            lineindicators = {
+                enabled = false,
+            },
             lazydev = {
                 enabled = false,
             },

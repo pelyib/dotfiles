@@ -1,15 +1,15 @@
 local M = {}
 
-M.setup = function ()
-    -- PHP CS Fixer configuration based on the local env
-    --vim.g.php_cs_fixer_path = "/path/of/php-cs-fixer.3.10.0.phar"
-    --vim.g.php_cs_fixer_php_path = "/path/of/php/executable/php"
-    --vim.g.php_cs_fixer_config_file = "/path/of/.php-cs"
+M.setup = function()
+	-- PHP CS Fixer configuration based on the local env
+	--vim.g.php_cs_fixer_path = "/path/of/php-cs-fixer.3.10.0.phar"
+	--vim.g.php_cs_fixer_php_path = "/path/of/php/executable/php"
+	--vim.g.php_cs_fixer_config_file = "/path/of/.php-cs"
 
-    -- Phpactor local configuration
-    -- Set PHP path if you wanna specify (e.g.: default is not compatible with Phpactor min reqs)
-    -- https://phpactor.readthedocs.io/en/master/usage/vim-plugin.html?highlight=phpactorPhpBin#phpactor-requires-at-least-php-7-3-0
-    --vim.g.phpactorPhpBin = "/path/of/php/executable/php"
+	-- Phpactor local configuration
+	-- Set PHP path if you wanna specify (e.g.: default is not compatible with Phpactor min reqs)
+	-- https://phpactor.readthedocs.io/en/master/usage/vim-plugin.html?highlight=phpactorPhpBin#phpactor-requires-at-least-php-7-3-0
+	--vim.g.phpactorPhpBin = "/path/of/php/executable/php"
 end
 
 return M

@@ -1,1 +1,1 @@
-require('pelyib').setup()
+require("pelyib").setup()

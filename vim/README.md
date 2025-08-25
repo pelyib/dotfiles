@@ -30,6 +30,10 @@ From more info: `:help provider-python`
 [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) Neovim plugin requires it.
 [instruction](https://github.com/BurntSushi/ripgrep?tab=readme-ov-file#installation)
 
+### Formatters
+
+- [stylua](https://github.com/JohnnyMorganz/StyLua)
+
 ## Configuration
 
 It supports three levels of configuration:

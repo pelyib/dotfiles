@@ -1,27 +1,23 @@
-local pluginconf_ok, pluginconf = pcall(require, 'pelyib.pluginconf')
+local pluginconf_ok, pluginconf = pcall(require, "pelyib.pluginconf")
 if not pluginconf_ok then
-    pluginconf = { config = { patched = {} } }
+	pluginconf = { config = { patched = {} } }
 else
-    pluginconf = pluginconf.config.patched
+	pluginconf = pluginconf.config.patched
 end
 
-return vim.tbl_deep_extend(
-    "force",
-    {
-        "rcarriga/nvim-dap-ui",
-        enabled = false,
-        lazy = true,
-        cmd = { "DapUI" },
-        tag = "v3.9.1",
-        dependencies = {
-            "mfussenegger/nvim-dap"
-        },
-        config = function ()
-            local dapui_ok, dapui = pcall(require, "dapui")
-            if dapui_ok then
-                dapui.setup()
-            end
-        end
-    },
-    pluginconf.dapui or {}
-)
+return vim.tbl_deep_extend("force", {
+	"rcarriga/nvim-dap-ui",
+	enabled = false,
+	lazy = true,
+	cmd = { "DapUI" },
+	tag = "v3.9.1",
+	dependencies = {
+		"mfussenegger/nvim-dap",
+	},
+	config = function()
+		local dapui_ok, dapui = pcall(require, "dapui")
+		if dapui_ok then
+			dapui.setup()
+		end
+	end,
+}, pluginconf.dapui or {})

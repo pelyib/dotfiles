@@ -1,8 +1,8 @@
 local success, plugin = pcall(require, "nvim-navbuddy")
 if success == false then
-    return
+	return
 end
 
-vim.keymap.set('n', 'ar', function () 
-    plugin.open()
+vim.keymap.set("n", "ar", function()
+	plugin.open()
 end)

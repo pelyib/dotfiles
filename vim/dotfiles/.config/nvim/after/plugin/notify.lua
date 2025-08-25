@@ -1,11 +1,11 @@
 local success, notify = pcall(require, "notify")
 if success == false then
-    return
+	return
 end
 
 local success, telescope = pcall(require, "telescope")
 if success == false then
-    return
+	return
 end
 
 telescope.load_extension("notify")

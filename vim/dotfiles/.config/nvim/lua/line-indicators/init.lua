@@ -129,9 +129,8 @@ local function update_indicators(bufnr)
 	local current_hash = get_buffer_hash(bufnr)
 	local state = buffer_states[bufnr]
 
-	-- No changes detected
+	-- No changes detected - only clear if we know the buffer was just saved
 	if current_hash == state.baseline then
-		clear_buffer_signs(bufnr)
 		return
 	end
 

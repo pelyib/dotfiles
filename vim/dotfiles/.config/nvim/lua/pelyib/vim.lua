@@ -22,7 +22,6 @@ M.setup = function()
 	vim.opt.shada = ""
 	vim.opt.scrolloff = 5000
 	vim.opt.scroll = 10
-	vim.opt.statusline = "%!v:lua.require'pelyib.statusline'.calc()"
 	vim.opt.cursorcolumn = true
 	vim.opt.cursorline = true
 end

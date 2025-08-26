@@ -360,6 +360,8 @@ M.setup = function()
 			)
 		end,
 	})
+
+	vim.opt.statusline = "%!v:lua.require'statusline'.calc()"
 end
 
 return M

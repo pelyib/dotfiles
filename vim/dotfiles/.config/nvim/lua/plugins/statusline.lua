@@ -9,9 +9,9 @@ end
 -- But if this is disabled then the statusline won't be updated since the statusline.setup registers the hooks.
 return vim.tbl_deep_extend("force", {
 	name = "statusline",
+	main = "statusline",
 	enabled = false,
-	dir = vim.fn.stdpath("config") .. "/lua/pelyib",
-	config = function()
-		require("pelyib.statusline").setup()
-	end,
+	lazy = false,
+	dir = vim.fn.stdpath("config") .. "/lua/statusline",
+	config = true,
 }, pluginconf.statusline or {})

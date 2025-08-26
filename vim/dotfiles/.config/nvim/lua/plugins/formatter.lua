@@ -8,10 +8,20 @@ end
 return vim.tbl_deep_extend("force", {
 	"pelyib/formatter",
 	enabled = false,
-	dir = vim.fn.stdpath("config") .. "/lua/pelyib",
-	config = function()
-		require("pelyib.formatter").setup()
-	end,
+	lazy = true,
+	dir = vim.fn.stdpath("config") .. "/lua/formatter",
+	config = true,
+	main = "formatter",
+	keys = {
+		{
+			"csf",
+			mode = { "n" },
+			function()
+				require("formatter").format_buffer()
+			end,
+			desc = "Format current buffer",
+		},
+	},
 	dependencies = {
 		"rcarriga/nvim-notify",
 	},

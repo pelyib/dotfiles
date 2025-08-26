@@ -9,15 +9,10 @@ return vim.tbl_deep_extend("force", {
 	"numToStr/Comment.nvim",
 	enabled = false,
 	lazy = true,
+	config = true,
 	keys = {
 		{ "gc", mode = { "n", "v" }, desc = "Comment toggle" },
 		{ "gb", mode = { "n", "v" }, desc = "Comment toggle blockwise" },
 	},
 	tag = "v0.8.0",
-	config = function()
-		local comment_ok, comment = pcall(require, "Comment")
-		if comment_ok then
-			comment.setup()
-		end
-	end,
 }, pluginconf.comment)

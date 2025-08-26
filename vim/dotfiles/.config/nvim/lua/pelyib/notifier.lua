@@ -20,7 +20,7 @@ local defaultOpts = {
 ---@param level integer
 ---@param message any
 local function notify(level, message)
-	vim.notify(vim.inspect(message), level / 100, M.opts.vimNotOpts)
+	vim.notify(vim.inspect(message), level / 100, M.opts.vimNotOpts or {})
 end
 
 function M.debug(message)

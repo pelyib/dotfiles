@@ -63,11 +63,9 @@ local defaultOpts = {
 			path = vim.fn.getcwd() .. "/vendor/bin/codepect",
 		},
 	},
-	command = {
-		env = { "echo", "no command configured" },
-		framework = {},
-		args = {},
-	},
+	command = function(tc)
+		return { "echo", "'No command configured'" }
+	end,
 	callback = function(code, success, error)
 		if #success > 0 then
 			local lines = {}
@@ -228,25 +226,7 @@ end
 
 ---@param tc testCase
 local function buildCommand(commandEnv, tc)
-	local cmd = {}
-	for _, section in pairs({ "env", "framework", "args" }) do
-		for _, item in pairs(commandEnv[section]) do
-			if type(item) == "string" then
-				table.insert(cmd, item)
-			elseif type(item) == "function" then
-				local result = item(tc)
-				if type(result) == "string" then
-					table.insert(cmd, result)
-				elseif type(result) == "table" then
-					for _, subItem in pairs(result) do
-						table.insert(cmd, subItem)
-					end
-				end
-			end
-		end
-	end
-
-	return cmd
+	return commandEnv(tc)
 end
 
 function M.setup(opts)
@@ -269,7 +249,7 @@ function M.runOneCase()
 	end
 
 	tc.target = Target.METHOD
-	runTest(buildCommand(M.opts.command, tc), M.opts.callback)
+	runTest(M.opts.command(tc), M.opts.callback)
 end
 
 function M.runOneClass()
@@ -280,12 +260,12 @@ function M.runOneClass()
 	end
 
 	tc.target = Target.CLASS
-	runTest(buildCommand(M.opts.command, tc), M.opts.callback)
+	runTest(M.opts.command(tc), M.opts.callback)
 end
 
 function M.runSuite(suite)
 	local tc = vim.tbl_extend("force", testCase, { suite = suite, target = Target.SUITE })
-	runTest(buildCommand(M.opts.command, tc), M.opts.callback)
+	runTest(M.opts.command(tc), M.opts.callback)
 end
 
 return M

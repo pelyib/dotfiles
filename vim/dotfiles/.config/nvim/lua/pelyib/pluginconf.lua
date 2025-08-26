@@ -47,42 +47,44 @@ local M = {
 			},
 			formatter = {
 				enabled = false,
-				-- Default formatter configuration
-				format_on_save = false,
-				format_on_save_filetypes = { "php", "javascript", "typescript", "lua", "python", "go" },
-				keybinding = "<leader>f",
-				-- Formatter tool configurations
-				phpcsfixer = {
-					cmd = "php-cs-fixer",
-					args = { "fix", "%" },
-				},
-				prettier = {
-					cmd = "prettier",
-					args = { "--write", "%" },
-				},
-				stylua = {
-					cmd = "stylua",
-					args = { "%" },
-				},
-				black = {
-					cmd = "black",
-					args = { "%" },
-				},
-				gofmt = {
-					cmd = "gofmt",
-					args = { "-w", "%" },
-				},
-				-- Map filetypes to formatter tools
-				filetype_formatters = {
-					php = "phpcsfixer",
-					javascript = "prettier",
-					typescript = "prettier",
-					javascriptreact = "prettier",
-					typescriptreact = "prettier",
-					json = "prettier",
-					lua = "stylua",
-					python = "black",
-					go = "gofmt",
+				opts = {
+					-- Default formatter configuration
+					format_on_save = false,
+					format_on_save_filetypes = { "php", "javascript", "typescript", "lua", "python", "go" },
+					keybinding = "<leader>f",
+					-- Formatter tool configurations
+					phpcsfixer = {
+						cmd = "php-cs-fixer",
+						args = { "fix", "%" },
+					},
+					prettier = {
+						cmd = "prettier",
+						args = { "--write", "%" },
+					},
+					stylua = {
+						cmd = "stylua",
+						--                       args = { "%" },
+					},
+					black = {
+						cmd = "black",
+						args = { "%" },
+					},
+					gofmt = {
+						cmd = "gofmt",
+						args = { "-w", "%" },
+					},
+					-- Map filetypes to formatter tools
+					filetype_formatters = {
+						php = "phpcsfixer",
+						javascript = "prettier",
+						typescript = "prettier",
+						javascriptreact = "prettier",
+						typescriptreact = "prettier",
+						json = "prettier",
+						lua = "stylua",
+						python = "black",
+						go = "gofmt",
+					},
 				},
 			},
 			gitblame = {
@@ -152,6 +154,9 @@ local M = {
 				enabled = false,
 			},
 			phpcsfixer = {
+				enabled = false,
+			},
+			php_test_runner = {
 				enabled = false,
 			},
 			statusline = {

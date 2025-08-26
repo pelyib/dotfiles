@@ -43,6 +43,13 @@ function M.setup_formatters(config)
 			local cmd = config.phpcsfixer.cmd or "php-cs-fixer"
 			local args = config.phpcsfixer.args or { "fix", vim.fn.expand("%") }
 
+			-- TODO: hackish way to replace "%" with current file, improve later
+			for i, arg in ipairs(args) do
+				if arg == "%" then
+					args[i] = vim.fn.expand("%")
+				end
+			end
+
 			local output = vim.fn.system(cmd .. " " .. table.concat(args, " "))
 			if vim.v.shell_error ~= 0 then
 				error(output)
@@ -139,30 +146,11 @@ function M.setup_commands()
 			end,
 		})
 	end
-
-	-- Set up keybinding if enabled
-	if M.config.keybinding and M.config.keybinding ~= "" then
-		vim.keymap.set("n", M.config.keybinding, function()
-			M.format_buffer()
-		end, { noremap = true, silent = true })
-	end
 end
 
 -- Main setup function
-function M.setup()
-	-- Get configuration from pluginconf
-	local pluginconf_ok, pluginconf = pcall(require, "pelyib.pluginconf")
-	if not pluginconf_ok then
-		vim.notify("Failed to load pluginconf for formatter", vim.log.levels.ERROR)
-		return
-	end
-	local config = pluginconf.config.patched
-	M.config = config.formatter or {}
-
-	-- Skip setup if not enabled
-	if not M.config.enabled then
-		return
-	end
+function M.setup(opts)
+	M.config = opts or {}
 
 	-- Setup formatters based on configuration
 	M.setup_formatters(M.config)

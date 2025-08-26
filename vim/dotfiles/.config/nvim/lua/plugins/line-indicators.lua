@@ -7,8 +7,9 @@ end
 
 return vim.tbl_deep_extend("force", {
 	name = "line-indicators",
-	enabled = false,
-	dir = vim.fn.stdpath("config") .. "/lua/pelyib",
+	enabled = true,
+	lazy = false,
+	dir = vim.fn.stdpath("config") .. "/lua/line-indicators",
 	event = { "BufReadPost", "BufNewFile" },
 	opts = {
 		icons = {
@@ -19,7 +20,8 @@ return vim.tbl_deep_extend("force", {
 		debounce_ms = 150,
 		auto_enable_signcolumn = true,
 	},
+
 	config = function(_, opts)
-		require("pelyib.line-indicators").setup(opts)
+		require("line-indicators").setup(opts)
 	end,
 }, pluginconf.lineindicators or {})

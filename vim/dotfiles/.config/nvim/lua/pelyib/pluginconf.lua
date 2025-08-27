@@ -21,9 +21,6 @@ local M = {
 			barbecue = {
 				enabled = false,
 			},
-			bracketpair = {
-				enabled = false,
-			},
 			codeium = {
 				enabled = false,
 			},

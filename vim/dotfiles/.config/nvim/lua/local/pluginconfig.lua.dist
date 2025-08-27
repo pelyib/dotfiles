@@ -14,9 +14,6 @@ return {
 	barbecue = {
 		enabled = true,
 	},
-	bracketpair = {
-		enabled = false,
-	},
 	codeium = {
 		enabled = false,
 	},

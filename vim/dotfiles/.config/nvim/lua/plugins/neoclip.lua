@@ -7,8 +7,9 @@ return vim.tbl_deep_extend("force", {
 	dependencies = {
 		{ "kkharji/sqlite.lua", module = "sqlite" },
 	},
-	config = function()
-		require("neoclip").setup({ enable_persistent_history = true, continuous_sync = true })
+	opts = { enable_persistent_history = true, continuous_sync = true },
+	config = function(_, opts)
+		require("neoclip").setup(opts)
 		require("telescope").load_extension("neoclip")
 	end,
 }, pluginconf.neoclip or {})

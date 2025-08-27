@@ -11,16 +11,10 @@ return vim.tbl_deep_extend("force", {
 	lazy = true,
 	cmd = { "ToggleTerm", "TermExec" },
 	version = "v2.5.0",
-	config = function()
-		local toggleterm_ok, toggleterm = pcall(require, "toggleterm")
-		if not toggleterm_ok then
-			return
-		end
-		toggleterm.setup({
-			direction = "float",
-			--open_mapping = [[<F7>]],
-			open_mapping = [[<leader>t]],
-			auto_scroll = false,
-		})
-	end,
+	opts = {
+		direction = "float",
+		--open_mapping = [[<F7>]],
+		open_mapping = [[<leader>t]],
+		auto_scroll = false,
+	},
 }, pluginconf.toggleterm or {})

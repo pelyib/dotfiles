@@ -22,12 +22,7 @@ return vim.tbl_deep_extend("force", {
 			tag = "v1.10.0",
 			lazy = true,
 			cmd = "Mason",
-			config = function()
-				local mason_ok, mason = pcall(require, "mason")
-				if mason_ok then
-					mason.setup({})
-				end
-			end,
+			config = true,
 		},
 		{
 			"williamboman/mason-lspconfig.nvim",

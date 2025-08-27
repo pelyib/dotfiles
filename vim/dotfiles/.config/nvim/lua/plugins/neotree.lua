@@ -25,26 +25,20 @@ return vim.tbl_deep_extend("force", {
 			commit = "35da9ca1de0fc4dda96c2e214d93d363c145f418",
 		},
 	},
-	config = function()
-		local neotree_ok, neotree = pcall(require, "neo-tree")
-		if not neotree_ok then
-			return
-		end
-		neotree.setup({
-			window = {
-				position = "float",
-			},
-			filesystem = {
-				filtered_items = {
-					hide_dotfiles = false,
-					hide_gitignored = false,
-					never_show = {
-						".DS_Store",
-						"thumbs.db",
-						".git",
-					},
+	opts = {
+		window = {
+			position = "float",
+		},
+		filesystem = {
+			filtered_items = {
+				hide_dotfiles = false,
+				hide_gitignored = false,
+				never_show = {
+					".DS_Store",
+					"thumbs.db",
+					".git",
 				},
 			},
-		})
-	end,
+		},
+	},
 }, pluginconf.neotree or {})

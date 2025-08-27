@@ -10,7 +10,6 @@ return vim.tbl_deep_extend("force", {
 	enabled = false,
 	lazy = true,
 	dir = vim.fn.stdpath("config") .. "/lua/phptestrunner",
-	opts = {},
 	config = true,
 	main = "phptestrunner",
 	keys = {

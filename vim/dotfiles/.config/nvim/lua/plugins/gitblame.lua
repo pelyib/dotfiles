@@ -11,12 +11,8 @@ return vim.tbl_deep_extend("force", {
 	lazy = true,
 	cmd = { "GitBlameToggle", "GitBlameCopyCommitURL", "GitBlameCopyFileURL" },
 	commit = "f07e913",
-	config = function()
-		local gitblame_ok, gitblame = pcall(require, "gitblame")
-		if gitblame_ok then
-			gitblame.setup({
-				enabled = false,
-			})
-		end
-	end,
+	opts = {
+		enabled = true,
+	},
+	config = true,
 }, pluginconf.gitblame or {})

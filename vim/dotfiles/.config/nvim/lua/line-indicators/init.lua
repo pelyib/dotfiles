@@ -102,11 +102,9 @@ local function clear_buffer_signs(bufnr)
 		return
 	end
 
-	for _, _ in pairs(buffer_states[bufnr].signs_placed) do
-		pcall(vim.fn.sign_unplace, signs.line_added, { buffer = bufnr, })
-		pcall(vim.fn.sign_unplace, signs.line_modified, { buffer = bufnr, })
-		pcall(vim.fn.sign_unplace, signs.line_deleted, { buffer = bufnr, })
-	end
+	pcall(vim.fn.sign_unplace, signs.line_added, { buffer = bufnr, })
+	pcall(vim.fn.sign_unplace, signs.line_modified, { buffer = bufnr, })
+	pcall(vim.fn.sign_unplace, signs.line_deleted, { buffer = bufnr, })
 
 	buffer_states[bufnr].signs_placed = {}
 end

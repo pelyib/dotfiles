@@ -30,25 +30,26 @@ local signs = {
 -- Debounce timer
 local debounce_timer = nil
 
--- Get git HEAD version of the file
-local function get_git_head_content(file_path)
+-- Get git diff for the file
+local function get_git_diff(file_path)
 	if not file_path or file_path == "" then
 		return nil
 	end
 
-	local handle = io.popen("git show HEAD:" .. vim.fn.shellescape(vim.fn.fnamemodify(file_path, ":.")))
+	local relative_path = vim.fn.fnamemodify(file_path, ":.")
+	local handle = io.popen("git diff HEAD -- " .. vim.fn.shellescape(relative_path))
 	if not handle then
 		return nil
 	end
 
-	local content = handle:read("*a")
+	local diff_output = handle:read("*a")
 	local success = handle:close()
 
-	if not success or not content then
+	if not success then
 		return nil
 	end
 
-	return content
+	return diff_output
 end
 
 -- Check if file is in a git repository
@@ -81,13 +82,7 @@ local function init_buffer_state(bufnr)
 		return
 	end
 
-	local git_content = get_git_head_content(file_path)
-	if not git_content then
-		return
-	end
-
 	buffer_states[bufnr] = {
-		git_baseline = git_content,
 		signs_placed = {},
 		last_update = 0,
 		file_path = file_path,
@@ -135,31 +130,32 @@ local function place_sign(bufnr, line_nr, sign_type)
 	buffer_states[bufnr].signs_placed[line_nr] = sign_type
 end
 
--- Simple diff implementation
-local function compute_diff(baseline_lines, current_lines)
+-- Parse git diff output to extract changed lines
+local function parse_git_diff(diff_output)
 	local changes = {}
-	local baseline_count = #baseline_lines
-	local current_count = #current_lines
-	local max_lines = math.max(baseline_count, current_count)
+	
+	if not diff_output or diff_output == "" then
+		return changes
+	end
 
-	for i = 1, max_lines do
-		local baseline_line = baseline_lines[i]
-		local current_line = current_lines[i]
-
-		if baseline_line and current_line then
-			-- Both lines exist
-			if baseline_line ~= current_line then
-				changes[i] = "line_modified"
-			end
-		elseif current_line and not baseline_line then
-			-- Line added
-			changes[i] = "line_added"
-		elseif baseline_line and not current_line then
-			-- Line deleted (mark the last existing line)
-			if i > current_count then
-				local mark_line = math.max(1, current_count)
-				changes[mark_line] = "line_deleted"
-			end
+	local current_line = 0
+	for line in diff_output:gmatch("[^\r\n]+") do
+		-- Parse hunk header: @@ -old_start,old_count +new_start,new_count @@
+		local new_start, new_count = line:match("@@ %-%d+,?%d* %+(%d+),?(%d*) @@")
+		if new_start then
+			current_line = tonumber(new_start)
+			new_count = new_count == "" and 1 or tonumber(new_count)
+		elseif line:match("^%+") and not line:match("^%+%+%+") then
+			-- Added line
+			changes[current_line] = "line_added"
+			current_line = current_line + 1
+		elseif line:match("^%-") and not line:match("^%-%-%-") then
+			-- Deleted line (mark at current position)
+			changes[current_line] = "line_deleted"
+			-- Don't increment current_line for deletions
+		elseif line:match("^ ") then
+			-- Unchanged line
+			current_line = current_line + 1
 		end
 	end
 
@@ -178,35 +174,23 @@ local function update_indicators(bufnr)
 	end
 
 	local state = buffer_states[bufnr]
-	local current_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-	local current_content = table.concat(current_lines, "\n")
 	
-	-- Add final newline if the file ends with one (to match git output)
-	if vim.bo[bufnr].eol and #current_lines > 0 then
-		current_content = current_content .. "\n"
-	end
-
-	-- Compare against git baseline
-	print("Current content length: " .. #current_content)
-	print("Git baseline length: " .. #state.git_baseline)
-	print("Content matches: " .. tostring(current_content == state.git_baseline))
+	-- Get git diff for this file
+	local diff_output = get_git_diff(state.file_path)
 	
-	if current_content == state.git_baseline then
-		print("Contents match - clearing signs")
-		clear_buffer_signs(bufnr)
+	-- Clear existing signs first
+	clear_buffer_signs(bufnr)
+	
+	-- If no diff output, file matches HEAD
+	if not diff_output or diff_output == "" then
+		print("No changes detected")
 		return
 	end
+
+	print("Git diff detected, parsing changes...")
 	
-	print("Contents differ - updating signs")
-
-	-- Parse lines for diff
-	local baseline_lines = vim.split(state.git_baseline, "\n", { plain = true })
-
-	-- Compute differences
-	local changes = compute_diff(baseline_lines, current_lines)
-
-	-- Clear existing signs
-	clear_buffer_signs(bufnr)
+	-- Parse git diff to get changed lines
+	local changes = parse_git_diff(diff_output)
 
 	-- Place new signs
 	for line_nr, change_type in pairs(changes) do
@@ -214,6 +198,7 @@ local function update_indicators(bufnr)
 	end
 
 	state.last_update = vim.loop.now()
+	print("Updated " .. vim.tbl_count(changes) .. " line indicators")
 end
 
 -- Debounced update function
@@ -234,19 +219,14 @@ local function debounced_update()
 	)
 end
 
--- Refresh git baseline (called after git operations)
-local function refresh_git_baseline(bufnr)
+-- Refresh git indicators (called after git operations)
+local function refresh_git_indicators(bufnr)
 	if not buffer_states[bufnr] then
 		return
 	end
 
-	local state = buffer_states[bufnr]
-	local new_git_content = get_git_head_content(state.file_path)
-    print("Old baseline length: " .. #state.git_baseline)
-    print("New baseline length: " .. #new_git_content)
-    state.git_baseline = new_git_content
-    update_indicators(bufnr)
-    print("Baseline updated and indicators refreshed")
+	print("Refreshing Git indicators for buffer " .. bufnr)
+	update_indicators(bufnr)
 end
 
 -- Cleanup buffer state
@@ -318,7 +298,7 @@ function M.setup(opts)
 			vim.defer_fn(function()
 				local bufnr = vim.api.nvim_get_current_buf()
 				if buffer_states[bufnr] then
-					refresh_git_baseline(bufnr)
+					refresh_git_indicators(bufnr)
 				end
 			end, 100)
 		end,
@@ -340,7 +320,7 @@ function M.setup(opts)
 			-- Refresh all buffers when focus is gained
 			for bufnr, _ in pairs(buffer_states) do
 				if vim.api.nvim_buf_is_valid(bufnr) then
-					refresh_git_baseline(bufnr)
+					refresh_git_indicators(bufnr)
 				end
 			end
 		end,
@@ -354,7 +334,7 @@ function M.setup(opts)
 			if buffer_states[bufnr] then
 				-- Small delay to avoid excessive refreshing
 				vim.defer_fn(function()
-					refresh_git_baseline(bufnr)
+					refresh_git_indicators(bufnr)
 				end, 50)
 			end
 		end,
@@ -365,7 +345,7 @@ function M.setup(opts)
 		local bufnr = vim.api.nvim_get_current_buf()
 		if buffer_states[bufnr] then
 			print("Refreshing indicators for buffer " .. bufnr)
-			refresh_git_baseline(bufnr)
+			refresh_git_indicators(bufnr)
 		else
 			print("No line indicators state for current buffer")
 		end

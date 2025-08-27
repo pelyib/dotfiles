@@ -30,14 +30,15 @@ local signs = {
 -- Debounce timer
 local debounce_timer = nil
 
--- Get git diff for the file
+-- Get git diff for the file (working directory vs HEAD)
 local function get_git_diff(file_path)
 	if not file_path or file_path == "" then
 		return nil
 	end
 
 	local relative_path = vim.fn.fnamemodify(file_path, ":.")
-	local handle = io.popen("git diff HEAD -- " .. vim.fn.shellescape(relative_path))
+	-- Compare working directory vs HEAD (last commit)
+	local handle = io.popen("git diff HEAD -- " .. vim.fn.shellescape(relative_path) .. " 2>/dev/null")
 	if not handle then
 		return nil
 	end
@@ -45,8 +46,9 @@ local function get_git_diff(file_path)
 	local diff_output = handle:read("*a")
 	local success = handle:close()
 
+	-- If command failed or file doesn't exist in HEAD, return empty (no changes to show)
 	if not success then
-		return nil
+		return ""
 	end
 
 	return diff_output

@@ -345,6 +345,17 @@ function M.setup(opts)
 			end
 		end,
 	})
+
+	-- Add manual refresh command for debugging
+	vim.api.nvim_create_user_command("LineIndicatorsRefresh", function()
+		local bufnr = vim.api.nvim_get_current_buf()
+		if buffer_states[bufnr] then
+			print("Refreshing indicators for buffer " .. bufnr)
+			refresh_git_baseline(bufnr)
+		else
+			print("No line indicators state for current buffer")
+		end
+	end, {})
 end
 
 return M

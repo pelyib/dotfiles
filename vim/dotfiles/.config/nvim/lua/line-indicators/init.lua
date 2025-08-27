@@ -323,9 +323,25 @@ function M.setup(opts)
 	vim.api.nvim_create_autocmd("FocusGained", {
 		group = group,
 		callback = function()
+			-- Refresh all buffers when focus is gained
+			for bufnr, _ in pairs(buffer_states) do
+				if vim.api.nvim_buf_is_valid(bufnr) then
+					refresh_git_baseline(bufnr)
+				end
+			end
+		end,
+	})
+
+	-- Refresh when entering any buffer (catches git changes)
+	vim.api.nvim_create_autocmd("BufEnter", {
+		group = group,
+		callback = function()
 			local bufnr = vim.api.nvim_get_current_buf()
 			if buffer_states[bufnr] then
-				refresh_git_baseline(bufnr)
+				-- Small delay to avoid excessive refreshing
+				vim.defer_fn(function()
+					refresh_git_baseline(bufnr)
+				end, 50)
 			end
 		end,
 	})

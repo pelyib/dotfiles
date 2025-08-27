@@ -24,10 +24,42 @@ local signs = {
 -- Debounce timer
 local debounce_timer = nil
 
--- Get buffer lines as a hash for comparison
-local function get_buffer_hash(bufnr)
-	local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-	return table.concat(lines, "\n")
+-- Get git HEAD version of the file
+local function get_git_head_content(file_path)
+	if not file_path or file_path == "" then
+		return nil
+	end
+	
+	local handle = io.popen("git show HEAD:" .. vim.fn.shellescape(vim.fn.fnamemodify(file_path, ":.")))
+	if not handle then
+		return nil
+	end
+	
+	local content = handle:read("*a")
+	local success = handle:close()
+	
+	if not success or not content then
+		return nil
+	end
+	
+	return content
+end
+
+-- Check if file is in a git repository
+local function is_git_repo(file_path)
+	if not file_path or file_path == "" then
+		return false
+	end
+	
+	local handle = io.popen("cd " .. vim.fn.shellescape(vim.fn.fnamemodify(file_path, ":h")) .. " && git rev-parse --git-dir 2>/dev/null")
+	if not handle then
+		return false
+	end
+	
+	local result = handle:read("*a")
+	local success = handle:close()
+	
+	return success and result and result:match("%S")
 end
 
 -- Initialize buffer state
@@ -36,10 +68,21 @@ local function init_buffer_state(bufnr)
 		return
 	end
 
+	local file_path = vim.api.nvim_buf_get_name(bufnr)
+	if not is_git_repo(file_path) then
+		return
+	end
+
+	local git_content = get_git_head_content(file_path)
+	if not git_content then
+		return
+	end
+
 	buffer_states[bufnr] = {
-		baseline = get_buffer_hash(bufnr),
+		git_baseline = git_content,
 		signs_placed = {},
 		last_update = 0,
+		file_path = file_path,
 	}
 
 	-- Enable sign column if configured
@@ -68,6 +111,8 @@ local function place_sign(bufnr, line_nr, sign_type)
 	if not buffer_states[bufnr] then
 		return
 	end
+
+
 
 	local sign_name = signs[sign_type]
 	if not sign_name then
@@ -126,17 +171,18 @@ local function update_indicators(bufnr)
 		return
 	end
 
-	local current_hash = get_buffer_hash(bufnr)
 	local state = buffer_states[bufnr]
+	local current_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+	local current_content = table.concat(current_lines, "\n")
 
-	-- No changes detected - only clear if we know the buffer was just saved
-	if current_hash == state.baseline then
+	-- Compare against git baseline
+	if current_content == state.git_baseline then
+		clear_buffer_signs(bufnr)
 		return
 	end
 
 	-- Parse lines for diff
-	local baseline_lines = vim.split(state.baseline, "\n", { plain = true })
-	local current_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+	local baseline_lines = vim.split(state.git_baseline, "\n", { plain = true })
 
 	-- Compute differences
 	local changes = compute_diff(baseline_lines, current_lines)
@@ -170,14 +216,18 @@ local function debounced_update()
 	)
 end
 
--- Update baseline after save
-local function update_baseline(bufnr)
+-- Refresh git baseline (called after git operations)
+local function refresh_git_baseline(bufnr)
 	if not buffer_states[bufnr] then
 		return
 	end
 
-	buffer_states[bufnr].baseline = get_buffer_hash(bufnr)
-	clear_buffer_signs(bufnr)
+	local state = buffer_states[bufnr]
+	local new_git_content = get_git_head_content(state.file_path)
+	if new_git_content then
+		state.git_baseline = new_git_content
+		update_indicators(bufnr)
+	end
 end
 
 -- Cleanup buffer state
@@ -222,6 +272,8 @@ function M.setup(opts)
 			local bufnr = vim.api.nvim_get_current_buf()
 			if vim.bo[bufnr].buftype == "" then
 				init_buffer_state(bufnr)
+	-- Update indicators immediately for existing changes
+	update_indicators(bufnr)
 			end
 		end,
 	})
@@ -231,18 +283,23 @@ function M.setup(opts)
 		group = group,
 		callback = function()
 			local bufnr = vim.api.nvim_get_current_buf()
-			if vim.bo[bufnr].buftype == "" then
+			if vim.bo[bufnr].buftype == "" and buffer_states[bufnr] then
 				debounced_update()
 			end
 		end,
 	})
 
-	-- Update baseline after save
+	-- Refresh git baseline after potential git operations
 	vim.api.nvim_create_autocmd("BufWritePost", {
 		group = group,
 		callback = function()
-			local bufnr = vim.api.nvim_get_current_buf()
-			update_baseline(bufnr)
+			-- Small delay to allow git hooks to complete
+			vim.defer_fn(function()
+				local bufnr = vim.api.nvim_get_current_buf()
+				if buffer_states[bufnr] then
+					refresh_git_baseline(bufnr)
+				end
+			end, 100)
 		end,
 	})
 
@@ -252,6 +309,17 @@ function M.setup(opts)
 		callback = function()
 			local bufnr = vim.api.nvim_get_current_buf()
 			cleanup_buffer(bufnr)
+		end,
+	})
+
+	-- Refresh on focus gained (in case git state changed externally)
+	vim.api.nvim_create_autocmd("FocusGained", {
+		group = group,
+		callback = function()
+			local bufnr = vim.api.nvim_get_current_buf()
+			if buffer_states[bufnr] then
+				refresh_git_baseline(bufnr)
+			end
 		end,
 	})
 end

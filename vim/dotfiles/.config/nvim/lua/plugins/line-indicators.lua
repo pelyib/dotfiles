@@ -7,21 +7,19 @@ end
 
 return vim.tbl_deep_extend("force", {
 	name = "line-indicators",
-	enabled = true,
-	lazy = false,
+	enabled = false,
+	lazy = true,
 	dir = vim.fn.stdpath("config") .. "/lua/line-indicators",
+	main = "line-indicators",
 	event = { "BufReadPost", "BufNewFile" },
 	opts = {
 		icons = {
-			added = "+",
-			modified = "~",
-			deleted = "-",
+			added = "a",
+			modified = "m",
+			deleted = "d",
 		},
 		debounce_ms = 150,
 		auto_enable_signcolumn = true,
 	},
-
-	config = function(_, opts)
-		require("line-indicators").setup(opts)
-	end,
+	config = true,
 }, pluginconf.lineindicators or {})

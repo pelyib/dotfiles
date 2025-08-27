@@ -3,7 +3,6 @@ local M = {}
 -- Buffer state tracking
 local buffer_states = {}
 
-
 -- Configuration
 M.config = {
 	icons = {
@@ -102,9 +101,9 @@ local function clear_buffer_signs(bufnr)
 		return
 	end
 
-	pcall(vim.fn.sign_unplace, signs.line_added, { buffer = bufnr, })
-	pcall(vim.fn.sign_unplace, signs.line_modified, { buffer = bufnr, })
-	pcall(vim.fn.sign_unplace, signs.line_deleted, { buffer = bufnr, })
+	pcall(vim.fn.sign_unplace, signs.line_added, { buffer = bufnr })
+	pcall(vim.fn.sign_unplace, signs.line_modified, { buffer = bufnr })
+	pcall(vim.fn.sign_unplace, signs.line_deleted, { buffer = bufnr })
 
 	buffer_states[bufnr].signs_placed = {}
 end
@@ -133,7 +132,7 @@ end
 -- Parse git diff output to extract changed lines
 local function parse_git_diff(diff_output)
 	local changes = {}
-	
+
 	if not diff_output or diff_output == "" then
 		return changes
 	end
@@ -174,21 +173,18 @@ local function update_indicators(bufnr)
 	end
 
 	local state = buffer_states[bufnr]
-	
+
 	-- Get git diff for this file
 	local diff_output = get_git_diff(state.file_path)
-	
+
 	-- Clear existing signs first
 	clear_buffer_signs(bufnr)
-	
+
 	-- If no diff output, file matches HEAD
 	if not diff_output or diff_output == "" then
-		print("No changes detected")
 		return
 	end
 
-	print("Git diff detected, parsing changes...")
-	
 	-- Parse git diff to get changed lines
 	local changes = parse_git_diff(diff_output)
 
@@ -198,7 +194,6 @@ local function update_indicators(bufnr)
 	end
 
 	state.last_update = vim.loop.now()
-	print("Updated " .. vim.tbl_count(changes) .. " line indicators")
 end
 
 -- Debounced update function
@@ -225,7 +220,6 @@ local function refresh_git_indicators(bufnr)
 		return
 	end
 
-	print("Refreshing Git indicators for buffer " .. bufnr)
 	update_indicators(bufnr)
 end
 
@@ -343,12 +337,7 @@ function M.setup(opts)
 	-- Add manual refresh command for debugging
 	vim.api.nvim_create_user_command("LineIndicatorsRefresh", function()
 		local bufnr = vim.api.nvim_get_current_buf()
-		if buffer_states[bufnr] then
-			print("Refreshing indicators for buffer " .. bufnr)
-			refresh_git_indicators(bufnr)
-		else
-			print("No line indicators state for current buffer")
-		end
+		refresh_git_indicators(bufnr)
 	end, {})
 end
 

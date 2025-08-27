@@ -10,6 +10,11 @@ M.config = {
 		modified = "~",
 		deleted = "-",
 	},
+	colors = {
+		added = "#10b981", -- Green
+		modified = "#3b82f6", -- Blue
+		deleted = "#ef4444", -- Red
+	},
 	debounce_ms = 150,
 	auto_enable_signcolumn = true,
 }
@@ -29,19 +34,19 @@ local function get_git_head_content(file_path)
 	if not file_path or file_path == "" then
 		return nil
 	end
-	
+
 	local handle = io.popen("git show HEAD:" .. vim.fn.shellescape(vim.fn.fnamemodify(file_path, ":.")))
 	if not handle then
 		return nil
 	end
-	
+
 	local content = handle:read("*a")
 	local success = handle:close()
-	
+
 	if not success or not content then
 		return nil
 	end
-	
+
 	return content
 end
 
@@ -50,15 +55,17 @@ local function is_git_repo(file_path)
 	if not file_path or file_path == "" then
 		return false
 	end
-	
-	local handle = io.popen("cd " .. vim.fn.shellescape(vim.fn.fnamemodify(file_path, ":h")) .. " && git rev-parse --git-dir 2>/dev/null")
+
+	local handle = io.popen(
+		"cd " .. vim.fn.shellescape(vim.fn.fnamemodify(file_path, ":h")) .. " && git rev-parse --git-dir 2>/dev/null"
+	)
 	if not handle then
 		return false
 	end
-	
+
 	local result = handle:read("*a")
 	local success = handle:close()
-	
+
 	return success and result and result:match("%S")
 end
 
@@ -111,8 +118,6 @@ local function place_sign(bufnr, line_nr, sign_type)
 	if not buffer_states[bufnr] then
 		return
 	end
-
-
 
 	local sign_name = signs[sign_type]
 	if not sign_name then
@@ -243,23 +248,25 @@ function M.setup(opts)
 	opts = opts or {}
 	M.config = vim.tbl_deep_extend("force", M.config, opts)
 
+	-- Create custom highlight groups using configurable colors
+	vim.api.nvim_set_hl(0, "LineIndicatorAdded", { fg = M.config.colors.added })
+	vim.api.nvim_set_hl(0, "LineIndicatorModified", { fg = M.config.colors.modified })
+	vim.api.nvim_set_hl(0, "LineIndicatorDeleted", { fg = M.config.colors.deleted })
+
 	-- Define signs
 	vim.fn.sign_define(signs.line_added, {
 		text = M.config.icons.added,
-		texthl = "DiffAdd",
-		numhl = "DiffAdd",
+		texthl = "LineIndicatorAdded",
 	})
 
 	vim.fn.sign_define(signs.line_modified, {
 		text = M.config.icons.modified,
-		texthl = "DiffChange",
-		numhl = "DiffChange",
+		texthl = "LineIndicatorModified",
 	})
 
 	vim.fn.sign_define(signs.line_deleted, {
 		text = M.config.icons.deleted,
-		texthl = "DiffDelete",
-		numhl = "DiffDelete",
+		texthl = "LineIndicatorDeleted",
 	})
 
 	-- Setup autocmds
@@ -272,8 +279,8 @@ function M.setup(opts)
 			local bufnr = vim.api.nvim_get_current_buf()
 			if vim.bo[bufnr].buftype == "" then
 				init_buffer_state(bufnr)
-	-- Update indicators immediately for existing changes
-	update_indicators(bufnr)
+				-- Update indicators immediately for existing changes
+				update_indicators(bufnr)
 			end
 		end,
 	})

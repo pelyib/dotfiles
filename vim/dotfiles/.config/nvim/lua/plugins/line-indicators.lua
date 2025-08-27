@@ -13,11 +13,6 @@ return vim.tbl_deep_extend("force", {
 	main = "line-indicators",
 	event = { "BufReadPost", "BufNewFile" },
 	opts = {
-		icons = {
-			added = "a",
-			modified = "m",
-			deleted = "d",
-		},
 		debounce_ms = 150,
 		auto_enable_signcolumn = true,
 	},

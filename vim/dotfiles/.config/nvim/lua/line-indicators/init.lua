@@ -179,6 +179,11 @@ local function update_indicators(bufnr)
 	local state = buffer_states[bufnr]
 	local current_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
 	local current_content = table.concat(current_lines, "\n")
+	
+	-- Add final newline if the file ends with one (to match git output)
+	if vim.bo[bufnr].eol and #current_lines > 0 then
+		current_content = current_content .. "\n"
+	end
 
 	-- Compare against git baseline
 	print("Current content length: " .. #current_content)

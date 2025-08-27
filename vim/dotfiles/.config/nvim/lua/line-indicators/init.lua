@@ -3,6 +3,7 @@ local M = {}
 -- Buffer state tracking
 local buffer_states = {}
 
+
 -- Configuration
 M.config = {
 	icons = {

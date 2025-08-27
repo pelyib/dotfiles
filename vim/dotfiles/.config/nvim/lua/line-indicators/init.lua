@@ -240,19 +240,13 @@ local function refresh_git_baseline(bufnr)
 		return
 	end
 
+	local state = buffer_states[bufnr]
+	local new_git_content = get_git_head_content(state.file_path)
+    print("Old baseline length: " .. #state.git_baseline)
+    print("New baseline length: " .. #new_git_content)
+    state.git_baseline = new_git_content
     update_indicators(bufnr)
-
-	-- local state = buffer_states[bufnr]
-	-- local new_git_content = get_git_head_content(state.file_path)
-	-- if new_git_content then
-	-- 	print("Old baseline length: " .. #state.git_baseline)
-	-- 	print("New baseline length: " .. #new_git_content)
-	-- 	state.git_baseline = new_git_content
-	-- 	update_indicators(bufnr)
-	-- 	print("Baseline updated and indicators refreshed")
-	-- else
-	-- 	print("Failed to get new git content for: " .. state.file_path)
-	-- end
+    print("Baseline updated and indicators refreshed")
 end
 
 -- Cleanup buffer state

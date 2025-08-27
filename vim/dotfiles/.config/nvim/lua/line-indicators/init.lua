@@ -181,10 +181,17 @@ local function update_indicators(bufnr)
 	local current_content = table.concat(current_lines, "\n")
 
 	-- Compare against git baseline
+	print("Current content length: " .. #current_content)
+	print("Git baseline length: " .. #state.git_baseline)
+	print("Content matches: " .. tostring(current_content == state.git_baseline))
+	
 	if current_content == state.git_baseline then
+		print("Contents match - clearing signs")
 		clear_buffer_signs(bufnr)
 		return
 	end
+	
+	print("Contents differ - updating signs")
 
 	-- Parse lines for diff
 	local baseline_lines = vim.split(state.git_baseline, "\n", { plain = true })

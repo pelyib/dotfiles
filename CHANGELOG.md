@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.40] - 2025-08-28
+
+### Added
+- [NVIM] Git-based Line Indicators
+- [NVIM] Formatter Plugin
+- [NVIM] Git-based Line Indicators
+- [NVIM] Git-based Line Indicators
+
+### Changed
+- [NVIM] PHP Test Runner is using tree-sitter to detect the test function name
+- [NVIM] Statusline refactored
+- [NVIM] Plugin loading: migrated to lazy.nvim style configuration for better performance
+
 ## [0.0.39] - 2025-01-22
 
 ### Added

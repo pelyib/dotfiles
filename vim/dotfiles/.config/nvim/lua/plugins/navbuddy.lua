@@ -18,6 +18,15 @@ return vim.tbl_deep_extend("force", {
 		},
 		"MunifTanjim/nui.nvim",
 	},
+	keys = {
+		{
+			"ar",
+			function()
+				require("nvim-navbuddy").open()
+			end,
+			desc = "Open Navbuddy",
+		},
+	},
 	config = function()
 		local navbuddy_ok, navbuddy = pcall(require, "nvim-navbuddy")
 		if not navbuddy_ok then

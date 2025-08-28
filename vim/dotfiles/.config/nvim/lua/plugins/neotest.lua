@@ -84,4 +84,22 @@ return vim.tbl_deep_extend("force", {
 			})
 		end
 	end,
+	keys = {
+		{
+			"rc",
+			mode = "n",
+			function()
+				require("neotest").run.run()
+			end,
+			desc = "Run nearest test",
+		},
+		{
+			"rf",
+			mode = "n",
+			function()
+				require("neotest").run.run(vim.fn.expand("%"))
+			end,
+			desc = "Run all tests in file",
+		},
+	},
 }, pluginconf.neotest or {})

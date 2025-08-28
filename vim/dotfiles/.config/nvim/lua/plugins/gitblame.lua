@@ -15,4 +15,7 @@ return vim.tbl_deep_extend("force", {
 		enabled = true,
 	},
 	config = true,
+	keys = {
+		{ "<leader>gb", "<cmd>GitBlameToggle<cr>", desc = "Toggle Git Blame" },
+	},
 }, pluginconf.gitblame or {})

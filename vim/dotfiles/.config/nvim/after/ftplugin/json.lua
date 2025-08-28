@@ -1,5 +1,0 @@
-vim.keymap.set('n', 'csf', function ()
-    require('pelyib.shell-runner')({"jq", "'.'", "--indendt", "4"}, function ()
-        require('pelyib.notifier').info("Success")
-    end)
-end)

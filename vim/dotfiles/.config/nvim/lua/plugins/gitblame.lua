@@ -1,16 +1,21 @@
-local pluginconf = require("pelyib.pluginconf").config.patched
+local pluginconf_ok, pluginconf = pcall(require, "pelyib.pluginconf")
+if not pluginconf_ok then
+	pluginconf = { config = { patched = {} } }
+else
+	pluginconf = pluginconf.config.patched
+end
 
-return vim.tbl_deep_extend(
-    "force",
-    {
-        'f-person/git-blame.nvim',
-        enabled = false,
-        commit = "f07e913",
-        config = function ()
-            require("gitblame").setup({
-                enabled = false,
-            })
-        end
-    },
-    pluginconf.gitblame or {}
-)
+return vim.tbl_deep_extend("force", {
+	"f-person/git-blame.nvim",
+	enabled = false,
+	lazy = true,
+	cmd = { "GitBlameToggle", "GitBlameCopyCommitURL", "GitBlameCopyFileURL" },
+	commit = "f07e913",
+	opts = {
+		enabled = true,
+	},
+	config = true,
+	keys = {
+		{ "<leader>gb", "<cmd>GitBlameToggle<cr>", desc = "Toggle Git Blame" },
+	},
+}, pluginconf.gitblame or {})

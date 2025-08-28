@@ -8,5 +8,5 @@ return vim.tbl_deep_extend("force", {
 		"MunifTanjim/nui.nvim",
 		"rcarriga/nvim-notify",
 	},
-    config = true,
+	config = true,
 }, pluginconf.noice or {})

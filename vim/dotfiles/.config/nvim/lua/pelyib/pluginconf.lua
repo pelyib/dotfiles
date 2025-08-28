@@ -1,3 +1,6 @@
+-- Import formatter types for better code completion
+require("formatter.types")
+
 local hostConf_ok, hostConf = pcall(require, "pelyib.pluginconf-host")
 if not hostConf_ok then
 	hostConf = { config = {} }
@@ -44,43 +47,51 @@ local M = {
 			},
 			formatter = {
 				enabled = false,
+				---@type FormatterPluginConfig
 				opts = {
-					-- Default formatter configuration
-					format_on_save = false,
-					format_on_save_filetypes = { "php", "javascript", "typescript", "lua", "python", "go" },
+					-- Core formatter settings
 					keybinding = "<leader>f",
-					-- Formatter tool configurations
-					phpcsfixer = {
-						cmd = "php-cs-fixer",
-						args = { "fix", "%" },
-					},
-					prettier = {
-						cmd = "prettier",
-						args = { "--write", "%" },
-					},
-					stylua = {
-						cmd = "stylua",
-						--                       args = { "%" },
-					},
-					black = {
-						cmd = "black",
-						args = { "%" },
-					},
-					gofmt = {
-						cmd = "gofmt",
-						args = { "-w", "%" },
-					},
-					-- Map filetypes to formatter tools
-					filetype_formatters = {
-						php = "phpcsfixer",
-						javascript = "prettier",
-						typescript = "prettier",
-						javascriptreact = "prettier",
-						typescriptreact = "prettier",
-						json = "prettier",
-						lua = "stylua",
-						python = "black",
-						go = "gofmt",
+
+					-- External formatter configurations
+					formatters = {
+						phpcsfixer = {
+							command = { "php-cs-fixer", "fix", "%" },
+							success_message = "PHP CS Fixer: Formatting complete",
+							filetypes = { "php" },
+							format_on_save = false,
+						},
+						prettier = {
+							command = { "prettier", "--write", "%" },
+							success_message = "Prettier: Formatting complete",
+							filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact", "json" },
+							format_on_save = false,
+						},
+						stylua = {
+							command = { "stylua", "%" },
+							success_message = "Stylua: Formatting complete",
+							filetypes = { "lua" },
+							format_on_save = false,
+						},
+						black = {
+							command = { "black", "%" },
+							success_message = "Black: Formatting complete",
+							filetypes = { "python" },
+							format_on_save = false,
+						},
+						gofmt = {
+							command = { "gofmt", "-w", "%" },
+							success_message = "Gofmt: Formatting complete",
+							filetypes = { "go" },
+							format_on_save = false,
+						},
+
+						-- Example of complex command with environment variables
+						-- phpstan = {
+						-- 	command = { "env", "XDEBUG_MODE=off", "php", "vendor/bin/phpstan", "analyse", "%" },
+						-- 	post_action = "none",  -- Don't reload buffer for analysis tools
+						-- 	success_message = "PHPStan: Analysis complete",
+						-- 	filetypes = { "php" }
+						-- },
 					},
 				},
 			},

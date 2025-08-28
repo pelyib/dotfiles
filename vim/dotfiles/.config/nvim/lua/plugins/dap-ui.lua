@@ -14,5 +14,5 @@ return vim.tbl_deep_extend("force", {
 	dependencies = {
 		"mfussenegger/nvim-dap",
 	},
-    config = true,
+	config = true,
 }, pluginconf.dapui or {})

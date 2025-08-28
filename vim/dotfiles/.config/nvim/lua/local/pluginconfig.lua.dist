@@ -2,9 +2,6 @@
 -- By default, all plugins are disabled. To enable a plugin, set its `enabled` key to `true`.
 
 return {
-	aerial = {
-		enabled = false,
-	},
 	alpha = {
 		enabled = false,
 	},
@@ -38,10 +35,10 @@ return {
 	gitblame = {
 		enabled = false,
 	},
-	kanagawa = {
+	gruvbox = {
 		enabled = false,
 	},
-	gruvbox = {
+	kanagawa = {
 		enabled = false,
 	},
 	lazydev = {
@@ -60,9 +57,6 @@ return {
 		enabled = false,
 	},
 	neodev = {
-		enabled = false,
-	},
-	neotree = {
 		enabled = false,
 	},
 	neotest = {
@@ -92,6 +86,9 @@ return {
 			pest_cmd = "/path/to/dotfiles/vim/vendor/neotest/phpic",
 		},
 	},
+	neotree = {
+		enabled = false,
+	},
 	noice = {
 		enabled = false,
 	},
@@ -105,6 +102,9 @@ return {
 		enabled = false,
 	},
 	phpcsfixer = {
+		enabled = false,
+	},
+	php_test_runner = {
 		enabled = false,
 	},
 	statusline = {

@@ -87,16 +87,16 @@ local M = {
 			gitblame = {
 				enabled = false,
 			},
-			kanagawa = {
-				enabled = false,
-			},
 			gruvbox = {
 				enabled = false,
 			},
-			lineindicators = {
+			kanagawa = {
 				enabled = false,
 			},
 			lazydev = {
+				enabled = false,
+			},
+			lineindicators = {
 				enabled = false,
 			},
 			lspzero = {
@@ -109,9 +109,6 @@ local M = {
 				enabled = false,
 			},
 			neodev = {
-				enabled = false,
-			},
-			neotree = {
 				enabled = false,
 			},
 			neotest = {
@@ -136,6 +133,9 @@ local M = {
 				-- }
 			},
 			neotest_golang = {
+				enabled = false,
+			},
+			neotree = {
 				enabled = false,
 			},
 			noice = {

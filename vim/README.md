@@ -35,6 +35,7 @@ From more info: `:help provider-python`
 - [stylua](https://github.com/JohnnyMorganz/StyLua)
 - [phpcsfixer](https://cs.symfony.com/)
 - [prettier](https://prettier.io/)
+- [gofmt](https://pkg.go.dev/cmd/gofmt)
 
 ## Configuration
 

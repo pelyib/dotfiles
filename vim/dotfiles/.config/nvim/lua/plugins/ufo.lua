@@ -44,7 +44,21 @@ return vim.tbl_deep_extend("force", {
 	keys = {
 		{ "zo", mode = "n", "<cmd>foldopen<cr>", desc = "Open fold" },
 		{ "zc", mode = "n", "<cmd>foldclose<cr>", desc = "Close fold" },
-		{ "zO", mode = "n", function () require("ufo").openAllFolds() end, desc = "Open all folds" },
-		{ "zC", mode = "n", function () require("ufo").closeAllFolds() end, desc = "Close all folds" },
+		{
+			"zO",
+			mode = "n",
+			function()
+				require("ufo").openAllFolds()
+			end,
+			desc = "Open all folds",
+		},
+		{
+			"zC",
+			mode = "n",
+			function()
+				require("ufo").closeAllFolds()
+			end,
+			desc = "Close all folds",
+		},
 	},
 }, pluginconf.ufo or {})

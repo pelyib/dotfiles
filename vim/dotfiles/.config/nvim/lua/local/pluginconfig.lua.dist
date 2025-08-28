@@ -32,6 +32,12 @@ return {
 	dressing = {
 		enabled = false,
 	},
+    filetype_detection = {
+        enabled = false,
+    },
+    formatter = {
+        enabled = false,
+    },
 	gitblame = {
 		enabled = false,
 	},

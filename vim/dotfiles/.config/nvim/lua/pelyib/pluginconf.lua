@@ -45,6 +45,9 @@ local M = {
 			dressing = {
 				enabled = false,
 			},
+			filetype_detection = {
+				enabled = false,
+			},
 			formatter = {
 				enabled = false,
 				---@type FormatterPluginConfig

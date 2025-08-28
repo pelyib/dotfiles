@@ -33,6 +33,8 @@ From more info: `:help provider-python`
 ### Formatters
 
 - [stylua](https://github.com/JohnnyMorganz/StyLua)
+- [phpcsfixer](https://cs.symfony.com/)
+- [prettier](https://prettier.io/)
 
 ## Configuration
 

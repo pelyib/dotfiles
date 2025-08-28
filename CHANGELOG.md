@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - [NVIM] Git-based Line Indicators
 - [NVIM] Formatter Plugin
+- [NVIM] Filetype detector for subfixed files
 
 ### Changed
 - [NVIM] PHP Test Runner is using tree-sitter to detect the test function name

@@ -8,8 +8,7 @@ end
 return vim.tbl_deep_extend("force", {
 	"VonHeikemen/lsp-zero.nvim",
 	enabled = false,
-	lazy = true,
-	event = { "BufReadPre", "BufNewFile" },
+	lazy = false,
 	branch = "v3.x",
 	dependencies = {
 		{
@@ -129,8 +128,6 @@ return vim.tbl_deep_extend("force", {
 		{
 			"hrsh7th/nvim-cmp",
 			commit = "d818fd0624205b34e14888358037fb6f5dc51234",
-			lazy = true,
-			event = "InsertEnter",
 			dependencies = {
 				{
 					"hrsh7th/cmp-buffer",

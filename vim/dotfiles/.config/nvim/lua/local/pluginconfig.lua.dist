@@ -32,12 +32,12 @@ return {
 	dressing = {
 		enabled = false,
 	},
-    filetype_detection = {
-        enabled = false,
-    },
-    formatter = {
-        enabled = false,
-    },
+	filetype_detection = {
+		enabled = false,
+	},
+	formatter = {
+		enabled = false,
+	},
 	gitblame = {
 		enabled = false,
 	},
@@ -117,6 +117,9 @@ return {
 		enabled = false,
 	},
 	telescope = {
+		enabled = false,
+	},
+	tinyonlinedeiagnostic = {
 		enabled = false,
 	},
 	toggleterm = {

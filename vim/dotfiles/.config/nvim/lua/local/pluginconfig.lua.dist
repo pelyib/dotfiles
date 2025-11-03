@@ -56,6 +56,9 @@ return {
 	lspzero = {
 		enabled = false,
 	},
+	markview = {
+		enabled = true,
+	},
 	navbuddy = {
 		enabled = true,
 	},

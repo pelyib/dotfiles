@@ -116,6 +116,9 @@ local M = {
 			lspzero = {
 				enabled = false,
 			},
+			markview = {
+				enabled = false,
+			},
 			navbuddy = {
 				enabled = false,
 			},

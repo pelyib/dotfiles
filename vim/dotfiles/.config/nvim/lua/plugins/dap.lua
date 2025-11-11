@@ -11,4 +11,16 @@ return vim.tbl_deep_extend("force", {
 	lazy = true,
 	cmd = { "DapContinue", "DapToggleBreakpoint", "DapStepOver", "DapStepInto", "DapStepOut" },
 	tag = "0.7.0",
+	opts = {
+		clients = {},
+	},
+	config = function(_, opts)
+		local dap = require("dap")
+		if opts.clients then
+			for name, client in pairs(opts.clients) do
+				dap.adapters[name] = client.adapter
+				dap.configurations[name] = client.configurations
+			end
+		end
+	end,
 }, pluginconf.dap or {})

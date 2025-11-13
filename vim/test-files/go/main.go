@@ -2,15 +2,13 @@ package main
 
 import (
 	"fmt"
-	"time"
 )
 
 func main() {
-	fmt.Print("hello")
+	fmt.Println("hello")
 	second()
 }
 
 func second() {
-	time.Now()
-	fmt.Print("joj")
+	fmt.Println("world")
 }

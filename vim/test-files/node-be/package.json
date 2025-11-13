@@ -1,0 +1,16 @@
+{
+  "name": "minimal-node-ts",
+  "version": "1.0.0",
+  "description": "Minimal Node.js TypeScript server",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "nodemon --watch src --ext ts --exec \"tsc && node dist/server.js\""
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "nodemon": "^3.1.11",
+    "typescript": "^5.0.0"
+  }
+}

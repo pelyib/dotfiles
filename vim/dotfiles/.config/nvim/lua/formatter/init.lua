@@ -21,6 +21,25 @@ require("formatter").setup({
             filetypes = { "lua" },
             post_action = "reload"
         }
+        phpcsfixer = {
+            format_on_save = false,
+            filetype = { "php" },
+            command = {
+                "docker",
+                "run",
+                "-v",
+                "/this/priject/root/dotfiles/vim/vendor/php-cs:/php-cs",
+                "-v",
+                "./:/app",
+                "-w",
+                "/app",
+                "php:8.4-cli",
+                "php",
+                "/php-cs/php-cs-fixer.3.93.1.phar",
+                "fix",
+                "--allow-risky=yes",
+            },
+        },
     }
 })
 ```

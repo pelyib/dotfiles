@@ -40,7 +40,7 @@ return vim.tbl_deep_extend("force", {
 					},
 				},
 				preview = {
-					treesitter = true,
+					treesitter = false,
 					filesize_limit = 1,
 				},
 				file_ignore_patterns = { ".git/" },

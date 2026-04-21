@@ -1,5 +1,36 @@
 local M = {}
 
+-- Rules are evaluated in order; first match wins.
+-- Each rule: { filetype, filename_patterns?, path_patterns? }
+-- All patterns in a rule are ORed together.
+local yaml_subtype_rules = {
+	{ filetype = "yaml.ansible",    path_patterns    = { "/roles/", "/tasks/", "/handlers/", "/playbooks/", "/inventory/", "/group_vars/", "/host_vars/" } },
+}
+
+-- Detect YAML subtype from filename and path
+---@param filepath string Full file path
+---@param filename string Tail of the path
+---@return string? subtype e.g. "yaml.ansible", "docker-compose", nil if no rule matched
+local function detect_yaml_subtype(filepath, filename)
+	for _, rule in ipairs(yaml_subtype_rules) do
+		if rule.filename_patterns then
+			for _, pat in ipairs(rule.filename_patterns) do
+				if filename:match(pat) then
+					return rule.filetype
+				end
+			end
+		end
+		if rule.path_patterns then
+			for _, pat in ipairs(rule.path_patterns) do
+				if filepath:match(pat) then
+					return rule.filetype
+				end
+			end
+		end
+	end
+	return nil
+end
+
 -- Enhanced filetype detection that handles suffixes like .dist, .example, etc.
 ---@param filename string? Optional filename to analyze (uses current buffer if nil)
 ---@return string? effective_filetype The detected filetype, nil if no match
@@ -85,6 +116,7 @@ end
 function M.detect_and_set_filetype()
 	local current_filetype = vim.bo.filetype
 	local filename = vim.fn.expand("%:t")
+	local filepath = vim.fn.expand("%:p")
 
 	-- Only proceed if filetype is empty/generic or we have a suffix
 	local has_suffix = filename:match("%.dist$")
@@ -96,16 +128,23 @@ function M.detect_and_set_filetype()
 		or filename:match("%.prod$")
 		or filename:match("%.bak$")
 
+	local detected_filetype
 	if current_filetype == "" or current_filetype == "text" or has_suffix then
-		local detected_filetype = detect_filetype_from_filename(filename)
+		detected_filetype = detect_filetype_from_filename(filename)
+	end
 
-		if detected_filetype and detected_filetype ~= current_filetype then
-			vim.cmd("setfiletype " .. detected_filetype)
-			vim.notify(
-				"Filetype set to: " .. detected_filetype .. " (detected from: " .. filename .. ")",
-				vim.log.levels.INFO
-			)
-		end
+	-- For yaml files (detected or already set), try to narrow down to a subtype
+	local effective_ft = detected_filetype or current_filetype
+	if effective_ft == "yaml" then
+		detected_filetype = detect_yaml_subtype(filepath, filename) or detected_filetype
+	end
+
+	if detected_filetype and detected_filetype ~= current_filetype then
+		vim.cmd("setfiletype " .. detected_filetype)
+		vim.notify(
+			"Filetype set to: " .. detected_filetype .. " (detected from: " .. filename .. ")",
+			vim.log.levels.INFO
+		)
 	end
 end
 

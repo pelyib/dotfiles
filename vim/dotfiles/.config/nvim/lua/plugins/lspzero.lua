@@ -44,7 +44,6 @@ return vim.tbl_deep_extend("force", {
 				end
 				mason_lspconfig.setup({
 					ensure_installed = {
-						"autotools_ls",
 						"bashls",
 						"cmake",
 						"docker_compose_language_service",
